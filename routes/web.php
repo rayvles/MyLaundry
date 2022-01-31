@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +18,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+            Route::prefix('/admin')->group(function () {
+                Route::redirect('/', '/admin/house');
+                Route::get('/house', [AdminController::class, 'index'])->name('admin.house');
+
+    });
