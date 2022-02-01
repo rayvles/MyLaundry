@@ -64,4 +64,36 @@ class OutletController extends Controller
 
         return redirect()->route('outlet.index');
     }
+
+    // public function edit(Outlet $outlet)
+    // {
+    //     return view('admin.outlet.edit', [
+    //         'title' => 'Edit Outlet',
+    //         'outlet' => $outlet
+    //     ]);
+    // }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Outlet $outlet
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, Outlet $outlet)
+    {
+        $request->validate([
+            'nama' => 'required|string',
+            'telepon' => 'required|max:15',
+            'alamat' => 'required'
+        ]);
+
+        $outlet->update([
+            'nama' => $request->nama,
+            'telepon' => $request->telepon,
+            'alamat' => $request->alamat,
+        ]);
+
+        return redirect()->route('outlet.index');
+    }
 }
