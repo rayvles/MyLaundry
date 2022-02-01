@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Outlet;
+use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 
 class OutletController extends Controller
@@ -95,5 +96,19 @@ class OutletController extends Controller
         ]);
 
         return redirect()->route('outlet.index');
+    }
+
+    public function destroy(Outlet $outlet)
+    {
+        if ($outlet->delete()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Outlet berhasil dihapus'
+            ], Response::HTTP_OK);
+        };
+
+        return response()->json([
+            'message' => 'Terjadi kesalahan'
+        ], Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 }

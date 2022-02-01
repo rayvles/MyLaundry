@@ -106,6 +106,10 @@
                                                 <a href="{{ route('outlet.edit', $outlet->id) }}"
                                                     class="dropdown-item" data-toggle="modal" data-target="#editmodal{{ $loop->iteration }}"><i class="fas fa-edit"></i>
                                                     Edit Outlet</a>
+                                                    <button class="dropdown-item" id="deleteBtn"
+                                                    onclick="deleteHandler({{ $outlet->id }})"><i
+                                                        class="fas fa-trash"></i>
+                                                    Delete Outlet</button>
                                                    
                                             </div>
                                         </div>
@@ -166,37 +170,37 @@
     <script src="{{ asset('adminlte') }}/plugins/sweetalert2/sweetalert2.min.js"></script>
     
                 <script>
-                    // const deleteHandler = function(outletId) {
-                    //     Swal.fire({
-                    //         title: 'Are you Sure?',
-                    //         icon: 'warning',
-                    //         showCancelButton: true,
-                    //         confirmButtonColor: '#FF8000',
-                    //         cancelButtonColor: '#0AC519',
-                    //         confirmButtonText: 'Yeah',
-                    //     }).then((result) => {
-                    //         if (!result.isConfirmed) return;
-                    //         $.ajax({
-                    //             url: `/admin/outlet/${outletId}`,
-                    //             type: 'DELETE',
-                    //             headers: {
-                    //                 'X-CSRF-token': "{{ csrf_token() }}"
-                    //             },
-                    //             success: function(res) {
-                    //                 Toast.fire({
-                    //                     icon: 'success',
-                    //                     title: res.message
-                    //                 });
-                    //             },
-                    //             error: function(err) {
-                    //                 Toast.fire({
-                    //                     icon: 'error',
-                    //                     title: err.responseJSON.message ?? 'Error'
-                    //                 });
-                    //             }
-                    //         });
-                    //     });
-                    // }
+                    const deleteHandler = function(outletId) {
+                        Swal.fire({
+                            title: 'Are you Sure?',
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: '#FF8000',
+                            cancelButtonColor: '#0AC519',
+                            confirmButtonText: 'Yeah',
+                        }).then((result) => {
+                            if (!result.isConfirmed) return;
+                            $.ajax({
+                                url: `/admin/outlet/${outletId}`,
+                                type: 'DELETE',
+                                headers: {
+                                    'X-CSRF-token': "{{ csrf_token() }}"
+                                },
+                                success: function(res) {
+                                    Toast.fire({
+                                        icon: 'success',
+                                        title: res.message
+                                    });
+                                },
+                                error: function(err) {
+                                    Toast.fire({
+                                        icon: 'error',
+                                        title: err.responseJSON.message ?? 'Error'
+                                    });
+                                }
+                            });
+                        });
+                    }
             
                     $(function() {
                         $('#outletTable').DataTable({
