@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\OutletController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,5 +23,6 @@ Route::get('/', function () {
             Route::prefix('/admin')->group(function () {
                 Route::redirect('/', '/admin/house');
                 Route::get('/house', [AdminController::class, 'index'])->name('admin.house');
+                Route::resource('/outlet', OutletController::class)->except(['show']);
 
     });
