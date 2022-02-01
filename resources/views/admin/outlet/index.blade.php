@@ -84,7 +84,7 @@
                                 <th>Action</th>
                             </tr>
                         </thead>
-                        {{-- <tbody>
+                        <tbody>
                             @foreach ($data_outlet as $outlet)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
@@ -110,10 +110,10 @@
                                             </div>
                                         </div>
                                     </td>
-                                </tr> --}}
+                                </tr>
                                 
                                 {{-- Modal Edit --}}
-                                {{-- <div class="modal fade" id="editmodal{{ $loop->iteration }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal fade" id="editmodal{{ $loop->iteration }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog" role="document">
                                       <div class="modal-content">
                                         <div class="modal-header">
@@ -145,10 +145,10 @@
                                         </div>
                                       </div>
                                     </div>
-                                  </div> --}}
+                                  </div>
 
-                            {{-- @endforeach
-                        </tbody> --}}
+                            @endforeach
+                        </tbody>
                     </table>
                 </div>
             </div>
@@ -166,48 +166,48 @@
     <script src="{{ asset('adminlte') }}/plugins/sweetalert2/sweetalert2.min.js"></script>
     
                 <script>
-                    const deleteHandler = function(outletId) {
-                        Swal.fire({
-                            title: 'Are you Sure?',
-                            icon: 'warning',
-                            showCancelButton: true,
-                            confirmButtonColor: '#FF8000',
-                            cancelButtonColor: '#0AC519',
-                            confirmButtonText: 'Yeah',
-                        }).then((result) => {
-                            if (!result.isConfirmed) return;
-                            $.ajax({
-                                url: `/admin/outlet/${outletId}`,
-                                type: 'DELETE',
-                                headers: {
-                                    'X-CSRF-token': "{{ csrf_token() }}"
-                                },
-                                success: function(res) {
-                                    Toast.fire({
-                                        icon: 'success',
-                                        title: res.message
-                                    });
-                                },
-                                error: function(err) {
-                                    Toast.fire({
-                                        icon: 'error',
-                                        title: err.responseJSON.message ?? 'Error'
-                                    });
-                                }
-                            });
-                        });
-                    }
-            
-                    // $(function() {
-                    //     $('#outletTable').DataTable({
-                    //         "paging": true,
-                    //         "lengthChange": false,
-                    //         "searching": false,
-                    //         "ordering": true,
-                    //         "info": true,
-                    //         "autoWidth": false,
-                    //         "responsive": true,
+                    // const deleteHandler = function(outletId) {
+                    //     Swal.fire({
+                    //         title: 'Are you Sure?',
+                    //         icon: 'warning',
+                    //         showCancelButton: true,
+                    //         confirmButtonColor: '#FF8000',
+                    //         cancelButtonColor: '#0AC519',
+                    //         confirmButtonText: 'Yeah',
+                    //     }).then((result) => {
+                    //         if (!result.isConfirmed) return;
+                    //         $.ajax({
+                    //             url: `/admin/outlet/${outletId}`,
+                    //             type: 'DELETE',
+                    //             headers: {
+                    //                 'X-CSRF-token': "{{ csrf_token() }}"
+                    //             },
+                    //             success: function(res) {
+                    //                 Toast.fire({
+                    //                     icon: 'success',
+                    //                     title: res.message
+                    //                 });
+                    //             },
+                    //             error: function(err) {
+                    //                 Toast.fire({
+                    //                     icon: 'error',
+                    //                     title: err.responseJSON.message ?? 'Error'
+                    //                 });
+                    //             }
+                    //         });
                     //     });
-                    // })
+                    // }
+            
+                    $(function() {
+                        $('#outletTable').DataTable({
+                            "paging": true,
+                            "lengthChange": false,
+                            "searching": false,
+                            "ordering": true,
+                            "info": true,
+                            "autoWidth": false,
+                            "responsive": true,
+                        });
+                    })
                 </script>
 @endpush

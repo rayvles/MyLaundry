@@ -86,12 +86,12 @@
     <script src="{{ asset('adminlte') }}/dist/js/demo.js"></script>
     <script src="{{ asset('adminlte') }}/plugins/sweetalert2/sweetalert2.min.js"></script>
     <script>
-        // const Toast = Swal.mixin({
-        //     toast: true,
-        //     position: 'top-end',
-        //     showConfirmButton: false,
-        //     timer: 3000
-        // });
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000
+        });
 
         const logoutHandler = () => {
             Swal.fire({
