@@ -116,42 +116,42 @@
     <script src="{{ asset('adminlte') }}/plugins/sweetalert2/sweetalert2.min.js"></script>
     <!-- Page Script -->
     <script>
-        // let table;
-        // $(function() {
-        //     const tableOptions = {
-        //         paging: true,
-        //         lengthChange: true,
-        //         searching: true,
-        //         ordering: true,
-        //         autoWidth: false,
-        //         responsive: true,
-        //         ajax: {
-        //             url: '{{ route('paket.data', $outlet->id) }}',
-        //         },
-        //         columns: [{
-        //                 data: 'DT_RowIndex'
-        //             },
-        //             {
-        //                 data: 'nama_paket'
-        //             },
-        //             {
-        //                 data: 'jenis'
-        //             },
-        //             {
-        //                 data: 'harga'
-        //             },
-        //             {
-        //                 data: 'nama_outlet'
-        //             },
-        //             {
-        //                 data: 'action',
-        //                 searchable: false,
-        //                 sortable: false
-        //             }
-        //         ]
-        //     }
-        //     table = $('#tablePaket').DataTable(tableOptions);
-        // });
+        let table;
+        $(function() {
+            const tableOptions = {
+                paging: true,
+                lengthChange: true,
+                searching: true,
+                ordering: true,
+                autoWidth: false,
+                responsive: true,
+                ajax: {
+                    url: '{{ route('paket.data', $outlet->id) }}',
+                },
+                columns: [{
+                        data: 'DT_RowIndex'
+                    },
+                    {
+                        data: 'nama_paket'
+                    },
+                    {
+                        data: 'jenis'
+                    },
+                    {
+                        data: 'harga'
+                    },
+                    {
+                        data: 'nama_outlet'
+                    },
+                    {
+                        data: 'action',
+                        searchable: false,
+                        sortable: false
+                    }
+                ]
+            }
+            table = $('#tablePaket').DataTable(tableOptions);
+        });
 
         const createHandler = function(url) {
             clearErrors();
@@ -205,7 +205,7 @@
             $.post(url, formData)
                 .done((res) => {
                     $('#modalForm').modal('hide');
-                    // table.ajax.reload();
+                    table.ajax.reload();
                     Toast.fire({
                         icon: 'success',
                         title: res.message

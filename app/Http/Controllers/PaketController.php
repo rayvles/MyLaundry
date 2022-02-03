@@ -36,4 +36,36 @@ class PaketController extends Controller
             'message' => 'Packets successfully updated!'
         ], Response::HTTP_OK);
     }
+
+    public function data(Outlet $outlet)
+    {
+        $paket = $outlet->paket;
+        return DataTables::of($paket)
+            ->addIndexColumn()
+            ->addColumn('nama_outlet', function () use ($outlet) {
+                return $outlet->nama;
+            })
+            ->addColumn('action', function ($paket) use ($outlet) {
+                $editBtn = '<button onclick="editHandler(' . "'" . route('paket.update', [$outlet->id, $paket->id]) . "'" . ')" class="btn btn-success mx-1">
+                    <i class="fas fa-edit"></i>
+                    <span>Edit Packet</span>
+                </button>';
+                $deletBtn = '<button onclick="deleteHandler(' . "'" . route('paket.destroy', [$outlet->id, $paket->id]) . "'" . ')" class="btn btn-danger mx-1">
+                    <i class="fas fa-trash"></i>
+                    <span>Delete Packet</span>
+                </button>';
+                return $editBtn . $deletBtn;
+            })->rawColumns(['action'])->make(true);
+    }
+
+    public function show(Outlet $outlet, Paket $paket)
+    {
+        return response()->json([
+            'success' => true,
+            'message' => 'Data paket',
+            'paket' => $paket
+        ], Response::HTTP_OK);
+    }
+
+
 }
