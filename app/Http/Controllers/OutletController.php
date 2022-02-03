@@ -103,12 +103,12 @@ class OutletController extends Controller
         if ($outlet->delete()) {
             return response()->json([
                 'success' => true,
-                'message' => 'Outlet berhasil dihapus'
+                'message' => 'outlet successfully removed!'
             ], Response::HTTP_OK);
         };
 
         return response()->json([
-            'message' => 'Terjadi kesalahan'
+            'message' => 'Errors occurred'
         ], Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 }

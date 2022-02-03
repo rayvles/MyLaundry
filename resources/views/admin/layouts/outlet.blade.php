@@ -14,6 +14,7 @@
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ asset('adminlte') }}/dist/css/adminlte.min.css">
     <!-- Additional meta tags -->
+    <link rel="stylesheet" href="{{ asset('adminlte') }}/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
     @stack('head')
 </head>
 
@@ -81,8 +82,20 @@
     <script src="{{ asset('adminlte') }}/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
     <!-- AdminLTE App -->
     <script src="{{ asset('adminlte') }}/dist/js/adminlte.min.js"></script>
+    <script src="{{ asset('adminlte') }}/plugins/sweetalert2/sweetalert2.min.js"></script>
     <!-- Additional Scripts -->
     <script>
+
+    const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+        });
 
         const validationErrorHandler = function(errors) {
             clearErrors();
