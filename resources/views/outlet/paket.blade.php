@@ -166,37 +166,37 @@
             });
         }
 
-        // const editHandler = (url) => {
-        //     clearErrors();
-        //     const modal = $('#modalForm');
-        //     modal.modal('show');
-        //     modal.find('.modal-title').text('Edit Paket');
-        //     modal.find('form')[0].reset();
-        //     modal.find('form').attr('action', url);
-        //     modal.find('[name=_method]').val('put');
-        //     modal.find('input').attr('disabled', true);
-        //     modal.find('select').attr('disabled', true);
-        //     modal.on('shown.bs.modal', function() {
-        //         modal.find('[name=nama_paket]').focus();
-        //     });
-        //     $.get(url)
-        //         .done((res) => {
-        //             const paket = res.paket;
-        //             modal.find('[name=nama_paket]').val(paket.nama_paket);
-        //             modal.find('[name=harga]').val(paket.harga);
-        //             modal.find('[name=jenis]').val(paket.jenis);
-        //         })
-        //         .fail((err) => {
-        //             Toast.fire({
-        //                 icon: 'error',
-        //                 title: 'Tidak dapat mengambil data'
-        //             });
-        //             return;
-        //         }).always(() => {
-        //             modal.find('input').attr('disabled', false);
-        //             modal.find('select').attr('disabled', false);
-        //         });
-        // }
+        const editHandler = (url) => {
+            clearErrors();
+            const modal = $('#modalForm');
+            modal.modal('show');
+            modal.find('.modal-title').text('Edit Paket');
+            modal.find('form')[0].reset();
+            modal.find('form').attr('action', url);
+            modal.find('[name=_method]').val('put');
+            modal.find('input').attr('disabled', true);
+            modal.find('select').attr('disabled', true);
+            modal.on('shown.bs.modal', function() {
+                modal.find('[name=nama_paket]').focus();
+            });
+            $.get(url)
+                .done((res) => {
+                    const paket = res.paket;
+                    modal.find('[name=nama_paket]').val(paket.nama_paket);
+                    modal.find('[name=harga]').val(paket.harga);
+                    modal.find('[name=jenis]').val(paket.jenis);
+                })
+                .fail((err) => {
+                    Toast.fire({
+                        icon: 'error',
+                        title: 'Tidak dapat mengambil data'
+                    });
+                    return;
+                }).always(() => {
+                    modal.find('input').attr('disabled', false);
+                    modal.find('select').attr('disabled', false);
+                });
+        }
 
         const submitHandler = function() {
             event.preventDefault();

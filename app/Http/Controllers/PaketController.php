@@ -9,6 +9,7 @@ use Illuminate\Http\Response;
 use Yajra\DataTables\DataTables;
 class PaketController extends Controller
 {
+    // Halaman Paket
     public function index(Outlet $outlet)
     {
         return view('outlet.paket', [
@@ -17,6 +18,7 @@ class PaketController extends Controller
         ]);
     }
 
+    // Paket Create
     public function store(Request $request, Outlet $outlet)
     {
         $request->validate([
@@ -33,10 +35,11 @@ class PaketController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => 'Packets successfully updated!'
+            'message' => 'Packets successfully added!'
         ], Response::HTTP_OK);
     }
 
+    // Show Data Paket
     public function data(Outlet $outlet)
     {
         $paket = $outlet->paket;
@@ -66,6 +69,28 @@ class PaketController extends Controller
             'paket' => $paket
         ], Response::HTTP_OK);
     }
+
+    // Paket Update
+    public function update(Request $request, Outlet $outlet, Paket $paket)
+    {
+        $request->validate([
+            'nama_paket' => 'required',
+            'jenis' => 'required|in:kaos,bed_cover,selimut,lainnya',
+            'harga' => 'numeric|min:0'
+        ]);
+
+        $paket->update([
+            'nama_paket' => $request->nama_paket,
+            'jenis' => $request->jenis,
+            'harga' => $request->harga,
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Packets successfully updated!'
+        ], Response::HTTP_OK);
+    }
+
 
 
 }
