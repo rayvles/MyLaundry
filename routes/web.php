@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\OutletController;
+use App\Http\Controllers\PaketController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -29,6 +30,8 @@ Route::get('/', function () {
 
     Route::prefix('/outlet/{outlet}')->group(function () {
         Route::get('/', [OutletController::class, 'home'])->name('outlet.home');
+        Route::get('/paket/data', [PaketController::class, 'data'])->name('paket.data');
+        Route::apiResource('/paket', PaketController::class);
         Route::get('/member/data', [MemberController::class, 'data'])->name('member.data');
         Route::apiResource('/member', MemberController::class);
     });
