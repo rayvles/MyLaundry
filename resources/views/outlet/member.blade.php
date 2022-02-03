@@ -136,43 +136,43 @@
     <script src="{{ asset('adminlte') }}/plugins/sweetalert2/sweetalert2.min.js"></script>
 
     <script>
-        // let table;
-        // $(function() {
-        //     const tableOptions = {
-        //         paging: true,
-        //         lengthChange: false,
-        //         searching: false,
-        //         ordering: true,
-        //         info: true,
-        //         autoWidth: false,
-        //         responsive: true,
-        //         ajax: {
-        //             url: '{{ route('member.data', $outlet->id) }}',
-        //         },
-        //         columns: [{
-        //                 data: 'DT_RowIndex'
-        //             },
-        //             {
-        //                 data: 'nama'
-        //             },
-        //             {
-        //                 data: 'telepon'
-        //             },
-        //             {
-        //                 data: 'jenis_kelamin'
-        //             },
-        //             {
-        //                 data: 'alamat'
-        //             },
-        //             {
-        //                 data: 'action',
-        //                 searchable: false,
-        //                 sortable: false
-        //             }
-        //         ]
-        //     };
-        //     table = $('#tableMember').DataTable(tableOptions);
-        // });
+        let table;
+        $(function() {
+            const tableOptions = {
+                paging: true,
+                lengthChange: false,
+                searching: false,
+                ordering: true,
+                info: true,
+                autoWidth: false,
+                responsive: true,
+                ajax: {
+                    url: '{{ route('member.data', $outlet->id) }}',
+                },
+                columns: [{
+                        data: 'DT_RowIndex'
+                    },
+                    {
+                        data: 'nama'
+                    },
+                    {
+                        data: 'telepon'
+                    },
+                    {
+                        data: 'jenis_kelamin'
+                    },
+                    {
+                        data: 'alamat'
+                    },
+                    {
+                        data: 'action',
+                        searchable: false,
+                        sortable: false
+                    }
+                ]
+            };
+            table = $('#tableMember').DataTable(tableOptions);
+        });
 
 
         const createHandler = function(url) {
@@ -229,7 +229,7 @@
             $.post(url, formData)
                 .done((res) => {
                     $('#modalForm').modal('hide');
-                    // table.ajax.reload();
+                    table.ajax.reload();
                     Toast.fire({
                         icon: 'success',
                         title: res.message

@@ -29,6 +29,6 @@ Route::get('/', function () {
 
     Route::prefix('/outlet/{outlet}')->group(function () {
         Route::get('/', [OutletController::class, 'home'])->name('outlet.home');
-        Route::get('/member/data', [MemberControllerr::class, 'data'])->name('member.data');
+        Route::get('/member/data', [MemberController::class, 'data'])->name('member.data');
         Route::apiResource('/member', MemberController::class);
     });

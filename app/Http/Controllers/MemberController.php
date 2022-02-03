@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\member;
+use App\Models\Member;
 use App\Models\Outlet;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -17,6 +17,37 @@ class MemberController extends Controller
             'outlet' => $outlet,
         ]);
     }
+
+    public function data(Outlet $outlet)
+    {
+        $member = Member::all();
+        return DataTables::of($member)
+            ->addIndexColumn()
+            ->addColumn('action', function ($member) use ($outlet) {
+                $whatsappBtn = '<a href="https://wa.me/' . $member->telepon . '" target="_blank" class="btn btn-success">
+                    <i class="fab fa-whatsapp mr-1"></i>
+                    <span>Whatsapp</span>
+                </a>';
+                $menuBtn = '<div class="dropdown d-inline">
+                    <button class="btn btn-primary" type="button" id="dropdownMenuButton"
+                        data-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-ellipsis-v"></i>
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a onclick="editHandler(' . "'" . route('member.update', [$outlet->id, $member->id]) . "'" . ')" class="dropdown-item">
+                            <i class="fas fa-edit"></i>
+                            <span>Edit</span>
+                        </a>
+                        <button onclick="deleteHandler(' . "'" . route('member.destroy', [$outlet->id, $member->id]) . "'" . ')" class="dropdown-item" id="deleteBtn">
+                            <i class="fas fa-trash"></i>
+                            <span>Delete</span>
+                        </button>
+                    </div>
+                </div>';
+                return $whatsappBtn . $menuBtn;
+            })->rawColumns(['action'])->make(true);
+    }
+
 
      /**
      * Store a newly created resource in storage.
@@ -44,6 +75,16 @@ class MemberController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Members successfully added!'
+        ], Response::HTTP_OK);
+    }
+
+   
+    public function show(Outlet $outlet, Member $member)
+    {
+        return response()->json([
+            'success' => true,
+            'message' => 'Data member',
+            'member' => $member
         ], Response::HTTP_OK);
     }
 }
