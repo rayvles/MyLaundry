@@ -243,32 +243,32 @@
                 });
         }
         
-        // const deleteHandler = function(url) {
-        //     Swal.fire({
-        //         title: 'Are You Sure?',
-        //         icon: 'warning',
-        //         showCancelButton: true,
-        //         confirmButtonColor: '#FF8000',
-        //         cancelButtonColor: '#0AC519',
-        //         confirmButtonText: 'Yeah',
-        //     }).then((result) => {
-        //         if (!result.isConfirmed) return;
-        //         $.post(url, {
-        //             '_token': $('[name=_token]').val(),
-        //             '_method': 'delete'
-        //         }).then((res) => {
-        //             table.ajax.reload();
-        //             Toast.fire({
-        //                 icon: 'success',
-        //                 title: res.message
-        //             })
-        //         }).catch((err) => {
-        //             Toast.fire({
-        //                 icon: 'error',
-        //                 title: err.responseJSON.message ?? 'Error'
-        //             });
-        //         });
-        //     });
-        // }
+        const deleteHandler = function(url) {
+            Swal.fire({
+                title: 'Are You Sure?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#FF8000',
+                cancelButtonColor: '#0AC519',
+                confirmButtonText: 'Yeah',
+            }).then((result) => {
+                if (!result.isConfirmed) return;
+                $.post(url, {
+                    '_token': $('[name=_token]').val(),
+                    '_method': 'delete'
+                }).then((res) => {
+                    table.ajax.reload();
+                    Toast.fire({
+                        icon: 'success',
+                        title: res.message
+                    })
+                }).catch((err) => {
+                    Toast.fire({
+                        icon: 'error',
+                        title: err.responseJSON.message ?? 'Error'
+                    });
+                });
+            });
+        }
     </script>
 @endpush

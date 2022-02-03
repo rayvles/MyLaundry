@@ -109,4 +109,17 @@ class MemberController extends Controller
             'message' => 'Member successfully updated!'
         ], Response::HTTP_OK);
     }
+
+    public function destroy(Outlet $outlet, Member $member)
+    {
+        if ($member->delete()) {
+            return response()->json([
+                'message' => 'Member successfully deleted!'
+            ], Response::HTTP_OK);
+        };
+
+        return response()->json([
+            'message' => 'Error'
+        ], Response::HTTP_INTERNAL_SERVER_ERROR);
+    }
 }
