@@ -10,6 +10,7 @@ use Yajra\DataTables\DataTables;
 
 class MemberController extends Controller
 {
+    // Halaman Member
     public function index(Outlet $outlet)
     {
         return view('outlet.member', [
@@ -18,6 +19,7 @@ class MemberController extends Controller
         ]);
     }
 
+    // Show Datatable Member
     public function data(Outlet $outlet)
     {
         $member = Member::all();
@@ -48,14 +50,7 @@ class MemberController extends Controller
             })->rawColumns(['action'])->make(true);
     }
 
-
-     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param \App\Models\Outlet  $outlet
-     * @return \Illuminate\Http\Response
-     */
+    // Member Create
     public function store(Request $request, Outlet $outlet)
     {
         $request->validate([
@@ -78,7 +73,7 @@ class MemberController extends Controller
         ], Response::HTTP_OK);
     }
 
-   
+    // Show Data Member
     public function show(Outlet $outlet, Member $member)
     {
         return response()->json([
@@ -88,6 +83,7 @@ class MemberController extends Controller
         ], Response::HTTP_OK);
     }
 
+    // Member Edit
     public function update(Request $request, Outlet $outlet, Member $member)
     {
         $request->validate([
@@ -110,6 +106,7 @@ class MemberController extends Controller
         ], Response::HTTP_OK);
     }
 
+    // Member Delete
     public function destroy(Outlet $outlet, Member $member)
     {
         if ($member->delete()) {

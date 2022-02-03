@@ -91,6 +91,22 @@ class PaketController extends Controller
         ], Response::HTTP_OK);
     }
 
+    // Paket Delete
+    public function destroy(Outlet $outlet, Paket $paket)
+    {
+        if ($paket->delete()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Packets successfully deleted!'
+            ], Response::HTTP_OK);
+        };
+
+        return response()->json([
+            'success' => false,
+            'message' => 'Error'
+        ], Response::HTTP_INTERNAL_SERVER_ERROR);
+    }
+
 
 
 }
