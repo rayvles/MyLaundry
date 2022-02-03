@@ -87,4 +87,26 @@ class MemberController extends Controller
             'member' => $member
         ], Response::HTTP_OK);
     }
+
+    public function update(Request $request, Outlet $outlet, Member $member)
+    {
+        $request->validate([
+            'nama' => 'required',
+            'alamat' => 'required',
+            'jenis_kelamin' => 'required|in:L,P',
+            'telepon' => 'required|max:15'
+        ]);
+
+        $member->update([
+            'nama' => $request->nama,
+            'alamat' => $request->alamat,
+            'jenis_kelamin' => $request->jenis_kelamin,
+            'telepon' => $request->telepon,
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Member successfully updated!'
+        ], Response::HTTP_OK);
+    }
 }

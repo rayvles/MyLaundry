@@ -188,39 +188,39 @@
             });
         }
 
-        // const editHandler = (url) => {
-        //     clearErrors();
-        //     const modal = $('#modalForm');
-        //     modal.modal('show');
-        //     modal.find('.modal-title').text('Edit Member');
-        //     modal.find('form')[0].reset();
-        //     modal.find('form').attr('action', url);
-        //     modal.find('[name=_method]').val('put');
-        //     modal.find('input').attr('disabled', true);
-        //     modal.find('select').attr('disabled', true);
-        //     modal.on('shown.bs.modal', function() {
-        //         modal.find('[name=nama]').focus();
-        //     });
-        //     $.get(url)
-        //         .done((res) => {
-        //             const member = res.member;
-        //             modal.find('[name=nama]').val(member.nama);
-        //             modal.find('[name=email]').val(member.email);
-        //             modal.find('[name=telepon]').val(member.telepon);
-        //             modal.find(`[name=jenis_kelamin][value='${member.jenis_kelamin}']`).prop('checked', true);
-        //             modal.find('[name=alamat]').val(member.alamat);
-        //         })
-        //         .fail((err) => {
-        //             Toast.fire({
-        //                 icon: 'error',
-        //                 title: 'Tidak dapat mengambil data'
-        //             });
-        //             return;
-        //         }).always(() => {
-        //             modal.find('input').attr('disabled', false);
-        //             modal.find('select').attr('disabled', false);
-        //         });
-        // }
+        const editHandler = (url) => {
+            clearErrors();
+            const modal = $('#modalForm');
+            modal.modal('show');
+            modal.find('.modal-title').text('Edit Member');
+            modal.find('form')[0].reset();
+            modal.find('form').attr('action', url);
+            modal.find('[name=_method]').val('put');
+            modal.find('input').attr('disabled', true);
+            modal.find('select').attr('disabled', true);
+            modal.on('shown.bs.modal', function() {
+                modal.find('[name=nama]').focus();
+            });
+            $.get(url)
+                .done((res) => {
+                    const member = res.member;
+                    modal.find('[name=nama]').val(member.nama);
+                    modal.find('[name=email]').val(member.email);
+                    modal.find('[name=telepon]').val(member.telepon);
+                    modal.find(`[name=jenis_kelamin][value='${member.jenis_kelamin}']`).prop('checked', true);
+                    modal.find('[name=alamat]').val(member.alamat);
+                })
+                .fail((err) => {
+                    Toast.fire({
+                        icon: 'error',
+                        title: 'Tidak dapat mengambil data'
+                    });
+                    return;
+                }).always(() => {
+                    modal.find('input').attr('disabled', false);
+                    modal.find('select').attr('disabled', false);
+                });
+        }
 
         const submitHandler = function() {
             event.preventDefault();
