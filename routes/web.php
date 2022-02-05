@@ -33,7 +33,7 @@ Route::middleware('guest')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::redirect('/', '/home');
     Route::get('/home', [HomeController::class, 'home'])->name('home');
-    
+    Route::post('/logout', [AuthController::class, 'logout']);
     
 
     Route::prefix('/admin')->group(function () {

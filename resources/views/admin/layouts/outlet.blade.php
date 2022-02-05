@@ -97,6 +97,20 @@
             }
         });
 
+        const logoutHandler = () => {
+            Swal.fire({
+                title: 'Logout?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#FF8000',
+                cancelButtonColor: '#0AC519',
+                confirmButtonText: 'Logout',
+            }).then((result) => {
+                if (!result.isConfirmed) return;
+                $('#logoutForm').submit();
+            });
+        }
+
         const validationErrorHandler = function(errors) {
             clearErrors();
             for (const key in errors) {

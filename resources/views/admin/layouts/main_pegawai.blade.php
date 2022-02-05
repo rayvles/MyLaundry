@@ -93,19 +93,34 @@
             timer: 3000
         });
 
-        // const logoutHandler = () => {
-        //     Swal.fire({
-        //         title: 'Logout?',
-        //         icon: 'warning',
-        //         showCancelButton: true,
-        //         confirmButtonColor: '#6C757D',
-        //         cancelButtonColor: '#4DA3B8',
-        //         confirmButtonText: 'Logout',
-        //     }).then((result) => {
-        //         if (!result.isConfirmed) return;
-        //         $('#logoutForm').submit();
-        //     });
-        // }
+        const logoutHandler = () => {
+            Swal.fire({
+                title: 'Logout?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#FF8000',
+                cancelButtonColor: '#0AC519',
+                confirmButtonText: 'Logout',
+            }).then((result) => {
+                if (!result.isConfirmed) return;
+                $('#logoutForm').submit();
+            });
+        }
+        
+        const validationErrorHandler = function(errors) {
+            clearErrors();
+            for (const key in errors) {
+                let container = $(`[name=${key}]`).parent();
+                if (!container.find('span.form-errors').length > 0) {
+                    container.append(`<span class="form-errors text-danger"></span>`);
+                }
+                container.find('span.form-errors').text(errors[key][0]);
+            }
+        }
+
+        const clearErrors = function() {
+            $('span.form-errors').text('');
+        }
     </script>
     <!-- Additional Scripts -->
     @stack('script')
