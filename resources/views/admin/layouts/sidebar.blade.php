@@ -14,8 +14,8 @@
           <img src="{{ asset('adminlte') }}/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-            {{-- {{ Auth::user()->name ?? '' }} --}}
-            <a href="#" class="d-block"></a>
+            
+            <a href="#" class="d-block">{{ Auth::user()->name ?? '' }}</a>
         </div>
       </div>
 
@@ -38,7 +38,7 @@
             data-accordion="false">
             <li class="nav-header">ADMIN</li>
             <li class="nav-item">
-                <a href="/admin/home" class="nav-link">
+                <a href="/admin/house" class="nav-link">
                     <i class="nav-icon fas fa-tachometer-alt"></i>
                     <p>
                         Dashboard
@@ -53,14 +53,7 @@
                     </p>
                 </a>
             </li>
-            <li class="nav-item">
-                <a href="/paket" class="nav-link">
-                    <i class="nav-icon fas fa-users"></i>
-                    <p>
-                        Member
-                    </p>
-                </a>
-            </li>
+            @can('manage-user')
             <li class="nav-item">
                 <a href="/admin/users" class="nav-link">
                     <i class="nav-icon fas fa-users"></i>
@@ -69,6 +62,7 @@
                     </p>
                 </a>
             </li>
+            @endcan
             <li class="nav-item">
                 <a href="/home" class="nav-link">
                     <i class="nav-icon fas fa-arrow-left"></i>

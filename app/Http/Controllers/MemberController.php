@@ -6,6 +6,7 @@ use App\Models\Member;
 use App\Models\Outlet;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Gate;
 use Yajra\DataTables\DataTables;
 
 class MemberController extends Controller
@@ -13,6 +14,7 @@ class MemberController extends Controller
     // Halaman Member
     public function index(Outlet $outlet)
     {
+        Gate::authorize('register-member');
         return view('outlet.member', [
             'title' => 'Member',
             'outlet' => $outlet,

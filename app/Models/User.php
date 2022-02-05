@@ -41,4 +41,8 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function outlet(){
+        return $this->belongsToMany(Outlet::class, 'tb_outlet_user', 'id_user', 'id_outlet')->withPivot('role');
+    }
 }

@@ -93,19 +93,19 @@
             timer: 3000
         });
 
-        const logoutHandler = () => {
-            Swal.fire({
-                title: 'Logout?',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#6C757D',
-                cancelButtonColor: '#4DA3B8',
-                confirmButtonText: 'Logout',
-            }).then((result) => {
-                if (!result.isConfirmed) return;
-                $('#logoutForm').submit();
-            });
-        }
+        // const logoutHandler = () => {
+        //     Swal.fire({
+        //         title: 'Logout?',
+        //         icon: 'warning',
+        //         showCancelButton: true,
+        //         confirmButtonColor: '#6C757D',
+        //         cancelButtonColor: '#4DA3B8',
+        //         confirmButtonText: 'Logout',
+        //     }).then((result) => {
+        //         if (!result.isConfirmed) return;
+        //         $('#logoutForm').submit();
+        //     });
+        // }
     </script>
     <!-- Additional Scripts -->
     @stack('script')

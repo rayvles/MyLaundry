@@ -6,12 +6,14 @@ use App\Models\Outlet;
 use App\Models\Paket;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Gate;
 use Yajra\DataTables\DataTables;
 class PaketController extends Controller
 {
     // Halaman Paket
     public function index(Outlet $outlet)
     {
+        Gate::authorize('manage-user');
         return view('outlet.paket', [
             'title' => 'Paket',
             'outlet' => $outlet,

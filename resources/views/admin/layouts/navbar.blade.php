@@ -15,8 +15,8 @@
       <li class="nav-item dropdown">
           <a class="nav-link" data-toggle="dropdown" href="#">
               <img src="https://picsum.photos/200/200" class="img-circle" alt="User Image" style="width: 30px">
-              {{-- {{ Auth::user()->name ?? '-' }} --}}
-              <span class="ml-1"></span>
+              
+              <span class="ml-1">{{ Auth::user()->name ?? '-' }}</span>
           </a>
           <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
               <a href="#" class="dropdown-item">

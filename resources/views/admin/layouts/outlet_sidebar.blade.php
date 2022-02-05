@@ -14,7 +14,7 @@
           <img src="{{ asset('adminlte') }}/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block">Rajah Rayvles Pangkey</a>
+          <a href="#" class="d-block">{{ Auth::user()->name ?? '' }}</a>
         </div>
       </div>
 
@@ -42,6 +42,7 @@
                     </p>
                 </a>
             </li>
+            @can('manage-user')
             <li class="nav-item">
                 <a href="/outlet/{{ $outlet->id }}/paket" class="nav-link">
                     <i class="nav-icon fas fa-shopping-basket"></i>
@@ -50,6 +51,8 @@
                     </p>
                 </a>
             </li>
+            @endcan
+            @can('register-member')
             <li class="nav-item">
                 <a href="/outlet/{{ $outlet->id }}/member" class="nav-link">
                     <i class="nav-icon fas fa-users"></i>
@@ -58,6 +61,8 @@
                     </p>
                 </a>
             </li>
+            @endcan
+            @can('manage-user')
             <li class="nav-header">Laundry</li>
             <li class="nav-item">
                 <a href="#" class="nav-link">
@@ -88,6 +93,10 @@
                     </li>
                 </ul>
             </li>
+            @endcan
+            
+            
+            @can('manage-user')
             <li class="nav-header">TRANSACTION</li>
             <li class="nav-item">
                 <a href="../widgets.html" class="nav-link">
@@ -97,6 +106,9 @@
                     </p>
                 </a>
             </li>
+            @endcan
+            @can('manage-laporan')
+            <li class="nav-header">TRANSACTION</li>
             <li class="nav-item">
                 <a href="../widgets.html" class="nav-link">
                     <i class="nav-icon fas fa-file"></i>
@@ -105,6 +117,7 @@
                     </p>
                 </a>
             </li>
+            @endcan
             <li class="nav-header">ADMIN</li>
             <li class="nav-item">
                 <a href="/admin" class="nav-link">

@@ -15,8 +15,8 @@
                     alt="User Image">
             </div>
             <div class="info">
-                {{-- {{ Auth::user()->name ?? '' }} --}}
-                <a href="#" class="d-block"></a>
+                
+                <a href="#" class="d-block">{{ Auth::user()->name ?? '' }}</a>
             </div>
         </div>
 
@@ -40,6 +40,7 @@
                         </p>
                     </a>
                 </li>
+               
                 <li class="nav-item">
                     <a href="/admin" class="nav-link">
                         <i class="nav-icon fas fa-user-tie"></i>
