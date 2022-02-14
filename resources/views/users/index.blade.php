@@ -164,54 +164,54 @@
         let table;
         let outletOptions;
 
-        // $(function() {
-        //     const tableOptions = {
-        //         ...DATATABLE_OPTIONS,
-        //         ajax: '/admin/users/datatable',
-        //         columns: [{
-        //                 data: 'DT_RowIndex',
-        //             },
-        //             {
-        //                 data: 'name',
-        //             },
-        //             {
-        //                 data: 'email',
-        //             },
-        //             {
-        //                 data: 'outlet',
-        //                 render: (outlet) => outlet && outlet.nama ? outlet.nama : '-',
-        //             },
-        //             {
-        //                 data: 'role',
-        //                 render: (role) => {
-        //                     let type;
-        //                     let text;
-        //                     switch (role) {
-        //                         case 'admin':
-        //                             type = 'primary';
-        //                             text = 'Admin';
-        //                             break;
-        //                         case 'owner':
-        //                             type = 'info';
-        //                             text = 'Owner';
-        //                             break;
-        //                         default:
-        //                             type = 'success';
-        //                             text = 'Kasir';
-        //                     }
-        //                     return `<span class="badge badge-${type}">${text}</span>`;
-        //                 }
-        //             },
-        //             {
-        //                 data: 'actions',
-        //                 searchable: false,
-        //                 sortable: false,
-        //             }
-        //         ]
-        //     }
-        //     table = $('#users-table').DataTable(tableOptions);
+        $(function() {
+            const tableOptions = {
+                ...DATATABLE_OPTIONS,
+                ajax: '/admin/users/datatable',
+                columns: [{
+                        data: 'DT_RowIndex',
+                    },
+                    {
+                        data: 'name',
+                    },
+                    {
+                        data: 'email',
+                    },
+                    {
+                        data: 'outlet',
+                        render: (outlet) => outlet && outlet.nama ? outlet.nama : '-',
+                    },
+                    {
+                        data: 'role',
+                        render: (role) => {
+                            let type;
+                            let text;
+                            switch (role) {
+                                case 'admin':
+                                    type = 'info';
+                                    text = 'Admin';
+                                    break;
+                                case 'owner':
+                                    type = 'warning';
+                                    text = 'Owner';
+                                    break;
+                                default:
+                                    type = 'secondary';
+                                    text = 'Kasir';
+                            }
+                            return `<span class="badge badge-${type}">${text}</span>`;
+                        }
+                    },
+                    {
+                        data: 'actions',
+                        searchable: false,
+                        sortable: false,
+                    }
+                ]
+            }
+            table = $('#users-table').DataTable(tableOptions);
             
-        // });
+        });
             // Initialize Select2 Elements
             // fetchOutletOptions();
 

@@ -47,24 +47,24 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    // public function datatable()
-    // {
-    //     $users = User::with('outlet')->get();
+    public function datatable()
+    {
+        $users = User::with('outlet')->get();
 
-    //     return DataTables::of($users)
-    //         ->addIndexColumn()
-    //         ->addColumn('actions', function ($user) {
-    //             $editBtn = '<button onclick="editHandler(' . "'" . route('users.update', $user->id) . "'" . ')" class="btn btn-warning mx-1 mb-1">
-    //                 <i class="fas fa-edit mr-1"></i>
-    //                 <span>Edit user</span>
-    //             </button>';
-    //             $deleteBtn = '<button onclick="deleteHandler(' . "'" . route('users.destroy', $user->id) . "'" . ')" class="btn btn-danger mx-1 mb-1">
-    //                 <i class="fas fa-trash mr-1"></i>
-    //                 <span>Hapus user</span>
-    //             </button>';
-    //             return $editBtn . $deleteBtn;
-    //         })->rawColumns(['actions'])->make(true);
-    // }
+        return DataTables::of($users)
+            ->addIndexColumn()
+            ->addColumn('actions', function ($user) {
+                $editBtn = '<button onclick="editHandler(' . "'" . route('users.update', $user->id) . "'" . ')" class="btn btn-success mx-1 mb-1">
+                    <i class="fas fa-edit mr-1"></i>
+                    <span>Edit user</span>
+                </button>';
+                $deleteBtn = '<button onclick="deleteHandler(' . "'" . route('users.destroy', $user->id) . "'" . ')" class="btn btn-danger mx-1 mb-1">
+                    <i class="fas fa-trash mr-1"></i>
+                    <span>Delete User</span>
+                </button>';
+                return $editBtn . $deleteBtn;
+            })->rawColumns(['actions'])->make(true);
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -104,13 +104,13 @@ class UserController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    // public function show(User $user)
-    // {
-    //     return response()->json([
-    //         'message' => 'Data user',
-    //         'user' => $user
-    //     ], Response::HTTP_OK);
-    // }
+    public function show(User $user)
+    {
+        return response()->json([
+            'message' => 'Data user',
+            'user' => $user
+        ], Response::HTTP_OK);
+    }
 
     
 }
