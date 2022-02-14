@@ -12,15 +12,14 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
+    protected $table = 'users';
+    
     protected $fillable = [
+        'id_outlet',
         'name',
         'email',
         'password',
+        'role'
     ];
 
     /**
@@ -42,7 +41,17 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function outlet(){
-        return $this->belongsToMany(Outlet::class, 'tb_outlet_user', 'id_user', 'id_outlet')->withPivot('role');
+    public function outlet()
+    {
+        return $this->belongsTo(Outlet::class, 'id_outlet');
     }
+
+    /**
+     * Scope a query to exclude super admin users.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return void
+     */
+    
+    
 }

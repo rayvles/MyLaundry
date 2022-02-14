@@ -76,6 +76,7 @@
     </div>
     <!-- ./wrapper -->
 
+    @stack('bottom')
     <!-- jQuery -->
     <script src="{{ asset('adminlte') }}/plugins/jquery/jquery.min.js"></script>
     <!-- Bootstrap 4 -->
@@ -85,43 +86,8 @@
     <!-- AdminLTE for demo purposes -->
     <script src="{{ asset('adminlte') }}/dist/js/demo.js"></script>
     <script src="{{ asset('adminlte') }}/plugins/sweetalert2/sweetalert2.min.js"></script>
-    <script>
-        const Toast = Swal.mixin({
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 3000
-        });
-
-        const logoutHandler = () => {
-            Swal.fire({
-                title: 'Logout?',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#FF8000',
-                cancelButtonColor: '#0AC519',
-                confirmButtonText: 'Logout',
-            }).then((result) => {
-                if (!result.isConfirmed) return;
-                $('#logoutForm').submit();
-            });
-        }
-
-        const validationErrorHandler = function(errors) {
-            clearErrors();
-            for (const key in errors) {
-                let container = $(`[name=${key}]`).parent();
-                if (!container.find('span.form-errors').length > 0) {
-                    container.append(`<span class="form-errors text-danger"></span>`);
-                }
-                container.find('span.form-errors').text(errors[key][0]);
-            }
-        }
-
-        const clearErrors = function() {
-            $('span.form-errors').text('');
-        }
-    </script>
+    <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ asset('js/constants.js') }}"></script>
     @stack('script')
 </body>
 

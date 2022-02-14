@@ -18,7 +18,5 @@ class Outlet extends Model
         return $this->hasMany(Paket::class, 'id_outlet');
     }
 
-    public function user(){
-        return $this->belongsToMany(User::class, 'tb_outlet_user', 'id_outlet', 'id_user')->withPivot('role');
-    }
+   
 }

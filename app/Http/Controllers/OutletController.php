@@ -27,6 +27,8 @@ class OutletController extends Controller
 
     }
 
+    
+
     // Outlet Create
     public function store(Request $request)
     {

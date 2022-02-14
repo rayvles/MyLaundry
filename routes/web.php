@@ -40,7 +40,7 @@ Route::middleware('auth')->group(function () {
         Route::redirect('/', '/admin/house');
         Route::get('/house', [AdminController::class, 'index'])->name('admin.house');
         Route::resource('/outlet', OutletController::class)->except(['show']);
-        Route::get('/users/data', [UserController::class, 'data'])->name('users.data');
+        Route::get('/users/datatable', [UserController::class, 'datatable'])->name('users.datatable');
         Route::apiResource('/users', UserController::class);
     });
 
