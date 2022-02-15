@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Member;
 use App\Models\Outlet;
+use App\Models\Paket;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
@@ -18,7 +20,7 @@ class UserController extends Controller
     public function index()
     {
         $outlet = Outlet::get();
-
+        
         return view('users.index', [
             'title' => 'Manage User',
             'outlets' => $outlet,

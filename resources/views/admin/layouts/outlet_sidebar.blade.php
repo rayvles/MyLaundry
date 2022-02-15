@@ -99,7 +99,7 @@
             @can('manage-user')
             <li class="nav-header">TRANSACTION</li>
             <li class="nav-item">
-                <a href="../widgets.html" class="nav-link">
+                <a href="/outlet/{{ $outlet->id }}/transaksi" class="nav-link">
                     <i class="nav-icon fas fa-cash-register"></i>
                     <p>
                         New Transaction
