@@ -112,5 +112,36 @@ class UserController extends Controller
         ], Response::HTTP_OK);
     }
 
+    public function update(Request $request, User $user)
+    {
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|email|unique:users,email,' . $user->id,
+            'role' => 'required|in:admin,owner,kasir',
+            'id_outlet' => 'required|exists:tb_outlet,id',
+        ]);
+
+        $pasload = [
+            'name' => $request->name,
+            'email' => $request->email,
+            'role' => $request->role,
+            'id_outlet' => $request->id_outlet,
+        ];
+
+        if ($request->has('password') && $request->password != '') {
+            $request->validate([
+                'password' => 'required|min:5|confirmed',
+                'password_confirmation' => 'required',
+            ]);
+            $pasload['password'] = bcrypt($request->password);
+        }
+
+        $user->update($pasload);
+
+        return response()->json([
+            'message' => 'User successfully updated!'
+        ], Response::HTTP_OK);
+    }
+
     
 }

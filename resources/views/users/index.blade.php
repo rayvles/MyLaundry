@@ -253,11 +253,36 @@
                 let res = await $.post(url, formData);
                 $('#form-modal').modal('hide');
                 toast(res.message, 'success');
-                // table.ajax.reload();
+                table.ajax.reload();
             } catch (err) {
                 if (err.status === 422) validationErrorHandler(err.responseJSON.errors);
                 toast('Something went wrong!', 'error');
             }
+        }
+
+        const editHandler = async (url) => {
+            clearErrors();
+            const modal = $('#form-modal');
+            modal.modal('show');
+            modal.find('.modal-title').text('Edit User');
+            modal.find('form')[0].reset();
+            modal.find('form').attr('action', url);
+            modal.find('[name=_method]').val('put');
+            modal.find('input').attr('disabled', true);
+            modal.find('select').attr('disabled', true);
+
+            try {
+                let res = await fetchData(url);
+                modal.find('[name=name]').val(res.user.name);
+                modal.find('[name=email]').val(res.user.email);
+                modal.find(`[name=id_outlet]`).val(res.user.id_outlet).trigger('change');
+                modal.find(`[name=role][value='${res.user.role}']`).prop('checked', true);
+            } catch (err) {
+                toast('Something went Wrong!', 'error');
+            }
+
+            modal.find('input').attr('disabled', false);
+            modal.find('select').attr('disabled', false);
         }
 
         
