@@ -13,12 +13,12 @@ use App\Models\Outlet;
 class TransaksiController extends Controller
 {
 
-    // public function index(Outlet $outlet) {
-    //     return view('outlet.transaksi.index', [
-    //         'title' => 'Transaction',
-    //         'member' => Member::get(),
-    //         'outlet' => $outlet,
-    //         'paket' => Paket::where('id_outlet', auth()->user()->id_outlet)->get()
-    //     ]);
-    // }
+    public function index(Outlet $outlet) {
+        return view('outlet.transaksi.index', [
+            'title' => 'Transaction',
+            'member' => Member::get(),
+            'outlet' => $outlet,
+            'paket' => Paket::where('id_outlet', auth()->user()->id_outlet)->get()
+        ]);
+    }
 }

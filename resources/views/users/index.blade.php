@@ -285,6 +285,31 @@
             modal.find('select').attr('disabled', false);
         }
 
+        const deleteHandler = async (url) => {
+            let result = await Swal.fire({
+                title: 'Delete User',
+                text: 'Are You Sure Want To Delete This User?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#FF8000',
+                cancelButtonColor: '#0AC519',
+                confirmButtonText: 'Delete',
+                cancelButtonText: 'Cancel',
+            });
+            if (result.isConfirmed) {
+                try {
+                    let res = await $.post(url, {
+                        '_token': $('[name=_token]').val(),
+                        '_method': 'delete'
+                    });
+                    toast(res.message, 'success');
+                    table.ajax.reload();
+                } catch (err) {
+                    toast('Something Went Wrong!', 'error');
+                }
+            }
+        }
+
         
     </script>
 @endpush

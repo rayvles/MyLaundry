@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Member;
 use App\Models\Outlet;
-use App\Models\Paket;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
@@ -20,7 +18,7 @@ class UserController extends Controller
     public function index()
     {
         $outlet = Outlet::get();
-        
+
         return view('users.index', [
             'title' => 'Manage User',
             'outlets' => $outlet,
@@ -143,6 +141,19 @@ class UserController extends Controller
         return response()->json([
             'message' => 'User successfully updated!'
         ], Response::HTTP_OK);
+    }
+
+    public function destroy(User $user)
+    {
+        if ($user->delete()) {
+            return response()->json([
+                'message' => 'User successfully Deleted!'
+            ], Response::HTTP_OK);
+        };
+
+        return response()->json([
+            'message' => 'Something Went Wrong!'
+        ], Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 
     
