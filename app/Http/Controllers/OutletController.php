@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Outlet;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class OutletController extends Controller
 {
@@ -19,7 +20,7 @@ class OutletController extends Controller
     // Halaman Outlet
     public function index()
     {
-        $outlet = Outlet::all();
+        $outlet = Outlet::where('id', auth()->user()->id_outlet)->get();
         return view('admin.outlet.index', [
             'title' => 'Outlet',
             'data_outlet' => $outlet,

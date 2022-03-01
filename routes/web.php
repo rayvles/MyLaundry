@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BaranginventarisController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\OutletController;
@@ -42,7 +43,10 @@ Route::middleware('auth')->group(function () {
         Route::get('/house', [AdminController::class, 'index'])->name('admin.house');
         Route::resource('/outlet', OutletController::class)->except(['show']);
         Route::get('/users/datatable', [UserController::class, 'datatable'])->name('users.datatable');
+        Route::get('/users/export', [UserController::class, 'export'])->name('users.export');
         Route::apiResource('/users', UserController::class);
+        Route::apiResource('/baranginventaris', BaranginventarisController::class);
+        Route::get('/baranginventaris/datatable', [BaranginventarisController::class, 'datatable'])->name('baranginventaris.datatable');
     });
 
     Route::prefix('/outlet/{outlet}')->group(function () {

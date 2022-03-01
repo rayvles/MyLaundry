@@ -62,7 +62,16 @@
                     </p>
                 </a>
             </li>
+            <li class="nav-item">
+                <a href="/admin/baranginventaris" class="nav-link">
+                    <i class="nav-icon fas fa-store"></i>
+                    <p>
+                        Inventory Items
+                    </p>
+                </a>
+            </li>
             @endcan
+            
             <li class="nav-item">
                 <a href="/home" class="nav-link">
                     <i class="nav-icon fas fa-arrow-left"></i>

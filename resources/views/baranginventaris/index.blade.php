@@ -100,14 +100,7 @@
                                     id="password-confirmation">
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label for="id-outlet">Outlet</label>
-                            <select name="id_outlet" class="form-control select2" id="id-outlet">
-                            @foreach ($outlets as $outlet)
-                                <option value="{{ $outlet->id }}">{{ $outlet->nama }} - {{ $outlet->alamat }}</option>
-                            @endforeach
-                            </select>
-                        </div>
+                        
                         <div class="form-group">
                             <label for="role">Role</label>
                             <div class="row">
@@ -169,54 +162,54 @@
         let table;
         let outletOptions;
 
-        $(function() {
-            const tableOptions = {
-                ...DATATABLE_OPTIONS,
-                ajax: '/admin/users/datatable',
-                columns: [{
-                        data: 'DT_RowIndex',
-                    },
-                    {
-                        data: 'name',
-                    },
-                    {
-                        data: 'email',
-                    },
-                    {
-                        data: 'outlet',
-                        render: (outlet) => outlet && outlet.nama ? outlet.nama : '-',
-                    },
-                    {
-                        data: 'role',
-                        render: (role) => {
-                            let type;
-                            let text;
-                            switch (role) {
-                                case 'admin':
-                                    type = 'info';
-                                    text = 'Admin';
-                                    break;
-                                case 'owner':
-                                    type = 'warning';
-                                    text = 'Owner';
-                                    break;
-                                default:
-                                    type = 'secondary';
-                                    text = 'Kasir';
-                            }
-                            return `<span class="badge badge-${type}">${text}</span>`;
-                        }
-                    },
-                    {
-                        data: 'actions',
-                        searchable: false,
-                        sortable: false,
-                    }
-                ]
-            }
-            table = $('#users-table').DataTable(tableOptions);
+        // $(function() {
+        //     const tableOptions = {
+        //         ...DATATABLE_OPTIONS,
+        //         ajax: '/admin/baranginventaris/datatable',
+        //         columns: [{
+        //                 data: 'DT_RowIndex',
+        //             },
+        //             {
+        //                 data: 'name',
+        //             },
+        //             {
+        //                 data: 'email',
+        //             },
+        //             {
+        //                 data: 'outlet',
+        //                 render: (outlet) => outlet && outlet.nama ? outlet.nama : '-',
+        //             },
+        //             {
+        //                 data: 'role',
+        //                 render: (role) => {
+        //                     let type;
+        //                     let text;
+        //                     switch (role) {
+        //                         case 'admin':
+        //                             type = 'info';
+        //                             text = 'Admin';
+        //                             break;
+        //                         case 'owner':
+        //                             type = 'warning';
+        //                             text = 'Owner';
+        //                             break;
+        //                         default:
+        //                             type = 'secondary';
+        //                             text = 'Kasir';
+        //                     }
+        //                     return `<span class="badge badge-${type}">${text}</span>`;
+        //                 }
+        //             },
+        //             {
+        //                 data: 'actions',
+        //                 searchable: false,
+        //                 sortable: false,
+        //             }
+        //         ]
+        //     }
+        //     table = $('#users-table').DataTable(tableOptions);
             
-        });
+        // });
             // Initialize Select2 Elements
             // fetchOutletOptions();
 
@@ -243,7 +236,7 @@
             clearErrors();
             const modal = $('#form-modal');
             modal.modal('show');
-            modal.find('.modal-title').text('Register New User');
+            modal.find('.modal-title').text('Inventory Items');
             modal.find('form')[0].reset();
             modal.find('form').attr('action', url);
             modal.find('[name=_method]').val('post');
@@ -258,62 +251,62 @@
                 let res = await $.post(url, formData);
                 $('#form-modal').modal('hide');
                 toast(res.message, 'success');
-                table.ajax.reload();
+                // table.ajax.reload();
             } catch (err) {
                 if (err.status === 422) validationErrorHandler(err.responseJSON.errors);
                 toast('Something went wrong!', 'error');
             }
         }
 
-        const editHandler = async (url) => {
-            clearErrors();
-            const modal = $('#form-modal');
-            modal.modal('show');
-            modal.find('.modal-title').text('Edit User');
-            modal.find('form')[0].reset();
-            modal.find('form').attr('action', url);
-            modal.find('[name=_method]').val('put');
-            modal.find('input').attr('disabled', true);
-            modal.find('select').attr('disabled', true);
+        // const editHandler = async (url) => {
+        //     clearErrors();
+        //     const modal = $('#form-modal');
+        //     modal.modal('show');
+        //     modal.find('.modal-title').text('Edit User');
+        //     modal.find('form')[0].reset();
+        //     modal.find('form').attr('action', url);
+        //     modal.find('[name=_method]').val('put');
+        //     modal.find('input').attr('disabled', true);
+        //     modal.find('select').attr('disabled', true);
 
-            try {
-                let res = await fetchData(url);
-                modal.find('[name=name]').val(res.user.name);
-                modal.find('[name=email]').val(res.user.email);
-                modal.find(`[name=id_outlet]`).val(res.user.id_outlet).trigger('change');
-                modal.find(`[name=role][value='${res.user.role}']`).prop('checked', true);
-            } catch (err) {
-                toast('Something went Wrong!', 'error');
-            }
+        //     try {
+        //         let res = await fetchData(url);
+        //         modal.find('[name=name]').val(res.user.name);
+        //         modal.find('[name=email]').val(res.user.email);
+        //         modal.find(`[name=id_outlet]`).val(res.user.id_outlet).trigger('change');
+        //         modal.find(`[name=role][value='${res.user.role}']`).prop('checked', true);
+        //     } catch (err) {
+        //         toast('Something went Wrong!', 'error');
+        //     }
 
-            modal.find('input').attr('disabled', false);
-            modal.find('select').attr('disabled', false);
-        }
+        //     modal.find('input').attr('disabled', false);
+        //     modal.find('select').attr('disabled', false);
+        // }
 
-        const deleteHandler = async (url) => {
-            let result = await Swal.fire({
-                title: 'Delete User',
-                text: 'Are You Sure Want To Delete This User?',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#FF8000',
-                cancelButtonColor: '#0AC519',
-                confirmButtonText: 'Delete',
-                cancelButtonText: 'Cancel',
-            });
-            if (result.isConfirmed) {
-                try {
-                    let res = await $.post(url, {
-                        '_token': $('[name=_token]').val(),
-                        '_method': 'delete'
-                    });
-                    toast(res.message, 'success');
-                    table.ajax.reload();
-                } catch (err) {
-                    toast('Something Went Wrong!', 'error');
-                }
-            }
-        }
+        // const deleteHandler = async (url) => {
+        //     let result = await Swal.fire({
+        //         title: 'Delete User',
+        //         text: 'Are You Sure Want To Delete This User?',
+        //         icon: 'warning',
+        //         showCancelButton: true,
+        //         confirmButtonColor: '#FF8000',
+        //         cancelButtonColor: '#0AC519',
+        //         confirmButtonText: 'Delete',
+        //         cancelButtonText: 'Cancel',
+        //     });
+        //     if (result.isConfirmed) {
+        //         try {
+        //             let res = await $.post(url, {
+        //                 '_token': $('[name=_token]').val(),
+        //                 '_method': 'delete'
+        //             });
+        //             toast(res.message, 'success');
+        //             table.ajax.reload();
+        //         } catch (err) {
+        //             toast('Something Went Wrong!', 'error');
+        //         }
+        //     }
+        // }
 
         
     </script>
