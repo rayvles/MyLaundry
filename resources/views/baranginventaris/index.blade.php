@@ -9,14 +9,14 @@
     <link rel="stylesheet" href="{{ asset('adminlte') }}/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
     <style>
         /* Labels for checked inputs */
-        input[name="role"]+label {
+        input[name="kondisi"]+label {
             border: 1px solid #CED4DA;
             cursor: pointer;
             transition: .3s;
             box-shadow: none;
         }
 
-        input[name="role"]:checked+label {
+        input[name="kondisi"]:checked+label {
             background-color: #007BFF;
             color: #ffffff;
             border: 1px solid #007BFF;
@@ -32,27 +32,25 @@
         <div class="col">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Data user</h3>
+                    <h3 class="card-title">Data Inventory Items</h3>
                     <div class="card-tools">
-                        <button class="btn btn btn-primary" onclick="createHandler('{{ route('users.store') }}')">
-                            <i class="far fa-plus-square mr-1"></i><span>Add User</span>
+                        <button class="btn btn btn-primary" onclick="createHandler('{{ route('baranginventaris.store') }}')">
+                            <i class="far fa-plus-square mr-1"></i><span>Add Inventory Items</span>
                         </button>
-                        <a href="{{ route('users.export') }}">
-                        <button class="btn btn btn-success">
-                            <i class="fa fa-file-excel mr-1"></i><span>Export</span>
-                        </button>
+                        
                         </a>
                     </div>
                 </div>
                 <div class="card-body p-0">
-                    <table id="users-table" class="table table-hover table-striped w-100">
+                    <table id="baranginventaris-tb" class="table table-hover table-striped w-100">
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Outlet</th>
-                                <th>Role</th>
+                                <th>Item Name</th>
+                                <th>Brand Item</th>
+                                <th>Qty</th>
+                                <th>Condition</th>
+                                <th>Procurement date</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -74,61 +72,53 @@
                     @method('post')
                     @csrf
                     <div class="modal-header">
-                        <h5 class="modal-title">Register New User</h5>
+                        <h5 class="modal-title">Inventory Items</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="name">Name</label>
-                            <input type="text" name="name" class="form-control" id="name" placeholder="Full Name">
+                            <label for="name">Items Name</label>
+                            <input type="text" name="nama_barang" class="form-control" id="name" placeholder="Items Name">
                         </div>
                         <div class="form-group">
-                            <label for="email">Email</label>
-                            <input type="text" name="email" class="form-control" id="email" placeholder="name@domain.com">
+                            <label for="email">Brand Items</label>
+                            <input type="text" name="merk_barang" class="form-control" id="merk_barang" placeholder="Brand Items">
                         </div>
                        
-                        <div class="row">
-                            <div class="form-group col-md-6">
-                                <label for="password">Password</label>
-                                <input type="password" name="password" class="form-control" id="password">
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="password-confirmation">Confirm Password</label>
-                                <input type="password" name="password_confirmation" class="form-control"
-                                    id="password-confirmation">
-                            </div>
-                        </div>
                         
                         <div class="form-group">
-                            <label for="role">Role</label>
+                            <label for="password">Qty</label>
+                            <input type="number" name="qty" class="form-control" id="qty">
+                        </div>
+                        
+                        
+                        <div class="form-group">
+                            <label for="role">Condition</label>
                             <div class="row">
                                 <div class="col-sm-4">
-                                    <input class="d-none" type="radio" name="role" id="role-admin" value="admin">
-                                    <label for="role-admin" class="card">
+                                    <input class="d-none" type="radio" name="kondisi" id="kondisi-layak_pakai" value="layak_pakai">
+                                    <label for="kondisi-layak_pakai" class="card">
                                         <div class="card-body">
-                                            <i class="fas fa-user-secret mr-1"></i>
-                                            <span>Admin</span>
+                                            <span>Layak Pakai</span>
                                         </div>
                                     </label>
                                 </div>
                                 <div class="col-sm-4">
-                                    <input class="d-none" type="radio" name="role" id="role-owner" value="owner">
-                                    <label for="role-owner" class="card">
+                                    <input class="d-none" type="radio" name="kondisi" id="kondisi-rusak_ringan" value="rusak_ringan">
+                                    <label for="kondisi-rusak_ringan" class="card">
                                         <div class="card-body">
-                                            <i class="fas fa-user-tie mr-1"></i>
-                                            <span>Owner</span>
+                                            <span>Rusak Ringan</span>
                                         </div>
                                     </label>
                                 </div>
                                 <div class="col-sm-4">
-                                    <input class="d-none" type="radio" name="role" id="role-kasir"
-                                        value="kasir">
-                                    <label for="role-kasir" class="card">
+                                    <input class="d-none" type="radio" name="kondisi" id="kondisi-rusak_berat"
+                                        value="rusak_berat">
+                                    <label for="kondisi-rusak_berat" class="card">
                                         <div class="card-body">
-                                            <i class="fas fa-user mr-1"></i>
-                                            <span>Kasir</span>
+                                            <span>Rusak Berat</span>
                                         </div>
                                     </label>
                                 </div>
@@ -160,56 +150,57 @@
     
     <script>
         let table;
-        let outletOptions;
 
-        // $(function() {
-        //     const tableOptions = {
-        //         ...DATATABLE_OPTIONS,
-        //         ajax: '/admin/baranginventaris/datatable',
-        //         columns: [{
-        //                 data: 'DT_RowIndex',
-        //             },
-        //             {
-        //                 data: 'name',
-        //             },
-        //             {
-        //                 data: 'email',
-        //             },
-        //             {
-        //                 data: 'outlet',
-        //                 render: (outlet) => outlet && outlet.nama ? outlet.nama : '-',
-        //             },
-        //             {
-        //                 data: 'role',
-        //                 render: (role) => {
-        //                     let type;
-        //                     let text;
-        //                     switch (role) {
-        //                         case 'admin':
-        //                             type = 'info';
-        //                             text = 'Admin';
-        //                             break;
-        //                         case 'owner':
-        //                             type = 'warning';
-        //                             text = 'Owner';
-        //                             break;
-        //                         default:
-        //                             type = 'secondary';
-        //                             text = 'Kasir';
-        //                     }
-        //                     return `<span class="badge badge-${type}">${text}</span>`;
-        //                 }
-        //             },
-        //             {
-        //                 data: 'actions',
-        //                 searchable: false,
-        //                 sortable: false,
-        //             }
-        //         ]
-        //     }
-        //     table = $('#users-table').DataTable(tableOptions);
+        $(function() {
+            const tableOptions = {
+                ...DATATABLE_OPTIONS,
+                ajax: '/admin/baranginventaris/datatable',
+                columns: [{
+                        data: 'DT_RowIndex',
+                    },
+                    {
+                        data: 'nama_barang',
+                    },
+                    {
+                        data: 'merk_barang',
+                    },
+                    {
+                        data: 'qty',  
+                    },
+                    {
+                        data: 'kondisi',
+                        render: (kondisi) => {
+                            let type;
+                            let text;
+                            switch (kondisi) {
+                                case 'layak_pakai':
+                                    type = 'info';
+                                    text = 'Layak Pakai';
+                                    break;
+                                case 'rusak_ringan':
+                                    type = 'warning';
+                                    text = 'Rusak Ringan';
+                                    break;
+                                default:
+                                    type = 'secondary';
+                                    text = 'Rusak Berat';
+                            }
+                            return `<span class="badge badge-${type}">${text}</span>`;
+                        }
+                    },
+                    {
+                        data: 'tanggal_pengadaan',  
+                    },
+                    {
+                        data: 'actions',
+                        searchable: false,
+                        sortable: false,
+                    }
+                ]
+            }
+            table = $('#baranginventaris-tb').DataTable(tableOptions);
             
-        // });
+        });
             // Initialize Select2 Elements
             // fetchOutletOptions();
 
@@ -308,6 +299,7 @@
         //     }
         // }
 
+   
         
     </script>
 @endpush

@@ -41,7 +41,7 @@
               </form>
             </div>  
           </div>
-      </div>
+      
                       <!-- Modal -->
 
                           <div class="modal fade" id="modalMember" tabindex="-1" aria-labelledby="exampleModalLabel">
@@ -220,4 +220,4 @@
         {{-- End Of Pembayaran --}}
 
     </div>
-</div>
+  </div>

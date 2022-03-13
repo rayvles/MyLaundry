@@ -45,6 +45,11 @@ class Transaksi extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function outlet()
+    {
+        return $this->belongsTo(Outlet::class);
+    }
 }
 
 

@@ -23,7 +23,7 @@ class UsersExport implements FromCollection , WithHeadings , WithMapping, WithEv
     public function headings(): array
     {
         return [
-            ['No', 'Name', 'Email', 'Outlet', 'Role']
+            ['No', 'Outlet', 'Name', 'Email','Password', 'Role']
         ];
     }
 
@@ -31,9 +31,10 @@ class UsersExport implements FromCollection , WithHeadings , WithMapping, WithEv
     {
         return [
             ++$this->rowNumber,
+            $user->id_outlet,
             $user->name,
             $user->email,
-            $user->id_outlet,
+            $user->password,
             $user->role,
         ];
         
@@ -48,16 +49,17 @@ class UsersExport implements FromCollection , WithHeadings , WithMapping, WithEv
             $events->sheet->getColumnDimension('C')->setAutoSize(true);
             $events->sheet->getColumnDimension('D')->setAutoSize(true);
             $events->sheet->getColumnDimension('E')->setAutoSize(true);
+            $events->sheet->getColumnDimension('F')->setAutoSize(true);
            
 
             $events->sheet->insertNewRowBefore(1, 2);
-            $events->sheet->mergeCells('A1:E1');
+            $events->sheet->mergeCells('A1:F1');
             $events->sheet->setCellValue('A1', 'DATA USER LAUNDRY');
             $events->sheet->getStyle('A1')->getFont()->setBold(true);
             $events->sheet->getStyle('A1')->getAlignment()->setHorizontal
             (\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
 
-            $events->sheet->getStyle('A3:E'. $events->sheet->getHighestRow())->applyFromArray([
+            $events->sheet->getStyle('A3:F'. $events->sheet->getHighestRow())->applyFromArray([
                 'borders' => [
                     'allBorders' => [
                         'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,

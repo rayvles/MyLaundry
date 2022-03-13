@@ -66,11 +66,18 @@
                         </div>
                       </div>
                    
-
+                @can('manage-user')
                     <div class="card-tools">
                         <a type="button" data-toggle="modal" data-target="#exampleModal"  class="btn btn-sm btn-primary"><i class="far fa-plus-square"></i>
                             Add</a>
                     </div>
+                @endcan
+                @can('manage-owner-kasir')
+                <div class="card-tools">
+                    <a type="button" class="btn btn-sm btn-danger"><i class="far fa-plus-square"></i>
+                        Not having access!</a>
+                </div>
+                @endcan
                 </div>
                 <div class="card-body">
                     <table id="outletTable" class="table table-hover table-striped">
@@ -97,11 +104,13 @@
                                         </a>
                                     </td>
                                     <td>
+                                        @can('manage-user')
                                         <div class="dropdown d-inline">
                                             <button class="btn btn-info" type="button"
                                                 id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
                                                <i class="fas fa-ellipsis-v"></i>
                                             </button>
+                                            
                                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                                 <a href="{{ route('outlet.edit', $outlet->id) }}"
                                                     class="dropdown-item" data-toggle="modal" data-target="#editmodal{{ $loop->iteration }}"><i class="fas fa-edit"></i>
@@ -112,6 +121,12 @@
                                                     Delete Outlet</button>
                                                    
                                             </div>
+                                            @endcan
+                                            @can('manage-owner-kasir')
+                                            <div>
+                                                Not having access!
+                                            </div>
+                                            @endcan
                                         </div>
                                     </td>
                                 </tr>

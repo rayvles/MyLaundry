@@ -35,5 +35,8 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('manage-laporan', function (User $user) {
             return $user->role === 'admin' || $user->role === 'owner' || $user->role === 'kasir';
         });
+        Gate::define('manage-owner-kasir', function (User $user) {
+            return $user->role === 'owner' || $user->role === 'kasir';
+        });
     }
 }

@@ -33,39 +33,39 @@ class BaranginventarisController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    // public function data()
-    // {
-    //     $users = User::all();
+    public function data()
+    {
+        $baranginventaris = Baranginventaris::all();
 
-    //     return response()->json([
-    //         'message' => 'Data outlet',
-    //         'users' => $users,
-    //     ]);
-    // }
+        return response()->json([
+            'message' => 'Data baranginventaris',
+            'baranginventaris' => $baranginventaris,
+        ]);
+    }
 
     /**
      * Return data for DataTables.
      *
      * @return \Illuminate\Http\Response
      */
-    // public function datatable()
-    // {
-        
+    public function datatable()
+    {
+        $baranginventaris = Baranginventaris::all();
 
-    //     return DataTables::of($users)
-    //         ->addIndexColumn()
-    //         ->addColumn('actions', function ($user) {
-    //             $editBtn = '<button onclick="editHandler(' . "'" . route('users.update', $user->id) . "'" . ')" class="btn btn-success mx-1 mb-1">
-    //                 <i class="fas fa-edit mr-1"></i>
-    //                 <span>Edit user</span>
-    //             </button>';
-    //             $deleteBtn = '<button onclick="deleteHandler(' . "'" . route('users.destroy', $user->id) . "'" . ')" class="btn btn-danger mx-1 mb-1">
-    //                 <i class="fas fa-trash mr-1"></i>
-    //                 <span>Delete User</span>
-    //             </button>';
-    //             return $editBtn . $deleteBtn;
-    //         })->rawColumns(['actions'])->make(true);
-    // }
+        return DataTables::of($baranginventaris)
+            ->addIndexColumn()
+            ->addColumn('actions', function ($baranginven) {
+                $editBtn = '<button onclick="editHandler(' . "'" . route('baranginventaris.update', $baranginven->id) . "'" . ')" class="btn btn-success mx-1 mb-1">
+                    <i class="fas fa-edit mr-1"></i>
+                    <span>Edit baranginventaris</span>
+                </button>';
+                $deleteBtn = '<button onclick="deleteHandler(' . "'" . route('baranginventaris.destroy', $baranginven->id) . "'" . ')" class="btn btn-danger mx-1 mb-1">
+                    <i class="fas fa-trash mr-1"></i>
+                    <span>Delete User</span>
+                </button>';
+                return $editBtn . $deleteBtn;
+            })->rawColumns(['actions'])->make(true);
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -105,16 +105,16 @@ class BaranginventarisController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\User  $user
+     * @param  \App\Models\User  $baranginventaris
      * @return \Illuminate\Http\Response
      */
-    // public function show(User $user)
-    // {
-    //     return response()->json([
-    //         'message' => 'Data user',
-    //         'user' => $user
-    //     ], Response::HTTP_OK);
-    // }
+    public function show(Baranginventaris $baranginven)
+    {
+        return response()->json([
+            'message' => 'Data baranginven',
+            'baranginven' => $baranginven
+        ], Response::HTTP_OK);
+    }
 
     // public function update(Request $request, User $user)
     // {

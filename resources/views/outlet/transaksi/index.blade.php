@@ -44,6 +44,13 @@
               </ul>
 
               <div class="card" style="border-top: 0px;">
+                @if(session('success'))
+                <div class="alert alert-success" role="alert" id="success-alert">
+                    {{ session('success') }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="close"></button>
+                    <span aria-hidden="true">&times;</span>
+                </div>
+                @endif
                 <form action="{{ route('transaksi.store',$outlet->id) }}" method="post">
                 @csrf
                 @include('outlet.transaksi.form')
@@ -227,6 +234,88 @@
             $('#total').text(total)
         })
         // 
+
+        // let table;
+        // const id_outlet = $("meta[name='id-outlet']").attr("content");
+        // let datatableUrl = `${id_outlet}/transactions/datatable`;
+
+        // $(function() {
+        //     table = $('#transactions-table').DataTable({
+        //         ...DATATABLE_OPTIONS,
+        //         ajax: {
+        //             url: `${datatableUrl}?status=new`,
+        //         },
+        //         columns: [{
+        //                 data: 'DT_RowIndex',
+        //             },
+        //             {
+        //                 data: 'kode_invoice',
+        //             },
+        //             {
+        //                 data: 'member',
+        //                 render: (member) => member.name
+        //             },
+        //             {
+        //                 data: 'total_item',
+        //             },
+        //             {
+        //                 data: 'date',
+        //             },
+        //             {
+        //                 data: 'deadline',
+        //             },
+        //             {
+        //                 data: 'status',
+        //                 render: (status) => {
+        //                     let type;
+        //                     let label;
+        //                     switch (status) {
+        //                         case 'new':
+        //                             type = 'info';
+        //                             label = 'Baru'
+        //                             break;
+        //                         case 'process':
+        //                             type = 'warning';
+        //                             label = 'Diproses'
+        //                             break;
+        //                         case 'done':
+        //                             type = 'success';
+        //                             label = 'Selesai'
+        //                             break;
+        //                         default:
+        //                             type = 'secondary';
+        //                             label = 'Diambil';
+        //                             break;
+        //                     }
+        //                     return `<div class="badge badge-${type}">${label}</div>`
+        //                 }
+        //             },
+        //             {
+        //                 data: 'payment_status',
+        //                 render: (status) => {
+        //                     let type;
+        //                     let label;
+        //                     switch (status) {
+        //                         case 'paid':
+        //                             type = 'success';
+        //                             label = 'Dibayar'
+        //                             break;
+        //                         default:
+        //                             type = 'warning';
+        //                             label = 'Belum Dibayar';
+        //                             break;
+        //                     }
+        //                     return `<div class="badge badge-${type}">${label}</div>`
+        //                 }
+        //             },
+        //             {
+        //                 data: 'actions',
+        //                 searchable: false,
+        //                 sortable: false,
+        //             }
+        //         ]
+        //     });
+        // });
 
     </script>
 @endpush

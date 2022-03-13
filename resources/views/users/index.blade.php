@@ -42,7 +42,57 @@
                             <i class="fa fa-file-excel mr-1"></i><span>Export</span>
                         </button>
                         </a>
+                        
+                        <button class="btn btn btn-secondary" data-toggle="modal" data-target="#exampleModal"  >
+                            <i class="fa fa-file-excel mr-1"></i><span>Import</span>
+                        </button>
+                        
                     </div>
+
+                        {{-- Modal Input --}}
+                    {{-- <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title-" id="exampleModalLabel">Import Excel</h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="card card-primary">
+                                    <div class="card-header">
+                                        <h3 class="card-title">Import</h3>
+                                    </div>
+                                <form action="{{ route('users.import') }}" method="POST" enctype="multipart/form-data">
+                                    @csrf
+                                    <!-- /.card-body -->
+                                    <div class="form-group">
+                                        <label for="nama">Excel</label>
+                                        <input type="file" value="" name="file" class="form-control" id="file" required="required">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="id-outlet">Outlet</label>
+                                        <select name="id_outlet" class="form-control select2" id="id-outlet">
+                                        @foreach ($outlets as $outlet)
+                                            <option value="{{ $outlet->id }}">{{ $outlet->nama }} - {{ $outlet->alamat }}</option>
+                                        @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="card-footer">
+                                        <button type="submit" class="btn btn-primary">Save</button>
+                                    </div>
+                                </form>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div> --}}
+
+                    
                 </div>
                 <div class="card-body p-0">
                     <table id="users-table" class="table table-hover table-striped w-100">
@@ -163,6 +213,7 @@
     </script>
     <!-- Select2 -->
     <script src="{{ asset('adminlte') }}/plugins/select2/js/select2.full.min.js"></script>
+    
     <!-- Page Script -->
     
     <script>

@@ -71,6 +71,22 @@
                 </a>
             </li>
             @endcan
+            <li class="nav-item">
+                <a href="/admin/simulasi" class="nav-link">
+                    <i class="nav-icon fas fa-users"></i>
+                    <p>
+                        Simulasi Programan dasar 1
+                    </p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/admin/simulasikedua" class="nav-link">
+                    <i class="nav-icon fas fa-users"></i>
+                    <p>
+                        Simulasi Programan dasar 2
+                    </p>
+                </a>
+            </li>
             
             <li class="nav-item">
                 <a href="/home" class="nav-link">
