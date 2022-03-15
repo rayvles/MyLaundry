@@ -13,4 +13,8 @@ class SimulasiController extends Controller
     public function indexkedua(){
         return view('admin.simulasikedua');
     }
+
+    public function indexketiga(){
+        return view('admin.simulasiketiga');
+    }
 }

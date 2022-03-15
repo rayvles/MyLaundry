@@ -7,6 +7,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\OutletController;
 use App\Http\Controllers\PaketController;
+use App\Http\Controllers\PenjemputanLaundryController;
 use App\Http\Controllers\TransaksiController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\SimulasiController;
@@ -46,10 +47,13 @@ Route::middleware('auth')->group(function () {
         Route::get('/users/datatable', [UserController::class, 'datatable'])->name('users.datatable');
         Route::get('/users/export', [UserController::class, 'export'])->name('users.export');
         Route::apiResource('/users', UserController::class);
+        Route::apiResource('/penjemputanlaundry', PenjemputanLaundryController::class);
         Route::get('/simulasi', [SimulasiController::class, 'index'])->name('admin.simulasi');
         Route::get('/simulasikedua', [SimulasiController::class, 'indexkedua'])->name('admin.simulasikedua');
-        Route::apiResource('/baranginventaris', BaranginventarisController::class);
-        Route::get('/baranginventaris/datatable', [BaranginventarisController::class, 'datatable'])->name('baranginventaris.datatable');
+        Route::get('/simulasiketiga', [SimulasiController::class, 'indexketiga'])->name('admin.simulasiketiga');
+        Route::resource('/baranginventaris', BaranginventarisController::class);
+        Route::get('/baranginventaris/data', [BaranginventarisController::class, 'data'])->name('baranginventaris.data');
+        
     });
 
     Route::prefix('/outlet/{outlet}')->group(function () {
@@ -59,5 +63,6 @@ Route::middleware('auth')->group(function () {
         Route::get('/member/data', [MemberController::class, 'data'])->name('member.data');
         Route::apiResource('/member', MemberController::class);
         Route::apiResource('/transaksi', TransaksiController::class);
+       
     });
 });

@@ -33,15 +33,6 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="/outlet" class="nav-link">
-                        <i class="nav-icon fas fa-store"></i>
-                        <p>
-                            Manage Outlet
-                        </p>
-                    </a>
-                </li>
-               
-                <li class="nav-item">
                     <a href="/admin" class="nav-link">
                         <i class="nav-icon fas fa-user-tie"></i>
                         <p>

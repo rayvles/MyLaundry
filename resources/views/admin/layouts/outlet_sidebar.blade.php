@@ -96,6 +96,7 @@
             @endcan
             
             
+
             @can('manage-user')
             <li class="nav-header">TRANSACTION</li>
             <li class="nav-item">
@@ -107,6 +108,7 @@
                 </a>
             </li>
             @endcan
+            
             @can('manage-laporan')
             <li class="nav-header">TRANSACTION</li>
             <li class="nav-item">

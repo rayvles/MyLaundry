@@ -53,6 +53,14 @@
                     </p>
                 </a>
             </li>
+            <li class="nav-item">
+                <a href="/admin/penjemputanlaundry" class="nav-link">
+                    <i class="nav-icon fas fa-users"></i>
+                    <p>
+                        Penjemputan Laundry
+                    </p>
+                </a>
+            </li>
             @can('manage-user')
             <li class="nav-item">
                 <a href="/admin/users" class="nav-link">
@@ -87,7 +95,14 @@
                     </p>
                 </a>
             </li>
-            
+            <li class="nav-item">
+                <a href="/admin/simulasiketiga" class="nav-link">
+                    <i class="nav-icon fas fa-users"></i>
+                    <p>
+                        Simulasi Programan dasar 3
+                    </p>
+                </a>
+            </li>
             <li class="nav-item">
                 <a href="/home" class="nav-link">
                     <i class="nav-icon fas fa-arrow-left"></i>
