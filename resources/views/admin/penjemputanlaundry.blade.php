@@ -47,7 +47,7 @@
         <div class="col">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Data Outlet</h3>
+                    <h3 class="card-title">Data Penjemputan Laundry</h3>
                     
                     
                     {{-- Modal Input --}}
@@ -61,7 +61,7 @@
                               </button>
                             </div>
                             <div class="modal-body">
-                                <div class="card card-primary">
+                                <div class="card card">
                                     <div class="card-header">
                                         <h3 class="card-title">Input Penjemputan Laundry</h3>
                                     </div>
@@ -83,48 +83,21 @@
                                         <input type="text" value="" name="petugas_penjemput" class="form-control" id="nama" placeholder="" required="required">
                                         
                                     </div>
-                                    {{-- <div class="form-group">
-                                        <label for="role">Status</label>
-                                        <div class="row">
-                                            <div class="col-sm-4">
-                                                <input class="d-none" type="radio" name="status" id="role-admin" value="tercatat">
-                                                <label for="role-admin" class="card">
-                                                    <div class="card-body">
-                                                        <i class="fas fa-user-secret mr-1"></i>
-                                                        <span>Tercatat</span>
-                                                    </div>
-                                                </label>
-                                            </div>
-                                            <div class="col-sm-4">
-                                                <input class="d-none" type="radio" name="status" id="role-owner" value="penjemput">
-                                                <label for="role-owner" class="card">
-                                                    <div class="card-body">
-                                                        <i class="fas fa-user-tie mr-1"></i>
-                                                        <span>penjemput</span>
-                                                    </div>
-                                                </label>
-                                            </div>
-                                            <div class="col-sm-4">
-                                                <input class="d-none" type="radio" name="status" id="role-owner" value="selesai">
-                                                <label for="role-owner" class="card">
-                                                    <div class="card-body">
-                                                        <i class="fas fa-user-tie mr-1"></i>
-                                                        <span>selesai</span>
-                                                    </div>
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div> --}}
                                     
-                                    
+                                    <div class="form-group">
+                                    <label for="nama">Status Petugas </label>
+                                    <select name="status" id="jenis" class="form-control">
+                                        <option selected disabled>Select Type</option>
+                                        <option value="tercatat">Tercatat</option>
+                                        <option value="penjemputan">Penjemputan</option>
+                                        <option value="selesai">Selesai</option>
+                                    </select>
+                                </div> 
                                     <div class="card-footer">
                                         <button type="submit" class="btn btn-primary">Save</button>
                                     </div>
                                 </form>
                                 </div>
-                            </div>
-                            <div class="modal-footer">
-                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                             </div>
                           </div>
                         </div>
@@ -136,9 +109,65 @@
                             Add</a>
                     </div>
                 @endcan
+                <div class="card-tools mr-2">
+                    <div class="dropdown ">
+                        <button class="btn btn-sm btn-success dropdown-toggle" type="button" id="dropdownMenuButton"
+                            data-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-upload mr-1"></i>
+                            <span>Export</span>
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" 
+                            href="{{ route('penjemputanlaundry.export.excel') }}"
+                            >XLSX</a>
+                            
+                        </div>
+                    </div>
                 </div>
+                <div class="card-tools mr-2">
+                <button type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#import-modal">
+                    <i class="fas fa-download mr-2"></i><span>Import</span>
+                </button>
+
+                {{-- Modal Input --}}
+                    <div class="modal fade" id="import-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title-" id="exampleModalLabel">Import Excel</h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="card card-primary">
+                                    <div class="card-header">
+                                        <h3 class="card-title">Import</h3>
+                                    </div>
+                                <form action="{{ route('penjemputanlaundry.import.excel') }}" method="POST" enctype="multipart/form-data">
+                                    @csrf
+                                    <!-- /.card-body -->
+                                    <div class="form-group ml-2 mr-2">
+                                        <label for="nama">Excel</label>
+                                        <input type="file" value="" name="file_import" class=" form-control" id="file" required="required">
+                                    </div>
+                                    <div class="card-footer">
+                                        <button type="submit" class="btn btn-primary">Save</button>
+                                    </div>
+                                </form>
+                                </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+            </div>
+
+               
+            
+                </div>
+                
                 <div class="card-body">
-                    <table id="outletTable" class="table table-hover table-striped">
+                    <table id="penjemputanTable" class="table table-hover table-striped">
                         <thead>
                             <tr>
                                 <th>No</th>
@@ -156,9 +185,19 @@
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $penjemputanlaundry->member->nama }}</td>
                                     <td>{{ $penjemputanlaundry->member->alamat }}</td>
-                                    <td>{{ $penjemputanlaundry->member->nama }}</td>
+                                    <td>{{ $penjemputanlaundry->member->telepon }}</td>
                                     <td>{{ $penjemputanlaundry->petugas_penjemput }}</td>
-                                    <td>{{ $penjemputanlaundry->status }}</td>
+                                    <td>
+                                        <select data-update-url="{{ route('penjemputanlaundry.updateStatus', $penjemputanlaundry->id) }}"
+                                             name="status" id="jenis" class="pilih-status form-control ">
+                                            <option selected disabled>{{ $penjemputanlaundry->status }}</option>
+                                            <option disabled>---- Pilih Status ----</option>
+                                            <option value="tercatat">Tercatat</option>
+                                            <option value="penjemputan">Penjemputan</option>
+                                            <option value="selesai">Selesai</option>
+                                        </select>
+                                        
+                                    </td>
                                     <td>
                                         @can('manage-user')
                                         <div class="dropdown d-inline">
@@ -192,7 +231,7 @@
                                     <div class="modal-dialog" role="document">
                                       <div class="modal-content">
                                         <div class="modal-header">
-                                          <h5 class="modal-title-" id="exampleModalLabel">Penjempputan Laundry</h5>
+                                          <h5 class="modal-title-" id="exampleModalLabel">Penjemputan Laundry</h5>
                                           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                           </button>
@@ -200,35 +239,35 @@
                                         <div class="modal-body">
                                             <div class="card">
                                                 <div class="card-header">
-                                                    <h3 class="card-title">Penjemputanlaundry Update</h3>
+                                                    <h3 class="card-title">Penjemputan Laundry Update</h3>
                                                 </div>
                                                 <form action="{{ route('penjemputanlaundry.update', $penjemputanlaundry->id) }}" method="POST">
                                                     @csrf
                                                     @method('PUT')
                                                     <div class="card-body">
+                                                        <label for="nama">Member</label>
                                                         <select name="id_member" class="form-control select2" id="id-outlet" >
                                                             @foreach ($members as $member)
                                                                 <option {{ $member->id === $penjemputanlaundry->id_member ? 'selected' : '' }}
                                                                 value="{{ $member->id }}">{{ $member->nama }}</option>
                                                             @endforeach
                                                             </select>
-
-                                                        {{-- <div class="form-group">
-                                                            <label for="">Nama</label>
-                                                            <select name="id_member" id="" class="form-control">
-                                                                @foreach ($data_penjemputanlaundry as $penjemputanlaundry)
-                                                                    
-                                                                
-                                                                <option class="form-control" value="{{ $penjemputanlaundry->member->nama }}"></option>
-                                                                @endforeach
-                                                                </select>
-                                                                
-                                                            </div> --}}
-                                                       
                                                         <div class="form-group">
                                                             <label for="nama">Nama Petugas</label>
                                                             <input type="text" value="{{ $penjemputanlaundry->petugas_penjemput }}" name="petugas_penjemput" class="form-control" id="nama" placeholder="" required="required">
                                                             
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label for="nama">Status Petugas </label>
+                                                            <select name="status"  id="jenis" class="form-control">
+                                                                {{-- <option selected disabled>Select Type</option> --}}
+                                                                <option selected disabled>{{ $penjemputanlaundry->status}}</option>
+                                                                <option disabled>---- Pilih Status ----</option>
+                                                                <option value="tercatat">Tercatat</option>
+                                                                <option value="penjemputan">Penjemputan</option>
+                                                                <option value="selesai">Selesai</option>
+                                                            </select>
                                                         </div>
                                                     </div>
                                                     
@@ -237,9 +276,6 @@
                                                     </div>
                                                 </form>
                                             </div>
-                                        </div>
-                                        <div class="modal-footer">
-                                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                         </div>
                                       </div>
                                     </div>
@@ -298,6 +334,29 @@
                             });
                         });
                     }
+
+                $("#penjemputanTable").on("change", "select.pilih-status", async function() {
+                let url = $(this).data("update-url");
+                try {
+                    let res = await $.post(url, {
+                        _token: $("[name=_token]").val(),
+                        _method: "PUT",
+                        status: $(this).val()
+                    });
+                    Toast.fire({
+                        icon: 'success',
+                        title: res.message
+                     });
+                } catch (err) {
+                    Toast.fire({
+                        icon: 'error',
+                        title: err.responseJSON.message ?? 'Error'
+                    });
+                }
+            });
+
+            
+
             
 
     </script>

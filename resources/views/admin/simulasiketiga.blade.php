@@ -70,14 +70,10 @@
                               </div>
                               <div class="form-group col-md-6">
                               <label class="form" for="exampleCheck1">Status Menikah</label>
-                            <div class="form-check">
-                              <input type="radio" class="form-check-input" value="Single" name="status_menikah" id="exampleCheck1">
-                              <label class="form-check-label" for="exampleCheck1">Single</label>
-                            </div>
-                            <div class="form-check">
-                                <input type="radio" class="form-check-input" value="Couple" name="status_menikah" id="exampleCheck1">
-                                <label class="form-check-label" for="exampleCheck1">Couple</label>
-                              </div>
+                              <select name="status_menikah" id="" class="form-control">
+                                <option value="Single">Single</option>
+                                <option value="Couple">Couple</option>
+                              </select>
                             </div>
                             <div class="form-group col-md-6">
                               <label for="exampleInputPassword1">Mulai Bekerja</label>
@@ -110,6 +106,9 @@
                               <option value="nama_karyawan">Nama Karyawan</option>
                               <option value="status_menikah">Status menikah</option>
                               <option value="date_kerja">Date Kerja</option>
+                              <option value="gaji_awal">Gaji Awal</option>
+                              <option value="total_bonus">Total Bonus</option>
+                              <option value="total_gaji">Total Gaji</option>
                             </select>
                           </div>
                         </div>
@@ -138,11 +137,22 @@
                                         <th>Nama Karyawan</th>
                                         <th>Status</th>
                                         <th>Mulai Bekerja</th>
+                                        <th>Gaji Awal</th>
+                                        <th>Tunjangan</th>
+                                        <th>Total Gaji</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                         
                                 </tbody>
+                                <tfoot>
+                                  <tr>
+                                      <th colspan="6">TOTAL</th>
+                                      <td id="total-gaji"></td>
+                                      <td id="total-bonus"></td>
+                                      <td id="total-gaji-dengan-bonus"></td>
+                                  </tr>
+                              </tfoot>
                             </table>
                         </div>
                     </div>
@@ -161,6 +171,17 @@
   let arrKaryawan;
   let karyawanFilter;
 
+  const GAJI_AWAL = 200000;
+  const BONUS_PER_TAHUN = 150000;
+  const BONUS_COUPLE = 250000;
+  const BONUS_PER_ANAK = 150000;
+  const MAX_BONUS_ANAK = 2;
+
+const formatter = Intl.NumberFormat("id-ID", {
+  style: "currency",
+  currency: "IDR",
+});
+
 
 function insert(){
     console.log('insert')
@@ -174,8 +195,13 @@ function insert(){
                      ? Number(item ['value']):item['value']) //
         newData[name] = value
     })
+    newData.gaji_awal = GAJI_AWAL;
+    newData.total_bonus = calculateBonus(newData);
+    newData.total_gaji = GAJI_AWAL + newData.total_bonus;
     console.log(newData)
+   
 arrKaryawan.push(newData);
+
 localStorage.setItem('arrKaryawan',JSON.stringify(arrKaryawan));
 return newData
 
@@ -192,16 +218,24 @@ arrKaryawan = karyawanFilter = JSON.parse(localStorage.getItem('arrKaryawan')) |
 $('#formkaryawan').on('submit', function(e){
     e.preventDefault();
     insert()
+    
     $('#tblKaryawan tbody').html(showData())
+    
+    
 }) 
 
 })
 
+
+
 function showData(){
-let row =''
+  let totalGajiAwal = 0;
+  let totalBonus = 0;
+  let totalGaji = 0;
+  let row =''
 
 if(karyawanFilter.length==0){
-    return row = `<tr><td colspan="6">Belum ada data</td></tr>`
+    return row = `<tr><td colspan="9">Belum ada data</td></tr>`
 }
 karyawanFilter.forEach(function(item,index){
     row += `<tr>`
@@ -211,9 +245,20 @@ karyawanFilter.forEach(function(item,index){
     row += `<td>${item['nama_karyawan']}</td>`
     row += `<td>${item['status_menikah']}</td>`
     row += `<td>${item['date_kerja']}</td>`
+    row += `<td>${item['gaji_awal']}</td>`
+    row += `<td>${item['total_bonus']}</td>`
+    row += `<td>${item['total_gaji']}</td>`
     row += `</tr>`
+    totalGajiAwal += item.gaji_awal;
+    totalBonus += item.total_bonus;
+    totalGaji += item.total_gaji;
     })
+    $('#total-gaji').html(formatter.format(totalGajiAwal));
+            $('#total-bonus').html(formatter.format(totalBonus));
+            $('#total-gaji-dengan-bonus').html(formatter.format(totalGaji));
+    
 return row 
+            
 }
 
 function insertionSort(arr,key, SortingInsert)
@@ -266,7 +311,10 @@ function insertionSort(arr,key, SortingInsert)
                     arrKaryawan[i].jumlah_anak.toString().toLowerCase().includes(keyword) ||
                     arrKaryawan[i].nama_karyawan.toLowerCase().includes(keyword) ||
                     arrKaryawan[i].status_menikah.toLowerCase().includes(keyword) ||
-                    arrKaryawan[i].date_kerja.toString().toLowerCase().includes(keyword)
+                    arrKaryawan[i].date_kerja.toString().toLowerCase().includes(keyword) ||
+                    arrKaryawan[i].gaji_awal.toString().toLowerCase().includes(keyword) ||
+                    arrKaryawan[i].total_bonus.toString().toLowerCase().includes(keyword) ||
+                    arrKaryawan[i].total_gaji.toString().toLowerCase().includes(keyword)
                 ) {
                     // Jika kondisi terpenuhi, maka data array dengan index ke-i dimasukan ke dalam array penampung
                     arr.push(arrKaryawan[i]);
@@ -283,6 +331,39 @@ function insertionSort(arr,key, SortingInsert)
                     $('#tblKaryawan tbody').html(showData())
                 });
             })
+
+      $('[name="status_menikah"]').on('change', function(){
+        if($(this).val() === "Single"){
+          $('[name="jumlah_anak"]').val(0)
+          $('[name="jumlah_anak"]').attr('readonly', true)
+        } else {
+          $('[name="jumlah_anak"]').attr('readonly', false)
+        }
+      })
+
+       // Menghitung lama bekerja dalam satuan tahun
+       const calculateTotalYear = (tanggal_awal) => {
+            tanggal_awal = new Date(tanggal_awal);
+            let ageDifMs = Date.now() - tanggal_awal.getTime();
+            if (ageDifMs > 0) {
+                let ageDate = new Date(ageDifMs);
+                return Math.abs(ageDate.getUTCFullYear() - 1970);
+            }
+            return 0;
+        }
+        // Mengithung total tunjangan karyawan
+        const calculateBonus = (arrKaryawan) => {
+            let bonus = 0;
+            let totalYear = calculateTotalYear(arrKaryawan.date_kerja);
+            bonus += totalYear * BONUS_PER_TAHUN;
+            bonus += arrKaryawan.jumlah_anak <= MAX_BONUS_ANAK ?
+                arrKaryawan.jumlah_anak * BONUS_PER_ANAK :
+                BONUS_PER_ANAK * MAX_BONUS_ANAK;
+            bonus += arrKaryawan.status_menikah === 'Couple' ? BONUS_COUPLE : 0;
+            return bonus;
+        }
+      
+
 
     </script>
 @endpush
