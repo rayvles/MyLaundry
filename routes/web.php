@@ -50,6 +50,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/penjemputanlaundry/import/excel', [PenjemputanLaundryController::class, 'importExcel'])->name('penjemputanlaundry.import.excel');
         Route::get('/penjemputanlaundry/export/excel', [PenjemputanLaundryController::class, 'exportExcel'])->name('penjemputanlaundry.export.excel');
         Route::put('/penjemputanlaundry/{penjemputanlaundry}/status', [PenjemputanLaundryController::class, 'updateStatus'])->name('penjemputanlaundry.updateStatus');
+        Route::get('/penjemputanlaundry/export/pdf', [PenjemputanLaundryController::class, 'exportPDF'])->name('penjemputanlaundry.export.pdf');
         Route::apiResource('/penjemputanlaundry', PenjemputanLaundryController::class);
         Route::get('/simulasi', [SimulasiController::class, 'index'])->name('admin.simulasi'); 
         Route::get('/simulasikedua', [SimulasiController::class, 'indexkedua'])->name('admin.simulasikedua');

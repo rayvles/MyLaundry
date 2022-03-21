@@ -6,6 +6,7 @@ use App\Exports\PenjemputanLaundryExport;
 use App\Imports\PenjemputanLaundryImport;
 use App\Models\Member;
 use App\Models\Outlet;
+use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\PenjemputanLaundry;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
@@ -45,12 +46,14 @@ class PenjemputanLaundryController extends Controller
 
     public function update(Request $request, PenjemputanLaundry $penjemputanlaundry)
     {
+        
         $request->validate([
             'id_member' => 'required|exists:tb_member,id',
             'petugas_penjemput' => 'required',
-            'status' => 'required|',
+            'status' => 'required',
         ]);
-
+        
+        
         $penjemputanlaundry->update([
             'id_member' => $request->id_member,
             'petugas_penjemput' => $request->petugas_penjemput,
@@ -63,7 +66,7 @@ class PenjemputanLaundryController extends Controller
     public function updateStatus(Request $request, PenjemputanLaundry $penjemputanlaundry)
     {
         $request->validate([
-            'status' => 'required|',
+            'status' => 'required',
         ]);
 
         $penjemputanlaundry->update([
@@ -99,6 +102,14 @@ class PenjemputanLaundryController extends Controller
     public function exportExcel()
     {
         return (new PenjemputanLaundryExport)->download('Data-penjemputan-' . date('d-m-Y') . '.xlsx');
+    }
+
+    public function exportPDF()
+    {
+        $penjemputanlaundry = PenjemputanLaundry::get();
+
+        $pdf = Pdf::loadView('admin.pdf', ['data_penjemputanlaundry' => $penjemputanlaundry]);
+        return $pdf->stream('Layanan-' . date('dmY') . '.pdf');
     }
 
     public function importExcel(Request $request,)

@@ -69,7 +69,7 @@
                                     
                                     @csrf
                                     <!-- /.card-body -->
-                                    <div class="form-group">
+                                    <div class="form-group mr-2 ml-2">
                                         <label for="">Nama</label>
                                         <select name="id_member" class="form-control select2" id="id-outlet" >
                                         @foreach ($members as $member)
@@ -78,13 +78,13 @@
                                         </select>
                                     </div>
                                    
-                                    <div class="form-group">
+                                    <div class="form-group mr-2 ml-2">
                                         <label for="nama">Nama Petugas </label>
                                         <input type="text" value="" name="petugas_penjemput" class="form-control" id="nama" placeholder="" required="required">
                                         
                                     </div>
                                     
-                                    <div class="form-group">
+                                    <div class="form-group mr-2 ml-2">
                                     <label for="nama">Status Petugas </label>
                                     <select name="status" id="jenis" class="form-control">
                                         <option selected disabled>Select Type</option>
@@ -120,7 +120,9 @@
                             <a class="dropdown-item" 
                             href="{{ route('penjemputanlaundry.export.excel') }}"
                             >XLSX</a>
-                            
+                            <a class="dropdown-item"
+                            href="{{ route('penjemputanlaundry.export.pdf')}}" 
+                                >PDF</a>
                         </div>
                     </div>
                 </div>
@@ -150,6 +152,7 @@
                                     <div class="form-group ml-2 mr-2">
                                         <label for="nama">Excel</label>
                                         <input type="file" value="" name="file_import" class=" form-control" id="file" required="required">
+                                       
                                     </div>
                                     <div class="card-footer">
                                         <button type="submit" class="btn btn-primary">Save</button>
@@ -260,9 +263,9 @@
 
                                                         <div class="form-group">
                                                             <label for="nama">Status Petugas </label>
-                                                            <select name="status"  id="jenis" class="form-control">
+                                                            <select name="status"  id="status" class="form-control">
                                                                 {{-- <option selected disabled>Select Type</option> --}}
-                                                                <option selected disabled>{{ $penjemputanlaundry->status}}</option>
+                                                                <option >{{ $penjemputanlaundry->status}}</option>
                                                                 <option disabled>---- Pilih Status ----</option>
                                                                 <option value="tercatat">Tercatat</option>
                                                                 <option value="penjemputan">Penjemputan</option>
