@@ -41,8 +41,7 @@
                             <th>#</th>
                             <th>Code Invoice</th>
                             <th>Member Name</th>
-                            <th>Item Laundry</th>
-                            <th>Date of giving</th>
+                            <th>Date</th>
                             <th>estimated completed</th>
                             <th>Status Laundry</th>
                             <th>Status Payment</th>

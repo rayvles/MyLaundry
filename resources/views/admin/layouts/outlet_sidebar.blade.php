@@ -112,7 +112,7 @@
             @can('manage-laporan')
             <li class="nav-header">TRANSACTION</li>
             <li class="nav-item">
-                <a href="../widgets.html" class="nav-link">
+                <a href="/outlet/{{ $outlet->id }}/report/" class="nav-link">
                     <i class="nav-icon fas fa-file"></i>
                     <p>
                         Report

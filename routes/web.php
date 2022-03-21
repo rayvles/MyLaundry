@@ -66,7 +66,9 @@ Route::middleware('auth')->group(function () {
         Route::apiResource('/paket', PaketController::class);
         Route::get('/member/data', [MemberController::class, 'data'])->name('member.data');
         Route::apiResource('/member', MemberController::class);
+        Route::get('/transaksi/datatable', [TransaksiController::class, 'datatable'])->name('transaksi.datatable');
         Route::apiResource('/transaksi', TransaksiController::class);
-       
+        Route::get('/report', [TransaksiController::class, 'report'])->name('transaksi.report');
+        Route::get('/report/datatable', [TransaksiController::class, 'reportDatatable'])->name('transaksi.reportDatatable');
     });
 });

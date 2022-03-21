@@ -33,12 +33,12 @@ class Transaksi extends Model
         
     public function details()
     {
-        return $this->hasMany(TransaksiDetail::class);
+        return $this->hasMany(TransaksiDetail::class, 'id_transaksi');
     }
 
     public function member()
     {
-        return $this->belongsTo(Member::class);
+        return $this->belongsTo(Member::class, 'id_member');
     }
 
     public function user()
@@ -49,6 +49,27 @@ class Transaksi extends Model
     public function outlet()
     {
         return $this->belongsTo(Outlet::class);
+    }
+
+    public function getTotalPrice()
+    {
+        return $this->details->reduce(function ($total, $detail) {
+            return $total + ($detail->paket->harga * $detail->qty);
+        });
+    }
+
+    public function getTotalDiscount()
+    {
+        return $this->getTotalPrice() * ($this->diskon / 100);
+    }
+        public function getTotalTax()
+    {
+        return $this->getTotalPrice() * ($this->pajak / 100);
+    }
+
+    public function getTotalPayment()
+    {
+        return $this->getTotalPrice() - $this->getTotalDiscount() + $this->getTotalTax() + $this->biaya_tambahan;
     }
 }
 

@@ -8,16 +8,22 @@
             <div class="card-body">
                 <form>
                     <div class="row col-12">
-                    <div class="form-group row col-md-6">
+                    <div class="form-group row col-md-4">
                       <label for="staticemail" class="col-sm-4 col-form-label">Transaction Date</label>
                       <div class="col-sm-6">
                         <input type="date" class="form-control" value="{{ date('Y-m-d') }}" name="tgl">
                       </div>
                     </div>
-                    <div class="form-group row col-md-6">
+                    <div class="form-group row col-md-4">
                       <label for="inputPassword" class="col-4 col-form-label">Estimated Completed</label>
                       <div class="col-6">
                         <input type="date" class="form-control ml-auto" value="{{ date('Y-m-d', strtotime(date('Y-m-d'). '+3day')) }}" name="deadline">
+                      </div>
+                    </div>
+                    <div class="form-group row col-md-4">
+                      <label for="inputPassword" class="col-4 col-form-label">Deadline Payment</label>
+                      <div class="col-6">
+                        <input type="date" class="form-control ml-auto" value="{{ date('Y-m-d', strtotime(date('Y-m-d'). '+3day')) }}" name="tgl_bayar">
                       </div>
                     </div>
                 </div>

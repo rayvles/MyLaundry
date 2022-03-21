@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="{{ asset('adminlte') }}/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
     <!-- SweetAlert2 -->
     <link rel="stylesheet" href="{{ asset('adminlte') }}/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
+    <meta name="id_outlet" content="{{ $outlet->id }}">
 @endpush
 
 @section('content-header')
@@ -68,6 +69,7 @@
 
 @push('script')
     <!-- DataTables  & Plugins -->
+    <script src="{{ asset('js/transactions.js') }}"></script>
     <script src="{{ asset('adminlte') }}/plugins/datatables/jquery.dataTables.min.js"></script>
     <script src="{{ asset('adminlte') }}/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
     <script src="{{ asset('adminlte') }}/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
@@ -233,89 +235,8 @@
             $('#subtotal').text(subtotal)
             $('#total').text(total)
         })
-        // 
+        
 
-        // let table;
-        // const id_outlet = $("meta[name='id-outlet']").attr("content");
-        // let datatableUrl = `${id_outlet}/transactions/datatable`;
-
-        // $(function() {
-        //     table = $('#transactions-table').DataTable({
-        //         ...DATATABLE_OPTIONS,
-        //         ajax: {
-        //             url: `${datatableUrl}?status=new`,
-        //         },
-        //         columns: [{
-        //                 data: 'DT_RowIndex',
-        //             },
-        //             {
-        //                 data: 'kode_invoice',
-        //             },
-        //             {
-        //                 data: 'member',
-        //                 render: (member) => member.name
-        //             },
-        //             {
-        //                 data: 'total_item',
-        //             },
-        //             {
-        //                 data: 'date',
-        //             },
-        //             {
-        //                 data: 'deadline',
-        //             },
-        //             {
-        //                 data: 'status',
-        //                 render: (status) => {
-        //                     let type;
-        //                     let label;
-        //                     switch (status) {
-        //                         case 'new':
-        //                             type = 'info';
-        //                             label = 'Baru'
-        //                             break;
-        //                         case 'process':
-        //                             type = 'warning';
-        //                             label = 'Diproses'
-        //                             break;
-        //                         case 'done':
-        //                             type = 'success';
-        //                             label = 'Selesai'
-        //                             break;
-        //                         default:
-        //                             type = 'secondary';
-        //                             label = 'Diambil';
-        //                             break;
-        //                     }
-        //                     return `<div class="badge badge-${type}">${label}</div>`
-        //                 }
-        //             },
-        //             {
-        //                 data: 'payment_status',
-        //                 render: (status) => {
-        //                     let type;
-        //                     let label;
-        //                     switch (status) {
-        //                         case 'paid':
-        //                             type = 'success';
-        //                             label = 'Dibayar'
-        //                             break;
-        //                         default:
-        //                             type = 'warning';
-        //                             label = 'Belum Dibayar';
-        //                             break;
-        //                     }
-        //                     return `<div class="badge badge-${type}">${label}</div>`
-        //                 }
-        //             },
-        //             {
-        //                 data: 'actions',
-        //                 searchable: false,
-        //                 sortable: false,
-        //             }
-        //         ]
-        //     });
-        // });
 
     </script>
 @endpush

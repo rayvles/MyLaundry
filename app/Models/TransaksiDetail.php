@@ -23,6 +23,6 @@ class TransaksiDetail extends Model
 
     public function paket()
     {
-        return $this->belongsTo(Paket::class);
+        return $this->belongsTo(Paket::class, 'id_paket');
     }
 }

@@ -35,6 +35,7 @@ class TransaksiController extends Controller
             $request['status_pembayaran']= $request->status_pembayaran;
             $request['id_user']=auth()->user()->id;
             $request['deadline']= $request->deadline;
+            $request['tgl_bayar']= $request->tgl_bayar;
     
     
             $input_transaksi = Transaksi::create($request->all());
@@ -60,17 +61,17 @@ class TransaksiController extends Controller
             $status = null;
             if ($request->has('status')) {
                 switch ($request->status) {
-                    case 'new':
-                        $status = 'new';
+                    case 'baru':
+                        $status = 'baru';
                         break;
-                    case 'process':
-                        $status = 'process';
+                    case 'proses':
+                        $status = 'proses';
                         break;
-                    case 'done':
-                        $status = 'done';
+                    case 'selesai':
+                        $status = 'selesai';
                         break;
-                    case 'taken':
-                        $status = 'taken';
+                    case 'diambil':
+                        $status = 'diambil';
                         break;
                     default:
                         $status = null;
@@ -79,19 +80,33 @@ class TransaksiController extends Controller
     
             $transactions = Transaksi::with(['user', 'member', 'details'])->where('id_outlet', $outlet->id)->when($status, function ($query) use ($status) {
                 return $query->where('status', $status);
-            })->get();
+            })->orderBy('id', 'desc')->get();
     
             return DataTables::of($transactions)
                 ->addIndexColumn()
-                ->addColumn('total_item', function ($transaction) {
-                    return $transaction->details()->count();
+                ->editColumn('tgl', function ($transaction) {
+                    return date('d/m/Y', strtotime($transaction->tgl));
                 })
-                ->addColumn('actions', function ($transaction) {
+                ->editColumn('deadline', function ($transaction) {
+                    return date('d/m/Y', strtotime($transaction->deadline));
+                })
+                ->addColumn('actions', function ($transaction) use ($outlet) {
                     $buttons = '';
                     if ($transaction->status_pembayaran === 'belum_dibayar') {
-                        $buttons .= '<button class="btn btn-success m-1 pay-button"><i class="fas fa-cash-register mr-1"></i><span>Bayar</span></button>';
+                        $buttons .= '<button class="btn btn-success btn-sm m-1 update-payment-button" data-detail-url="' . route('transaksi.show', [$outlet->id, $transaction->id]) . '" data-update-payment-url="
+                       
+                        "><i class="fas fa-cash-register mr-1"></i><span>Bayar</span></button>';
                     }
-                    $buttons .= '<button class="btn btn-info m-1 detail-button" data-id="' . $transaction->id . '"><i class="fas fa-eye mr-1"></i><span>Detail</span></button>';
+                    if ($transaction->status !== 'taken') {
+                        $buttons .= '<button class="btn btn-primary btn-sm m-1 update-status-button" data-update-url="
+                        
+                        " data-status="' 
+                        . $transaction->status . '
+                        "><i class="fas fa-arrow-circle-right mr-1"></i><span>Proses</span></button>';
+                    }
+                    $buttons .= '<button class="btn btn-info btn-sm m-1 detail-button" data-detail-url="
+                    
+                    "><i class="fas fa-eye mr-1"></i><span>Detail</span></button>';
                     return $buttons;
                 })->rawColumns(['actions'])->make(true);
         }
@@ -99,9 +114,45 @@ class TransaksiController extends Controller
         public function show(Outlet $outlet, Transaksi $transaction)
     {
         $transaction->load(['details', 'outlet', 'user', 'member']);
+        $transaction['tgl'] = date('d/m/Y', strtotime($transaction->tgl));
+        $transaction['deadline'] = date('d/m/Y', strtotime($transaction->deadline));
+        $transaction['diskon'] = $transaction->diskon;
+        $transaction['pajak'] = $transaction->pajak;
         return response()->json([
             'message' => 'Data Transaksi',
-            'transaction' => $transaction
+            'transaksi' => $transaction
         ], Response::HTTP_OK);
     }
+
+    public function report(Outlet $outlet)
+    {
+        return view('outlet.transaksi.report', [
+            'title' => 'Laporan Transaksi',
+            'outlet' => $outlet,
+        ]);
+    }
+
+    public function reportDatatable(Request $request, Outlet $outlet)
+    {
+        $dateStart = ($request->has('date_start') && $request->date_start != "") ? $request->date_start : date('Y-m-d', mktime(0, 0, 0, date('m'), 1, date('Y')));
+        $dateEnd = ($request->has('date_end') && $request->date_end != "") ? $request->date_end : date('Y-m-d');
+
+        $transactions = Transaksi::whereBetween('tgl', [$dateStart, $dateEnd])->get();
+
+        return DataTables::of($transactions)
+            ->addIndexColumn()
+            ->editColumn('date', function ($transaction) {
+                return date('d/m/Y', strtotime($transaction->tgl));
+            })
+            ->editColumn('deadline', function ($transaction) {
+                return date('d/m/Y', strtotime($transaction->deadline));
+            })
+            ->addColumn('total_payment', function ($transaction) {
+                return $transaction->getTotalPayment();
+            })
+            ->addColumn('total_item', function ($transaction) {
+                return $transaction->details()->count();
+            })->rawColumns(['actions'])->make(true);
+    }
+
 }
