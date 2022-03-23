@@ -18,16 +18,32 @@ class PenjemputanLaundryExport implements FromCollection, WithMapping, WithHeadi
 
     private $rowNumber = 0;
     
+    /**
+    * Membuat Function Mengambil Semua data penjemputan laundry
+    *
+    * 
+    */
     public function collection()
     {
         return PenjemputanLaundry::all();
     }
 
+    /**
+    * Membuat Function Penambahan Heading pada Saat Export Excel
+    *
+    * 
+    */
     public function headings(): array
     {
         return ["No", "Nama Pelanggan", "Alamat", "Nomor Telepon",  "Petugas Penjemputan", "Status Penjemputan"];
     }
 
+    /**
+    * Membuat Function Export pada saat data dimasukan kedalam excel
+    *
+    * @param $penjemputanlandry
+    *
+    */
     public function map($penjemputanlaundry): array
     {
         $status = '';
@@ -55,9 +71,11 @@ class PenjemputanLaundryExport implements FromCollection, WithMapping, WithHeadi
         ];
     }
 
-    /**
-     * @return array
-     */
+   /**
+    * Membuat Function Untuk Merapihkan table Pada saat Export
+    *
+    * 
+    */
     public function registerEvents(): array
     {
         return [

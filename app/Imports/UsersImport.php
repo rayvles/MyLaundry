@@ -11,10 +11,18 @@ class UsersImport implements ToModel, WithHeadingRow
 {
     private $id_outlet;
 
+    /**
+    * Membuat Function Set Outlet Id user
+    *
+    * @param  $row
+    *
+    */
     public function setOutletId($id){
         $this->id_outlet= $id;
     }
     /**
+    * Membuat Function Import user
+    *
     * @param array $row
     *
     * @return \Illuminate\Database\Eloquent\Model|null

@@ -14,9 +14,9 @@ use Maatwebsite\Excel\Facades\Excel;
 class UserController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Membuat Function Untuk Menampilkan Halaman Users
      *
-     * @return \Illuminate\Http\Response
+     * 
      */
     public function index()
     {
@@ -30,11 +30,19 @@ class UserController extends Controller
         
     }
 
+    /**
+    * Membuat Function Untuk Mengdownload File Excel yang akan diexport
+    *
+    */
     public function export() 
     {
         return Excel::download(new UsersExport, 'users.xlsx');
     }
 
+    /**
+    * Membuat Function Untuk Mengimport FIle Excel yang telah dibuat
+    * @param Request $request
+    */
     public function import(Request $request) 
     {
         $import = new UsersImport();
@@ -44,7 +52,7 @@ class UserController extends Controller
     }
 
     /**
-     * Return all users data.
+     * Menampilkan Data Users.
      *
      * @return \Illuminate\Http\Response
      */
@@ -59,9 +67,8 @@ class UserController extends Controller
     }
 
     /**
-     * Return data for DataTables.
+     * Menampilkan Datatable Users dan Menambahkan column.
      *
-     * @return \Illuminate\Http\Response
      */
     public function datatable()
     {
@@ -83,7 +90,7 @@ class UserController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Membuat Function Create Users.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -115,7 +122,7 @@ class UserController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Menampilkan Data Users.
      *
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
@@ -128,6 +135,13 @@ class UserController extends Controller
         ], Response::HTTP_OK);
     }
 
+    /**
+     * Membuat Function Untuk Mengupdate Data Users.
+     *
+     * @param  \App\Models\User  $user
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function update(Request $request, User $user)
     {
         $request->validate([
@@ -159,6 +173,12 @@ class UserController extends Controller
         ], Response::HTTP_OK);
     }
 
+    /**
+     * Membuat Function Untuk Menghapus Data Users.
+     *
+     * @param  \App\Models\User  $user
+     * @return \Illuminate\Http\Response
+     */
     public function destroy(User $user)
     {
         if ($user->delete()) {

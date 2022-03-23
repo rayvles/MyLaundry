@@ -11,7 +11,11 @@ use Yajra\DataTables\DataTables;
 
 class MemberController extends Controller
 {
-    // Halaman Member
+     /**
+     * Membuat Function Untuk Menampilkan Halaman Member
+     *
+     * @param  \App\Models\Outlet  $outlet
+     */
     public function index(Outlet $outlet)
     {
         Gate::authorize('register-member');
@@ -21,7 +25,11 @@ class MemberController extends Controller
         ]);
     }
 
-    // Show Datatable Member
+     /**
+     * Membuat Function Untuk Menampilkan Data Member Pada Datatable
+     *
+     * @param  \App\Models\Outlet  $outlet
+     */
     public function data(Outlet $outlet)
     {
         $member = Member::all();
@@ -52,7 +60,13 @@ class MemberController extends Controller
             })->rawColumns(['action'])->make(true);
     }
 
-    // Member Create
+     /**
+     * Membuat Function Untuk Menambahkan Data Member
+     *
+     * @param  \App\Models\Outlet  $outlet
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function store(Request $request, Outlet $outlet)
     {
         $request->validate([
@@ -75,7 +89,13 @@ class MemberController extends Controller
         ], Response::HTTP_OK);
     }
 
-    // Show Data Member
+     /**
+     * Membuat Function Untuk Menampilkan data member
+     *
+     * @param  \App\Models\Outlet  $outlet
+     * @param  \App\Models\Member  $member
+     * @return \Illuminate\Http\Response
+     */
     public function show(Outlet $outlet, Member $member)
     {
         return response()->json([
@@ -85,7 +105,14 @@ class MemberController extends Controller
         ], Response::HTTP_OK);
     }
 
-    // Member Edit
+     /**
+     * Membuat Function Untuk Mengupdate Data Member
+     *
+     * @param  \App\Models\Outlet  $outlet
+     * @param  \App\Models\Member  $paket
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function update(Request $request, Outlet $outlet, Member $member)
     {
         $request->validate([
@@ -108,7 +135,13 @@ class MemberController extends Controller
         ], Response::HTTP_OK);
     }
 
-    // Member Delete
+     /**
+     * Membuat Function Untuk Menghapus Data Member
+     *
+     * @param  \App\Models\Outlet  $outlet
+     * @param  \App\Models\Member  $member
+     * @return \Illuminate\Http\Response
+     */
     public function destroy(Outlet $outlet, Member $member)
     {
         if ($member->delete()) {

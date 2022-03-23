@@ -12,11 +12,7 @@ use Illuminate\Http\Response;
 
 class BaranginventarisController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    
     public function index()
     {
         $baranginventaris = Baranginventaris::all();
@@ -28,7 +24,7 @@ class BaranginventarisController extends Controller
         
     }
 
-    // Show Datatable Member
+    
     public function data()
     {
         $baranginventaris = Baranginventaris::all();
@@ -55,7 +51,7 @@ class BaranginventarisController extends Controller
             })->rawColumns(['action'])->make(true);
     }
 
-    // Show Data Member
+   
     public function show(Baranginventaris $baranginventarisitems)
     {
         return response()->json([
@@ -67,38 +63,7 @@ class BaranginventarisController extends Controller
 
 
   
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    // public function store(Request $request)
-    // {
-    //     $request->validate([
-    //         'nama_barang' => 'required',
-    //         'merk_barang' => 'required',
-    //         'qty' => 'required',
-    //         'kondisi' => 'required|in:layak_pakai,rusak_ringan,rusak_berat',
-    //         'tanggal_pengadaan' => 'required',
-            
-    //     ]);
-
-    //     Baranginventaris::create([
-    //         'nama_barang' => $request->nama_barang,
-    //         'merk_barang' => $request->merk_barang,
-    //         'qty' => $request->qty,
-    //         'kondisi' => $request->kondisi,
-    //         'tanggal_pengadaan' => $request->tanggal_pengadaan,
-
-            
-            
-    //     ]);
-        
-
-    //     return redirect()->route('baranginventaris.index');
-    // }
-
+    
    
 
     

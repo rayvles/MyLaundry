@@ -9,7 +9,11 @@ use Illuminate\Support\Facades\Auth;
 
 class OutletController extends Controller
 {
-    // Halaman Per Outlet
+    /**
+     * Membuat Function Untuk Menampilkan Halaman Per Outlet
+     *
+     * @param  \App\Models\Outlet  $outlet
+     */
     public function home(Outlet $outlet)
     {
         return view('outlet.home', [
@@ -17,7 +21,11 @@ class OutletController extends Controller
         ]);
     }
 
-    // Halaman Outlet
+    /**
+     * Membuat Function Untuk Menampilkan Halaman Outlet
+     *
+     * @param  \App\Models\Outlet  $outlet
+     */
     public function index()
     {
         $outlet = Outlet::where('id', auth()->user()->id_outlet)->get();
@@ -30,7 +38,11 @@ class OutletController extends Controller
 
     
 
-    // Outlet Create
+    /**
+     * Membuat Function Untuk Menambahkan Data Outlet
+     *
+     * @param  \Illuminate\Http\Request  $request
+     */
     public function store(Request $request)
     {
         $request->validate([
@@ -48,7 +60,12 @@ class OutletController extends Controller
         return redirect()->route('outlet.index');
     }
 
-    // Outlet Update
+    /**
+     * Membuat Function Untuk Mengupdate Data Outlet
+     *
+     * @param  \App\Models\Outlet  $outlet
+     * @param  \Illuminate\Http\Request  $request
+     */
     public function update(Request $request, Outlet $outlet)
     {
         $request->validate([
@@ -66,7 +83,13 @@ class OutletController extends Controller
         return redirect()->route('outlet.index');
     }
 
-    // Outlet Delete
+    /**
+     * Membuat Function Untuk Menghapus Data Outlet
+     *
+     * @param  \App\Models\Outlet  $outlet
+     * @return \Illuminate\Http\Response
+     */
+   
     public function destroy(Outlet $outlet)
     {
         if ($outlet->delete()) {

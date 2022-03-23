@@ -11,15 +11,21 @@ use Maatwebsite\Excel\Events\AfterSheet;
 
 class UsersExport implements FromCollection , WithHeadings , WithMapping, WithEvents
 {
-    /**
-    * @return \Illuminate\Support\Collection
-    */
+    
     private $rowNumber = 0;
+    /**
+    * Membuat Function Untuk Mengambil Semua Data Users
+    * 
+    */
     public function collection()
     {
         return User::all();
     }
 
+    /**
+    * Membuat Function Untuk Menambahkan Column Headings pada Excel
+    * 
+    */
     public function headings(): array
     {
         return [
@@ -27,6 +33,10 @@ class UsersExport implements FromCollection , WithHeadings , WithMapping, WithEv
         ];
     }
 
+    /**
+    * Membuat Function Untuk menambahkan Data pada saat Export Excel
+    * @param $user
+    */
     public function map($user): array
     {
         return [
@@ -40,6 +50,10 @@ class UsersExport implements FromCollection , WithHeadings , WithMapping, WithEv
         
     }
 
+    /**
+    * Membuat Function Untuk Merapihkan Table pada saat Export Excel
+    * 
+    */
     public function registerEvents(): array
     {
         return [

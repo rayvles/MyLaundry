@@ -7,10 +7,18 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
+     /**
+     * Membuat Function Untuk Menampilkan Halaman Login
+     */
     public function login(){
         return view('login');
     }
 
+     /**
+     * Membuat Function Untuk Mengauthentikasi 
+     *
+     * @param  \Illuminate\Http\Request  $request
+     */
     public function authenticate(Request $request)
     {
         $request->validate([
@@ -31,6 +39,11 @@ class AuthController extends Controller
         ]);
     }
 
+     /**
+     * Membuat Function Untuk Logout
+     *
+     * @param  \Illuminate\Http\Request  $request
+     */
     public function logout(Request $request)
     {
         Auth::logout();

@@ -11,6 +11,12 @@ use Maatwebsite\Excel\Concerns\WithValidation;
 
 class PenjemputanLaundryImport implements WithValidation, ToModel,  WithHeadingRow
 {
+    /**
+    * Membuat Function Import penjemputan laundry pada saat data akan di import ke Database
+    *
+    * @param array $row
+    *
+    */
     public function model(array $row)
     {
         $gender = $row['jenis_kelamin'] === 'Laki-laki' ? 'L' : 'P';
@@ -50,6 +56,11 @@ class PenjemputanLaundryImport implements WithValidation, ToModel,  WithHeadingR
         ]);
     }
 
+    /**
+    * Membuat Function Enum status pada saat di import Penjemputan Laundry
+    *
+    *
+    */
     public function rules(): array
     {
         return [

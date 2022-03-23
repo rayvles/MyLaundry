@@ -15,6 +15,11 @@ use Illuminate\Http\Response;
 class TransaksiController extends Controller
 {
 
+    /**
+     * Menampilkan Halaman Transaksi.
+     *
+     * @param  \App\Models\Outlet  $outlet
+     */
     public function index(Outlet $outlet) {
         return view('outlet.transaksi.index', [
             'title' => 'Transaction',
@@ -26,7 +31,12 @@ class TransaksiController extends Controller
 
 
     
-
+    /**
+     * Membuat Function Untuk Menambahkan Data Transaksi.
+     *
+     * @param  \App\Models\Outlet  $outlet
+     * @param  \Illuminate\Http\Request  $request
+     */
         public function store(Request $request, Outlet $outlet) {
             $request['id_outlet']= auth()->user()->id_outlet;
             $request['kode_invoice']= Transaksi::createInvoice();
@@ -56,6 +66,13 @@ class TransaksiController extends Controller
             return redirect()->to("/outlet/$outlet->id/transaksi")->with('success','Input Transaction Succesfully!');
         }
 
+        /**
+     * Membuat Function Untuk Menambahkan Data Transaksi pada Datatable.
+     *
+     * @param  \App\Models\Outlet  $outlet
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
         public function datatable(Request $request, Outlet $outlet)
         {
             $status = null;
@@ -111,6 +128,13 @@ class TransaksiController extends Controller
                 })->rawColumns(['actions'])->make(true);
         }
 
+        /**
+     * Membuat Function Untuk Menampilkan Data Transaksi.
+     *
+     * @param  \App\Models\Outlet  $outlet
+     * @param  \App\Models\Transaksi  $transaksi
+     * @return \Illuminate\Http\Response
+     */
         public function show(Outlet $outlet, Transaksi $transaction)
     {
         $transaction->load(['details', 'outlet', 'user', 'member']);
@@ -124,6 +148,11 @@ class TransaksiController extends Controller
         ], Response::HTTP_OK);
     }
 
+     /**
+     * Membuat Function Untuk Menampilkan Halaman Report Transaksi.
+     *
+     * @param  \App\Models\Outlet  $outlet
+     */
     public function report(Outlet $outlet)
     {
         return view('outlet.transaksi.report', [
@@ -132,6 +161,13 @@ class TransaksiController extends Controller
         ]);
     }
 
+     /**
+     * Membuat Function Untuk Menampilkan Data Transaksi pada Datatable.
+     *
+     * @param  \App\Models\Outlet  $outlet
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function reportDatatable(Request $request, Outlet $outlet)
     {
         $dateStart = ($request->has('date_start') && $request->date_start != "") ? $request->date_start : date('Y-m-d', mktime(0, 0, 0, date('m'), 1, date('Y')));

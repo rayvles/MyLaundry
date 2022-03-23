@@ -6,7 +6,10 @@ use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
-    // Halaman Admin
+     /**
+     * Membuat Function Untuk Menampilkan Halaman Admin
+     *
+     */
     public function index(){
         return view('admin.house');
     }

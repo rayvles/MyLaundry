@@ -14,6 +14,10 @@ use Illuminate\Http\Response;
 
 class PenjemputanLaundryController extends Controller
 {
+     /**
+     * Membuat Function Untuk Menampilkan Halaman Penjemptan Laundry.
+     *
+     */
     public function index() {
         $member = Member::get();
         $penjemputanlaundry = PenjemputanLaundry::get();
@@ -24,6 +28,11 @@ class PenjemputanLaundryController extends Controller
         ]);
     }
 
+     /**
+     * Membuat Function Untuk Menambahkan data Penjemputan laundry
+     *
+     * @param  \Illuminate\Http\Request  $request
+     */
     public function store(Request $request)
     {
         $request->validate([
@@ -44,6 +53,12 @@ class PenjemputanLaundryController extends Controller
     }
 
 
+     /**
+     * Membuat Function Untuk Mengupdate Data Penjemputan laundry
+     *
+     * @param  \App\Models\Penjemputanlaundry  $penjemputanlaundru
+     * @param  \Illuminate\Http\Request  $request
+     */
     public function update(Request $request, PenjemputanLaundry $penjemputanlaundry)
     {
         
@@ -63,6 +78,13 @@ class PenjemputanLaundryController extends Controller
         return redirect()->route('penjemputanlaundry.index');
     }
     
+     /**
+     * Membuat Function Untuk Mengupdate Status Penjemputan Laundry.
+     *
+     * @param  \App\Models\PenjemputanLaundry  $penjemputanlaundry
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function updateStatus(Request $request, PenjemputanLaundry $penjemputanlaundry)
     {
         $request->validate([
@@ -85,6 +107,11 @@ class PenjemputanLaundryController extends Controller
         ], Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 
+     /**
+     * Membuat Function Untuk Menghapus Data Penjemputan Laundry.
+     *
+     * @param  \App\Models\PenjemputanLaundry  $penjemputanlaundry
+     */
     public function destroy(PenjemputanLaundry $penjemputanlaundry)
     {
         if ($penjemputanlaundry->delete()) {
@@ -99,11 +126,19 @@ class PenjemputanLaundryController extends Controller
         ], Response::HTTP_INTERNAL_SERVER_ERROR);
     }
     
+     /**
+     * Membuat Function Untuk Mengexport Data Penjemputanlaundry padanExcel.
+     *
+     */
     public function exportExcel()
     {
         return (new PenjemputanLaundryExport)->download('Data-penjemputan-' . date('d-m-Y') . '.xlsx');
     }
 
+     /**
+     * Membuat Function Untuk Mengexport Data Penjemputan Laundry pada PDF.
+     *
+     */
     public function exportPDF()
     {
         $penjemputanlaundry = PenjemputanLaundry::get();
@@ -112,7 +147,12 @@ class PenjemputanLaundryController extends Controller
         return $pdf->stream('Layanan-' . date('dmY') . '.pdf');
     }
 
-    public function importExcel(Request $request,)
+     /**
+     * Membuat Function Untuk Mengimport Data Penjemputan Laundry dengan format file xlsx.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     */
+    public function importExcel(Request $request)
     {
         $request->validate([
             'file_import' => 'required|file|mimes:xlsx'

@@ -236,6 +236,14 @@
             $('#total').text(total)
         })
         
+        $('[name="status_pembayaran"]').on('change', function(){
+        if($(this).val() === "dibayar"){
+          $('[name="tgl_bayar"]').val(null)
+          $('[name="tgl_bayar"]').attr('readonly', true)
+        } else {
+          $('[name="tgl_bayar"]').attr('readonly', false)
+        }
+      })
 
 
     </script>

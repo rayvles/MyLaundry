@@ -12,8 +12,16 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+    /**
+     * Attribut Yang Harus dilindungi untuk table Users.
+     *
+     */
     protected $table = 'users';
     
+    /**
+     * Attribut Yang dilindungi dan akan digunakan pada saat pengisian field database table Users
+     *
+     */
     protected $fillable = [
         'id_outlet',
         'name',
@@ -23,9 +31,8 @@ class User extends Authenticatable
     ];
 
     /**
-     * The attributes that should be hidden for serialization.
+     * Attribut Yang Harus disembunyikn untuk serialize.
      *
-     * @var array<int, string>
      */
     protected $hidden = [
         'password',
@@ -35,23 +42,21 @@ class User extends Authenticatable
     /**
      * The attributes that should be cast.
      *
-     * @var array<string, string>
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
 
+     /**
+     * Membuat Function Relasi ke Table Outlet Dengan Mengisi id_outlet dari id outlet.
+     *
+     */
     public function outlet()
     {
         return $this->belongsTo(Outlet::class, 'id_outlet');
     }
 
-    /**
-     * Scope a query to exclude super admin users.
-     *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @return void
-     */
+    
     
     
 }

@@ -10,7 +10,11 @@ use Illuminate\Support\Facades\Gate;
 use Yajra\DataTables\DataTables;
 class PaketController extends Controller
 {
-    // Halaman Paket
+     /**
+     * Membuat Function Untuk Menampilkan Halaman Paket
+     *
+     * @param  \App\Models\Outlet  $outlet
+     */
     public function index(Outlet $outlet)
     {
         Gate::authorize('manage-user');
@@ -20,7 +24,13 @@ class PaketController extends Controller
         ]);
     }
 
-    // Paket Create
+    /**
+     * Membuat Function Untuk Menambahkan Data Paket
+     *
+     * @param  \App\Models\Outlet  $outlet
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function store(Request $request, Outlet $outlet)
     {
         $request->validate([
@@ -41,7 +51,11 @@ class PaketController extends Controller
         ], Response::HTTP_OK);
     }
 
-    // Show Data Paket
+     /**
+     * Membuat Function Untuk Menampilkan Data Paket pada Datatable.
+     *
+     * @param  \App\Models\Outlet  $outlet
+     */
     public function data(Outlet $outlet)
     {
         $paket = $outlet->paket;
@@ -63,6 +77,13 @@ class PaketController extends Controller
             })->rawColumns(['action'])->make(true);
     }
 
+     /**
+     * Membuat Function Untuk Menampilkan Data Paket.
+     *
+     * @param  \App\Models\Outlet  $outlet
+     * @param  \App\Models\Paket  $paket
+     * @return \Illuminate\Http\Response
+     */
     public function show(Outlet $outlet, Paket $paket)
     {
         return response()->json([
@@ -72,7 +93,14 @@ class PaketController extends Controller
         ], Response::HTTP_OK);
     }
 
-    // Paket Update
+     /**
+     * Membuat Function Untuk Mengupdate Data Paket
+     *
+     * @param  \App\Models\Outlet  $outlet
+     * @param  \App\Models\Paket  $paket
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function update(Request $request, Outlet $outlet, Paket $paket)
     {
         $request->validate([
@@ -93,7 +121,14 @@ class PaketController extends Controller
         ], Response::HTTP_OK);
     }
 
-    // Paket Delete
+    
+    /**
+     * Membuat Function Untuk Meng Delete Data Paket
+     *
+     * @param  \App\Models\Outlet  $outlet
+     * @param  \App\Models\Paket  $paket
+     * @return \Illuminate\Http\Response
+     */
     public function destroy(Outlet $outlet, Paket $paket)
     {
         if ($paket->delete()) {
