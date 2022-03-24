@@ -104,6 +104,14 @@
                 </a>
             </li>
             <li class="nav-item">
+                <a href="/admin/simulasikeempat" class="nav-link">
+                    <i class="nav-icon fas fa-users"></i>
+                    <p>
+                        Simulasi Programan dasar 4
+                    </p>
+                </a>
+            </li>
+            <li class="nav-item">
                 <a href="/home" class="nav-link">
                     <i class="nav-icon fas fa-arrow-left"></i>
                     <p>

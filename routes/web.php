@@ -55,6 +55,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/simulasi', [SimulasiController::class, 'index'])->name('admin.simulasi'); 
         Route::get('/simulasikedua', [SimulasiController::class, 'indexkedua'])->name('admin.simulasikedua');
         Route::get('/simulasiketiga', [SimulasiController::class, 'indexketiga'])->name('admin.simulasiketiga');
+        Route::get('/simulasikeempat', [SimulasiController::class, 'indexkeempat'])->name('admin.simulasikeempat');
         Route::resource('/baranginventaris', BaranginventarisController::class);
         Route::get('/baranginventaris/data', [BaranginventarisController::class, 'data'])->name('baranginventaris.data');
         

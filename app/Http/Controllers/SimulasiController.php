@@ -22,4 +22,8 @@ class SimulasiController extends Controller
     public function indexketiga(){
         return view('admin.simulasiketiga');
     }
+
+    public function indexkeempat(){
+        return view('admin.simulasikeempat');
+    }
 }
