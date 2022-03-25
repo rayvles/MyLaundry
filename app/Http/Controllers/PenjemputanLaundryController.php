@@ -47,7 +47,7 @@ class PenjemputanLaundryController extends Controller
             'status' => $request->status,
         ]);
 
-        
+
 
         return redirect()->route('penjemputanlaundry.index');
     }
@@ -61,23 +61,26 @@ class PenjemputanLaundryController extends Controller
      */
     public function update(Request $request, PenjemputanLaundry $penjemputanlaundry)
     {
-        
+
         $request->validate([
             'id_member' => 'required|exists:tb_member,id',
             'petugas_penjemput' => 'required',
             'status' => 'required',
         ]);
-        
-        
+
+
         $penjemputanlaundry->update([
+
             'id_member' => $request->id_member,
             'petugas_penjemput' => $request->petugas_penjemput,
             'status' => $request->status,
+
         ]);
+
 
         return redirect()->route('penjemputanlaundry.index');
     }
-    
+
      /**
      * Membuat Function Untuk Mengupdate Status Penjemputan Laundry.
      *
@@ -125,7 +128,7 @@ class PenjemputanLaundryController extends Controller
             'message' => 'Errors occurred'
         ], Response::HTTP_INTERNAL_SERVER_ERROR);
     }
-    
+
      /**
      * Membuat Function Untuk Mengexport Data Penjemputanlaundry padanExcel.
      *

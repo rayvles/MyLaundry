@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BarangController;
 use App\Http\Controllers\BaranginventarisController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MemberController;
@@ -33,12 +34,12 @@ Route::middleware('guest')->group(function () {
     Route::post('/login', [AuthController::class, 'authenticate']);
 });
 
-    
+
 Route::middleware('auth')->group(function () {
     Route::redirect('/', '/home');
     Route::get('/home', [HomeController::class, 'home'])->name('home');
     Route::post('/logout', [AuthController::class, 'logout']);
-    
+
 
     Route::prefix('/admin')->group(function () {
         Route::redirect('/', '/admin/house');
@@ -52,13 +53,15 @@ Route::middleware('auth')->group(function () {
         Route::put('/penjemputanlaundry/{penjemputanlaundry}/status', [PenjemputanLaundryController::class, 'updateStatus'])->name('penjemputanlaundry.updateStatus');
         Route::get('/penjemputanlaundry/export/pdf', [PenjemputanLaundryController::class, 'exportPDF'])->name('penjemputanlaundry.export.pdf');
         Route::apiResource('/penjemputanlaundry', PenjemputanLaundryController::class);
-        Route::get('/simulasi', [SimulasiController::class, 'index'])->name('admin.simulasi'); 
+        Route::put('/databarang/{barang}/status', [BarangController::class, 'updateStatus'])->name('databarang.updateStatus');
+        Route::apiResource('/databarang', BarangController::class);
+        Route::get('/simulasi', [SimulasiController::class, 'index'])->name('admin.simulasi');
         Route::get('/simulasikedua', [SimulasiController::class, 'indexkedua'])->name('admin.simulasikedua');
         Route::get('/simulasiketiga', [SimulasiController::class, 'indexketiga'])->name('admin.simulasiketiga');
         Route::get('/simulasikeempat', [SimulasiController::class, 'indexkeempat'])->name('admin.simulasikeempat');
         Route::resource('/baranginventaris', BaranginventarisController::class);
         Route::get('/baranginventaris/data', [BaranginventarisController::class, 'data'])->name('baranginventaris.data');
-        
+
     });
 
     Route::prefix('/outlet/{outlet}')->group(function () {

@@ -61,6 +61,14 @@
                     </p>
                 </a>
             </li>
+            <li class="nav-item">
+                <a href="/admin/databarang" class="nav-link">
+                    <i class="nav-icon fas fa-users"></i>
+                    <p>
+                        Data Barang
+                    </p>
+                </a>
+            </li>
             @can('manage-user')
             <li class="nav-item">
                 <a href="/admin/users" class="nav-link">
