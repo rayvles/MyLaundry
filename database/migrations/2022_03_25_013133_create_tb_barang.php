@@ -21,7 +21,9 @@ class CreateTbBarang extends Migration
             $table->dateTime('waktu_beli');
             $table->string('supplier', 120);
             $table->enum('status_barang', ['diajukan_beli', 'habis', 'tersedia']);
-            $table->timestamp('waktu_updated_status')->nullable()->default(now());
+            $table->timestamp('waktu_updated_status')->nullable()->useCurrent()->useCurrentOnUpdate()
+            // ->nullable()->default(now())
+            ;
             $table->timestamps();
         });
     }

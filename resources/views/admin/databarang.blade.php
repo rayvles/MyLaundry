@@ -6,23 +6,7 @@
     <link rel="stylesheet" href="{{ asset('adminlte') }}/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
     <!-- SweetAlert2 -->
     <link rel="stylesheet" href="{{ asset('adminlte') }}/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
-    <style>
-        /* Labels for checked inputs */
-        input[name="role"]+label {
-            border: 1px solid #CED4DA;
-            cursor: pointer;
-            transition: .3s;
-            box-shadow: none;
-        }
 
-        input[name="role"]:checked+label {
-            background-color: #007BFF;
-            color: #ffffff;
-            border: 1px solid #007BFF;
-            box-shadow: 1px 0 8px rgba(0, 0, 0, 0.1);
-        }
-
-    </style>
 @endpush
 
 @section('content-header')
@@ -66,7 +50,7 @@
                                         <h3 class="card-title">Input Data Barang</h3>
                                     </div>
                                 <form
-                                action="{{ route('databarang.store') }}"
+                                action="{{ route('barang.store') }}"
                                 method="POST">
 
                                     @csrf
@@ -124,7 +108,7 @@
                             Add</a>
                     </div>
                 @endcan
-                {{-- <div class="card-tools mr-2">
+                <div class="card-tools mr-2">
                     <div class="dropdown ">
                         <button class="btn btn-sm btn-success dropdown-toggle" type="button" id="dropdownMenuButton"
                             data-toggle="dropdown" aria-expanded="false">
@@ -133,21 +117,21 @@
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                             <a class="dropdown-item"
-                            href="{{ route('penjemputanlaundry.export.excel') }}"
+                            href="{{ route('barang.export.excel') }}"
                             >XLSX</a>
-                            <a class="dropdown-item"
+                            {{-- <a class="dropdown-item"
                             href="{{ route('penjemputanlaundry.export.pdf')}}"
-                                >PDF</a>
+                                >PDF</a> --}}
                         </div>
                     </div>
-                </div> --}}
-                {{-- <div class="card-tools mr-2">
+                </div>
+                <div class="card-tools mr-2">
                 <button type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#import-modal">
                     <i class="fas fa-download mr-2"></i><span>Import</span>
-                </button> --}}
+                </button>
 
                 {{-- Modal Input --}}
-                    {{-- <div class="modal fade" id="import-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal fade" id="import-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                           <div class="modal-content">
                             <div class="modal-header">
@@ -161,7 +145,7 @@
                                     <div class="card-header">
                                         <h3 class="card-title">Import</h3>
                                     </div>
-                                <form action="{{ route('penjemputanlaundry.import.excel') }}" method="POST" enctype="multipart/form-data">
+                                <form action="{{ route('barang.import.excel') }}" method="POST" enctype="multipart/form-data">
                                     @csrf
                                     <!-- /.card-body -->
                                     <div class="form-group ml-2 mr-2">
@@ -177,8 +161,8 @@
                             </div>
                           </div>
                         </div>
-                      </div> --}}
-            {{-- </div> --}}
+                      </div>
+            </div>
 
 
 
@@ -210,8 +194,8 @@
                                     <td>{{ $barang->supplier }}</td>
                                     <td>
                                         <select
-                                        data-update-url="{{ route('databarang.updateStatus', $barang->id) }}"
-                                             name="status_barang" id="jenis" class="pilih-status form-control ">
+                                        data-update-url="{{ route('barang.updateStatus', $barang->id) }}"
+                                             name="status_barang" id="status_barang" class="pilih-status form-control ">
                                             <option >{{ $barang->status_barang }}</option>
                                             <option disabled>---- Pilih Status ----</option>
                                             <option value="diajukan_beli">Diajukan beli</option>
@@ -235,7 +219,7 @@
                                                     class="dropdown-item" data-toggle="modal" data-target="#editmodal{{ $loop->iteration }}"><i class="fas fa-edit"></i>
                                                     Edit Outlet</a>
                                                     <button class="dropdown-item" id="deleteBtn"
-                                                    {{-- onclick="deleteHandler({{ $barang->id }})"> --}}
+                                                    onclick="deleteHandler({{ $barang->id }})">
                                                     <i class="fas fa-trash"></i>
                                                     Delete Outlet</button>
 
@@ -265,7 +249,7 @@
                                                 <div class="card-header">
                                                     <h3 class="card-title">Barang Update</h3>
                                                 </div>
-                                                <form action="{{ route('databarang.update', $barang->id) }}" method="POST">
+                                                <form action="{{ route('barang.update', $barang->id) }}" method="POST">
                                                     @csrf
                                                     @method('PUT')
                                                     <div class="card-body">
@@ -299,9 +283,9 @@
                                                         <div class="form-group">
                                                             <label for="nama">Status Barang</label>
                                                             <select
-                                                            name="status_barang" id="jenis" class="form-control ">
+                                                            name="status_barang" id="status_barang" class="form-control ">
                                                               <option>{{ $barang->status_barang }}</option>
-                                                              <option>---- Pilih Status ----</option>
+                                                              <option disabled>---- Pilih Status ----</option>
                                                               <option value="diajukan_beli">Diajukan beli</option>
                                                               <option value="habis">Habis</option>
                                                               <option value="tersedia">Tersedia</option>
@@ -348,58 +332,81 @@
     <script src="{{ asset('adminlte') }}/plugins/sweetalert2/sweetalert2.min.js"></script>
 
     <script>
-    //    const deleteHandler = function(penjemputanlaundryId) {
-    //                     Swal.fire({
-    //                         title: 'Are you Sure?',
-    //                         icon: 'warning',
-    //                         showCancelButton: true,
-    //                         confirmButtonColor: '#FF8000',
-    //                         cancelButtonColor: '#0AC519',
-    //                         confirmButtonText: 'Yeah',
-    //                     }).then((result) => {
-    //                         if (!result.isConfirmed) return;
-    //                         $.ajax({
-    //                             url: `/admin/penjemputanlaundry/${penjemputanlaundryId}`,
-    //                             type: 'DELETE',
-    //                             headers: {
-    //                                 'X-CSRF-token': "{{ csrf_token() }}"
-    //                             },
-    //                             success: function(res) {
-    //                                 Toast.fire({
-    //                                     icon: 'success',
-    //                                     title: res.message
-    //                                 });
-    //                             },
-    //                             error: function(err) {
-    //                                 Toast.fire({
-    //                                     icon: 'error',
-    //                                     title: err.responseJSON.message ?? 'Error'
-    //                                 });
-    //                             }
-    //                         });
-    //                     });
-    //                 }
+       const deleteHandler = function(barangId) {
+                        Swal.fire({
+                            title: 'Are you Sure?',
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: '#FF8000',
+                            cancelButtonColor: '#0AC519',
+                            confirmButtonText: 'Yeah',
+                        }).then((result) => {
+                            if (!result.isConfirmed) return;
+                            $.ajax({
+                                url: `/admin/barang/${barangId}`,
+                                type: 'DELETE',
+                                headers: {
+                                    'X-CSRF-token': "{{ csrf_token() }}"
+                                },
+                                success: function(res) {
+                                    Toast.fire({
+                                        icon: 'success',
+                                        title: res.message
+                                    });
+                                },
+                                error: function(err) {
+                                    Toast.fire({
+                                        icon: 'error',
+                                        title: err.responseJSON.message ?? 'Error'
+                                    });
+                                }
+                            });
+                        });
+                    }
 
-                $("#databarangtbl").on("change", "select.pilih-status", async function() {
-                let url = $(this).data("update-url");
-                try {
-                    let res = await $.post(url, {
-                        _token: $("[name=_token]").val(),
-                        _method: "PUT",
-                        status_barang: $(this).val()
+            //     $("#databarangtbl").on("change", "select.pilih-status", async function() {
+            //     let url = $(this).data("update-url");
+            //     try {
+            //         let res = await $.post(url, {
+            //             _token: $("[name=_token]").val(),
+            //             _method: "PUT",
+            //             status_barang: $(this).val()
 
-                    });
-                    Toast.fire({
+            //         });
+            //         Toast.fire({
+            //             icon: 'success',
+            //             title: res.message
+            //          });
+            //     } catch (err) {
+            //         Toast.fire({
+            //             icon: 'error',
+            //             title: err.responseJSON.message ?? 'Error'
+            //         });
+            //     }
+            // });
+
+            $("#databarangtbl").on("change", "select.pilih-status", async function () {
+        let url = $(this).data("update-url");
+        try {
+            let res = await $.post(url, {
+                _token: $("[name=_token]").val(),
+                _method: "PUT",
+                status_barang: $(this).val(),
+            });
+            Toast.fire({
                         icon: 'success',
                         title: res.message
                      });
-                } catch (err) {
-                    Toast.fire({
+            // table.ajax.reload();
+            let row = $(this).closest('tr');
+            row.find('td:eq(7)').html(res.waktu_updated_status);
+        } catch (err) {
+            Toast.fire({
                         icon: 'error',
                         title: err.responseJSON.message ?? 'Error'
                     });
-                }
-            });
+        }
+    });
 
 
 

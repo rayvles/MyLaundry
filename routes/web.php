@@ -53,8 +53,10 @@ Route::middleware('auth')->group(function () {
         Route::put('/penjemputanlaundry/{penjemputanlaundry}/status', [PenjemputanLaundryController::class, 'updateStatus'])->name('penjemputanlaundry.updateStatus');
         Route::get('/penjemputanlaundry/export/pdf', [PenjemputanLaundryController::class, 'exportPDF'])->name('penjemputanlaundry.export.pdf');
         Route::apiResource('/penjemputanlaundry', PenjemputanLaundryController::class);
-        Route::put('/databarang/{barang}/status', [BarangController::class, 'updateStatus'])->name('databarang.updateStatus');
-        Route::apiResource('/databarang', BarangController::class);
+        Route::post('/barang/import/excel', [BarangController::class, 'importExcel'])->name('barang.import.excel');
+        Route::get('/barang/export/excel', [BarangController::class, 'exportExcel'])->name('barang.export.excel');
+        Route::put('/barang/{barang}/status', [BarangController::class, 'updateStatus'])->name('barang.updateStatus');
+        Route::apiResource('/barang', BarangController::class);
         Route::get('/simulasi', [SimulasiController::class, 'index'])->name('admin.simulasi');
         Route::get('/simulasikedua', [SimulasiController::class, 'indexkedua'])->name('admin.simulasikedua');
         Route::get('/simulasiketiga', [SimulasiController::class, 'indexketiga'])->name('admin.simulasiketiga');
