@@ -6,8 +6,10 @@
     <!-- SweetAlert2 -->
     <link rel="stylesheet" href="{{ asset('adminlte') }}/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
     <meta name="datatable-url" content="{{ route('transaksi.reportDatatable', $outlet->id) }}">
-    
-   
+    <meta name="export-excel-url" content="{{ route('transaksi.export.excel', $outlet->id) }}">
+    <meta name="export-pdf-url" content="{{ route('transaksi.export.pdf', $outlet->id) }}">
+
+
 @endpush
 
 @section('content-header')
@@ -25,7 +27,7 @@
             </div>
         </div>
     </div>
-    
+
     <!-- /.container-fluid -->
 
 @endsection
@@ -70,10 +72,10 @@
                     <i class="fas fa-upload mr-1"></i>
                     <span>Export</span>
                 </button>
-                {{-- <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     <a class="dropdown-item export-button" id="export-excel-button" href="#">XLSX</a>
                     <a class="dropdown-item export-button" id="export-pdf-button" href="#">PDF</a>
-                </div> --}}
+                </div>
             </div>
         </div>
         <div class="card-body">
@@ -107,7 +109,7 @@
  </script>
  <script src="{{ asset('adminlte') }}/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
 
-    
+
 
     <script>
         const formatter = Intl.NumberFormat("id-ID", {

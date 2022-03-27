@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\TransaksiExport;
 use Illuminate\Http\Request;
 use App\Models\Member;
 use App\Models\Paket;
@@ -10,6 +11,7 @@ use App\Models\TransaksiDetail;
 use App\Models\Outlet;
 use Yajra\DataTables\DataTables;
 use Illuminate\Http\Response;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 
 class TransaksiController extends Controller
@@ -30,7 +32,7 @@ class TransaksiController extends Controller
     }
 
 
-    
+
     /**
      * Membuat Function Untuk Menambahkan Data Transaksi.
      *
@@ -46,15 +48,15 @@ class TransaksiController extends Controller
             $request['id_user']=auth()->user()->id;
             $request['deadline']= $request->deadline;
             $request['tgl_bayar']= $request->tgl_bayar;
-    
-    
+
+
             $input_transaksi = Transaksi::create($request->all());
             if($input_transaksi == NULL){
                 return back()->withErrors([
                     'transaksi' => 'Input Transaksi Gagal',
                 ]);
             }
-    
+
             foreach($request->id_paket as $i => $v){
                 $input_detail = TransaksiDetail::create([
                     'id_transaksi' => $input_transaksi->id,
@@ -94,11 +96,11 @@ class TransaksiController extends Controller
                         $status = null;
                 }
             }
-    
+
             $transactions = Transaksi::with(['user', 'member', 'details'])->where('id_outlet', $outlet->id)->when($status, function ($query) use ($status) {
                 return $query->where('status', $status);
             })->orderBy('id', 'desc')->get();
-    
+
             return DataTables::of($transactions)
                 ->addIndexColumn()
                 ->editColumn('tgl', function ($transaction) {
@@ -111,18 +113,18 @@ class TransaksiController extends Controller
                     $buttons = '';
                     if ($transaction->status_pembayaran === 'belum_dibayar') {
                         $buttons .= '<button class="btn btn-success btn-sm m-1 update-payment-button" data-detail-url="' . route('transaksi.show', [$outlet->id, $transaction->id]) . '" data-update-payment-url="
-                       
+
                         "><i class="fas fa-cash-register mr-1"></i><span>Bayar</span></button>';
                     }
                     if ($transaction->status !== 'taken') {
                         $buttons .= '<button class="btn btn-primary btn-sm m-1 update-status-button" data-update-url="
-                        
-                        " data-status="' 
+
+                        " data-status="'
                         . $transaction->status . '
                         "><i class="fas fa-arrow-circle-right mr-1"></i><span>Proses</span></button>';
                     }
                     $buttons .= '<button class="btn btn-info btn-sm m-1 detail-button" data-detail-url="
-                    
+
                     "><i class="fas fa-eye mr-1"></i><span>Detail</span></button>';
                     return $buttons;
                 })->rawColumns(['actions'])->make(true);
@@ -189,6 +191,39 @@ class TransaksiController extends Controller
             ->addColumn('total_item', function ($transaction) {
                 return $transaction->details()->count();
             })->rawColumns(['actions'])->make(true);
+    }
+
+    /**
+     * Simpan data transaksi sebagai file excel (.xlsx)
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Outlet  $outlet
+     * @return \App\Exports\MembersExport
+     */
+    public function exportExcel(Request $request, Outlet $outlet)
+    {
+        $dateStart = ($request->has('date_start') && $request->date_start != "") ? $request->date_start : date('Y-m-d', mktime(0, 0, 0, date('m'), 1, date('Y')));
+        $dateEnd = ($request->has('date_end') && $request->date_end != "") ? $request->date_end : date('Y-m-d');
+
+        return (new TransaksiExport)->whereOutlet($outlet->id)->setDateStart($dateStart)->setDateEnd($dateEnd)->download('Transaksi-' . $dateStart . '-' . $dateEnd . '.xlsx');
+    }
+
+    /**
+     * Simpan data transaksi sebagai file pdf
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Outlet  $outlet
+     * @return \Barryvdh\DomPDF\Facade\Pdf
+     */
+    public function exportPDF(Request $request, Outlet $outlet)
+    {
+        $dateStart = ($request->has('date_start') && $request->date_start != "") ? $request->date_start : date('Y-m-d', mktime(0, 0, 0, date('m'), 1, date('Y')));
+        $dateEnd = ($request->has('date_end') && $request->date_end != "") ? $request->date_end : date('Y-m-d');
+
+        $transactions = Transaksi::where('id_outlet', $outlet->id)->whereBetween('tgl', [$dateStart, $dateEnd])->with('details')->get();
+
+        $pdf = Pdf::loadView('outlet.transaksi.pdf', ['transactions' => $transactions, 'outlet' => $outlet, 'dateStart' => $dateStart, 'dateEnd' => $dateEnd]);
+        return $pdf->stream('Transaksi-' . $dateStart . '-' . $dateEnd . '.pdf');
     }
 
 }
