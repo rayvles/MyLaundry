@@ -93,7 +93,9 @@ Route::middleware('auth')->group(function () {
         Route::get('/member/data', [MemberController::class, 'data'])->name('member.data');
         Route::apiResource('/member', MemberController::class);
 
-        // Transaksi Entri/Insert
+        // Transaksi
+        Route::put('/transaksi/{transaksi}/payment', [TransactionController::class, 'updatePayment'])->name('transaksi.updatePayment');
+        Route::put('/transaksi/{transaksi}/status', [TransaksiController::class, 'updateStatus'])->name('transaksi.updateStatus');
         Route::get('/transaksi/datatable', [TransaksiController::class, 'datatable'])->name('transaksi.datatable');
         Route::apiResource('/transaksi', TransaksiController::class);
 

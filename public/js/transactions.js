@@ -1,12 +1,31 @@
+// const toast = (message = "", type) => {
+//     Swal.fire({
+//         toast: true,
+//         position: "top-end",
+//         showConfirmButton: false,
+//         timer: 3000,
+//         title: `&nbsp;&nbsp;${message}`,
+//         icon: type,
+//     });
+// };
+
+// const formatter = Intl.NumberFormat("id-ID", {
+//     style: "currency",
+//     currency: "IDR",
+//     // These options are needed to round to whole numbers if that's what you want.
+//     //minimumFractionDigits: 0, // (this suffices for whole numbers, but will print 2500.10 as $2,500.1)
+//     //maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
+// });
+
 let table;
 const id_outlet = $("meta[name='id_outlet']").attr("content");
-let datatableUrl = `/outlet/${id_outlet}/transaksi/datatable`; 
-// let lastPaymentDetail;
+let datatableUrl = `/outlet/${id_outlet}/transaksi/datatable`;
+let lastPaymentDetail;
 
 $(function () {
-    
+
     table = $("#transactions-table").DataTable
-   
+
     ({
         ajax: {
             url: `${datatableUrl}?status=new`,
@@ -29,25 +48,25 @@ $(function () {
                 data: "deadline",
             },
             {
-                data: "status",
-                render: (status) => {
-                    let text;
-                    switch (status) {
-                        case "baru":
-                            text = "Baru";
-                            break;
-                        case "proses":
-                            text = "Diproses";
-                            break;
-                        case "selesai":
-                            text = "Selesai";
-                            break;
-                        default:
-                            text = "Diambil";
-                            break;
-                    }
-                    return text;
-                },
+                data: "status_update",
+                // render: (status) => {
+                //     let text;
+                //     switch (status) {
+                //         case "baru":
+                //             text = "Baru";
+                //             break;
+                //         case "proses":
+                //             text = "Diproses";
+                //             break;
+                //         case "selesai":
+                //             text = "Selesai";
+                //             break;
+                //         default:
+                //             text = "Diambil";
+                //             break;
+                //     }
+                //     return text;
+                // },
             },
             {
                 data: "status_pembayaran",
@@ -74,6 +93,26 @@ $(function () {
                 sortable: false,
             },
         ],
+    });
+
+    $("#transactions-table").on("change", "select.pilih-status", async function() {
+        let url = $(this).data("update-url");
+        try {
+            let res = await $.post(url, {
+                _token: $("[name=_token]").val(),
+                _method: "PUT",
+                status: $(this).val()
+            });
+            Toast.fire({
+                icon: 'success',
+                title: res.message
+             });
+        } catch (err) {
+            Toast.fire({
+                icon: 'error',
+                title: err.responseJSON.message ?? 'Error'
+            });
+        }
     });
 
     // $("#transactions-table").on("click", ".detail-button", async function () {
@@ -187,79 +226,81 @@ $(function () {
     //     }
     // });
 
-    // $("#transactions-table").on(
-    //     "click",
-    //     ".update-payment-button",
-    //     async function () {
-    //         let detailUrl = $(this).data("detail-url");
-    //         let updateUrl = $(this).data("update-payment-url");
+    $("#transactions-table").on(
+        "click",
+        ".update-payment-button",
+        async function () {
+            let detailUrl = $(this).data("detail-url");
+            let updateUrl = $(this).data("update-payment-url");
 
-    //         try {
-    //             let res = await fetchData(detailUrl);
-    //             let transaction = res.transaction;
-    //             let rows = "";
+            try {
+                let res = await fetchData(detailUrl);
+                let transaction = res.transaction;
+                let rows = "";
 
-    //             transaction.details.forEach((item, index) => {
-    //                 rows += `<tr>
-    //                         <td>${++index}</td>
-    //                         <td>${item.service_name_history}</td>
-    //                         <td>${item.price_history}</td>
-    //                         <td>${item.qty}</td>
-    //                         <td>${item.qty * item.price_history}</td>
-    //                     </tr>`;
-    //             });
+                transaction.details.forEach((item, index) => {
+                    rows += `<tr>
+                            <td>${++index}</td>
+                            <td>${item.paket.nama_paket}</td>
+                            <td>${item.paket.harga}</td>
+                            <td>${item.qty}</td>
+                            <td>${item.qty * item.paket.harga}</td>
+                        </tr>`;
+                });
 
-    //             if (lastPaymentDetail !== detailUrl) {
-    //                 $("#update-payment-form").trigger("reset");
-    //                 lastPaymentDetail = detailUrl;
-    //             }
+                if (lastPaymentDetail !== detailUrl) {
+                    $("#update-payment-form").trigger("reset");
+                    lastPaymentDetail = detailUrl;
+                }
 
-    //             $("#update-payment-form").attr("action", updateUrl);
+                $("#update-payment-form").attr("action", updateUrl);
 
-    //             $("#payment-items-table tbody").html(rows);
+                $("#payment-items-table tbody").html(rows);
 
-    //             $("#payment-info-table")
-    //                 .find(".td-transaction-invoice")
-    //                 .text(transaction.invoice);
+                $("#payment-info-table")
+                    .find(".td-transaction-invoice")
+                    .text(transaction.kode_invoice);
 
-    //             $("#payment-info-table")
-    //                 .find(".td-transaction-member-name")
-    //                 .html(transaction.member.name);
+                $("#payment-info-table")
+                    .find(".td-transaction-member-name")
+                    .html(transaction.member.nama);
 
-    //             $("#payment-info-table")
-    //                 .find(".td-transaction-date")
-    //                 .text(transaction.date);
+                $("#payment-info-table")
+                    .find(".td-transaction-date")
+                    .text(transaction.tgl);
 
-    //             $("#payment-info-table")
-    //                 .find(".td-transaction-deadline")
-    //                 .text(transaction.deadline);
+                $("#payment-info-table")
+                    .find(".td-transaction-deadline")
+                    .text(transaction.deadline);
 
-    //             $("#payment-info-table")
-    //                 .find(".td-transaction-payment-status")
-    //                 .html(
-    //                     transaction.payment_status == "paid"
-    //                         ? "Dibayar"
-    //                         : "Belum dibayar"
-    //                 );
+                $("#payment-info-table")
+                    .find(".td-transaction-payment-status")
+                    .html(
+                        transaction.status_pembayaran == "dibayar"
+                            ? "Dibayar"
+                            : "Belum dibayar"
+                    );
 
-    //             $("#update-payment-form")
-    //                 .find(".o-total-price")
-    //                 .val(formatter.format(transaction.total_price));
-    //             $("#update-payment-form")
-    //                 .find(".o-total-payment")
-    //                 .val(formatter.format(transaction.total_price));
+                $("#update-payment-form")
+                    .find(".o-total-price")
+                    .val(formatter.format(transaction.total_price));
+                $("#update-payment-form")
+                    .find(".o-total-payment")
+                    .val(formatter.format(transaction.total_price));
 
-    //             $("#update-payment-form")
-    //                 .find(".int-total-price")
-    //                 .val(transaction.total_price);
+                $("#update-payment-form")
+                    .find(".int-total-price")
+                    .val(transaction.total_price);
 
-    //             $("#update-payment-modal").modal("show");
-    //         } catch (err) {
-    //             toast("error", "Terjadi kesalahan");
-    //             $("#update-payment-modal").modal("hide");
-    //         }
-    //     }
-    // );
+                $("#update-payment-modal").modal("show");
+
+            } catch (err) {
+                toast("Terjadi kesalahan", "error");
+                $("#update-payment-modal").modal("hide");
+                console.log(err);
+            }
+        }
+    );
 
     // $('[name="modal_tab"]').on("change", function () {
     //     if ($(this).val() == "member") {
@@ -346,26 +387,26 @@ $(function () {
     //     }
     // );
 
-    // $("#update-payment-form").on("submit", async function () {
-    //     event.preventDefault();
-    //     let url = $(this).attr("action");
-    //     let formData = $(this).serialize();
-    //     try {
-    //         let res = await $.post(url, formData);
-    //         toast(res.message, "success");
-    //         $("#update-payment-modal").modal("hide");
-    //         table.ajax.reload();
-    //     } catch (err) {
-    //         if (err.status === 422)
-    //             validationErrorHandler(err.responseJSON.errors);
-    //         toast("Terjadi kesalahan", "error");
-    //     }
-    // });
+    $("#update-payment-form").on("submit", async function () {
+        event.preventDefault();
+        let url = $(this).attr("action");
+        let formData = $(this).serialize();
+        try {
+            let res = await $.post(url, formData);
+            toast(res.message, "success");
+            $("#update-payment-modal").modal("hide");
+            table.ajax.reload();
+        } catch (err) {
+            if (err.status === 422)
+                validationErrorHandler(err.responseJSON.errors);
+            toast("Terjadi kesalahan", "error");
+        }
+    });
 
-    // $('[name="discount"]').on("change keydown", calculateTotalPayment);
-    // $('[name="discount_type"]').on("change", calculateTotalPayment);
-    // $('[name="tax"]').on("change keydown", calculateTotalPayment);
-    // $('[name="additional_cost"]').on("change keydown", calculateTotalPayment);
+    $('[name="discount"]').on("change keydown", calculateTotalPayment);
+    $('[name="discount_type"]').on("change", calculateTotalPayment);
+    $('[name="tax"]').on("change keydown", calculateTotalPayment);
+    $('[name="additional_cost"]').on("change keydown", calculateTotalPayment);
 });
 
 const calculateTotalPayment = () => {

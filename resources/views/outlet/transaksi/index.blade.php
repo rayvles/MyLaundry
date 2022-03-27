@@ -24,7 +24,7 @@
             </div>
         </div>
     </div>
-    
+
     <!-- /.container-fluid -->
 
 @endsection
@@ -41,7 +41,7 @@
                     <a class="nav-link active " id="nav-form" data-toggle="collapse" href="#formLaundry" role="button" aria-expanded="false"
                     aria-controls="collapseExample"><i class="text-secondary" ><i class="fas fa-plus nav-icon"></i>&nbsp;&nbsp;New Laundry</i></a>
                 </li>
-               
+
               </ul>
 
               <div class="card" style="border-top: 0px;">
@@ -56,20 +56,21 @@
                 @csrf
                 @include('outlet.transaksi.form')
                 @include('outlet.transaksi.data')
-                <input type="hidden" name="id_member" id="id_member">
+                <input type="hidden" class="idMember" name="id_member" id="id_member" >
             </form>
             </div>
     </div>
 </div>
 
-    
 
-  
+
+
 @endsection
 
 @push('script')
     <!-- DataTables  & Plugins -->
     <script src="{{ asset('js/transactions.js') }}"></script>
+    <script src="{{ asset('js/apptransaksi.js') }}"></script>
     <script src="{{ asset('adminlte') }}/plugins/datatables/jquery.dataTables.min.js"></script>
     <script src="{{ asset('adminlte') }}/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
     <script src="{{ asset('adminlte') }}/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
@@ -79,13 +80,13 @@
 
     <script>
         $('#dataLaundry').collapse('show');
-    
+
         $('#dataLaundry').on('show.bs.collapse',function(){
             $('#formLaundry').collapse('hide');
             $('#nav-form').removeClass('active');
             $('#nav-data').addClass('active');
         }),
-    
+
         $('#formLaundry').on('show.bs.collapse',function(){
             $('#dataLaundry').collapse('hide');
             $('#nav-data').removeClass('active');
@@ -101,16 +102,16 @@
                 pilihMember(this)
                 $('#modalMember').modal('hide')
             })
-        // 
+        //
 
         // Pemilihan Packet
         $('#tblPaket').on('click','.pilihPaketBtn', function(){
             pilihPaket(this)
             $('#modalPaket').modal('hide')
         })
-        // 
+        //
 
-        
+
         // Function pilih member
             function pilihMember(x){
                 const tr = $(x).closest('tr')
@@ -145,7 +146,7 @@
             }
             else {
 
-            
+
 
                 let data = ''
                 let tbody = $('#tblTransaksi tbody tr td').text()
@@ -167,10 +168,10 @@
                 total = subtotal - Number($('#diskon').val()) + Number($('#pajak-harga').val())
                 $('#subtotal').text(subtotal)
                 $('#total').text(total)
-                
+
             }
-        // 
-        
+        //
+
         // initialize subtotal
             let subtotal = total = 0;
             $(function(){
@@ -189,7 +190,7 @@
                 $('#subtotal').text(subtotal)
                 $('#total').text(total)
 
-                
+
             }
         //
 
@@ -221,9 +222,9 @@
             $('#tblTransaksi').on('change','.qty',function(){
                 hitungTotalAkhir(this)
             })
-        //  
+        //
 
-       
+
 
         // Remove paket
         $('#tblTransaksi').on('click','.btnRemovePaket',function(){
@@ -235,7 +236,7 @@
             $('#subtotal').text(subtotal)
             $('#total').text(total)
         })
-        
+
         $('[name="status_pembayaran"]').on('change', function(){
         if($(this).val() === "dibayar"){
           $('[name="tgl_bayar"]').val(null)

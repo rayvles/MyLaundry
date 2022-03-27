@@ -3,7 +3,7 @@
         <h3>form</h3>
 
         {{-- Data Awal Pelanggan --}}
-      
+
         <div class="card">
             <div class="card-body">
                 <form>
@@ -45,9 +45,9 @@
                     </div>
                 </div>
               </form>
-            </div>  
+            </div>
           </div>
-      
+
                       <!-- Modal -->
 
                           <div class="modal fade" id="modalMember" tabindex="-1" aria-labelledby="exampleModalLabel">
@@ -72,15 +72,15 @@
                                       </tr>
                                   </thead>
                                   <tbody>
-                                      @foreach ($member as $b)
+                                      @foreach ($members as $member)
                                           <tr>
                                           <td>{{ $i = (!isset($i)?1:++$i) }}
-                                              <input type="hidden" class="idMember" name="id_member" value="{{ $b->id }}">
+                                              <input type="hidden" class="idMember" name="id_member" value="{{ $member->id }}">
                                           </td>
-                                          <td>{{ $b->nama }}</td>
-                                          <td>{{ $b->jenis_kelamin }}</td>
-                                          <td>{{ $b->telepon }}</td>
-                                          <td>{{ $b->alamat }}</td>
+                                          <td>{{ $member->nama }}</td>
+                                          <td>{{ $member->jenis_kelamin }}</td>
+                                          <td>{{ $member->telepon }}</td>
+                                          <td>{{ $member->alamat }}</td>
                                           <td> <button class="pilihMemberBtn btn btn-primary" type="button">Chose</button></td>
                                       </tr>
                                       @endforeach
@@ -93,12 +93,12 @@
                               </div>
                               </div>
                           </div>
-                    
-                  
-                  
-              
+
+
+
+
               {{-- end modal Member --}}
-            
+
 
         {{-- End Of Data Awal Pelanggan --}}
 
@@ -219,7 +219,7 @@
 
         <div class="card">
             <div class="card-body">
-                
+
             </div>
         </div>
 

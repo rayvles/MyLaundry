@@ -22,10 +22,12 @@ class TransaksiController extends Controller
      *
      * @param  \App\Models\Outlet  $outlet
      */
+
     public function index(Outlet $outlet) {
+        $member = Member::get();
         return view('outlet.transaksi.index', [
             'title' => 'Transaction',
-            'member' => Member::get(),
+            'members' => $member,
             'outlet' => $outlet,
             'paket' => Paket::where('id_outlet', auth()->user()->id_outlet)->get()
         ]);
@@ -39,8 +41,9 @@ class TransaksiController extends Controller
      * @param  \App\Models\Outlet  $outlet
      * @param  \Illuminate\Http\Request  $request
      */
-        public function store(Request $request, Outlet $outlet) {
+        public function store(Request $request, Outlet $outlet, ) {
             $request['id_outlet']= auth()->user()->id_outlet;
+            // $request['id_member']= $request->id_member ;
             $request['kode_invoice']= Transaksi::createInvoice();
             $request['tgl']= date('Y-m-d');
             $request['status']= 'baru';
@@ -49,13 +52,14 @@ class TransaksiController extends Controller
             $request['deadline']= $request->deadline;
             $request['tgl_bayar']= $request->tgl_bayar;
 
-
+            // dd($request);
             $input_transaksi = Transaksi::create($request->all());
             if($input_transaksi == NULL){
                 return back()->withErrors([
                     'transaksi' => 'Input Transaksi Gagal',
                 ]);
             }
+
 
             foreach($request->id_paket as $i => $v){
                 $input_detail = TransaksiDetail::create([
@@ -97,12 +101,36 @@ class TransaksiController extends Controller
                 }
             }
 
-            $transactions = Transaksi::with(['user', 'member', 'details'])->where('id_outlet', $outlet->id)->when($status, function ($query) use ($status) {
-                return $query->where('status', $status);
-            })->orderBy('id', 'desc')->get();
+            $transactions = Transaksi::with(['user', 'member', 'details'])->where('id_outlet', $outlet->id)
+            ->when($status, function ($query) use ($status) {
+                return $query->where('status', $status)
+                ;
+            })
+            ->orderBy('id', 'desc')->get();
 
             return DataTables::of($transactions)
                 ->addIndexColumn()
+                ->addColumn('status_update', function ($transaction) use ($outlet) {
+                    $dropdown = '<select class="pilih-status form-control" name="status" id="status" data-update-url="' . route('transaksi.updateStatus', [$outlet->id, $transaction->id]) . '">';
+                    $dropdown .= '<option value="baru"';
+                    if ($transaction->status === 'baru') $dropdown .= 'selected';
+                    $dropdown .= '>Baru</option>';
+
+                    $dropdown .= '<option value="proses"';
+                    if ($transaction->status === 'proses') $dropdown .= 'selected';
+                    $dropdown .= '>Proses</option>';
+
+                    $dropdown .= '<option value="selesai"';
+                    if ($transaction->status === 'selesai') $dropdown .= 'selected';
+                    $dropdown .= '>Selesai</option>';
+
+                    $dropdown .= '<option value="diambil"';
+                    if ($transaction->status === 'diambil') $dropdown .= 'selected';
+                    $dropdown .= '>Diambil</option>';
+
+                    $dropdown .= '</select>';
+                    return $dropdown;
+                })
                 ->editColumn('tgl', function ($transaction) {
                     return date('d/m/Y', strtotime($transaction->tgl));
                 })
@@ -112,22 +140,36 @@ class TransaksiController extends Controller
                 ->addColumn('actions', function ($transaction) use ($outlet) {
                     $buttons = '';
                     if ($transaction->status_pembayaran === 'belum_dibayar') {
-                        $buttons .= '<button class="btn btn-success btn-sm m-1 update-payment-button" data-detail-url="' . route('transaksi.show', [$outlet->id, $transaction->id]) . '" data-update-payment-url="
-
-                        "><i class="fas fa-cash-register mr-1"></i><span>Bayar</span></button>';
+                        $buttons .= '<button class="btn btn-success btn-sm m-1 update-payment-button" data-detail-url="' . route('transaksi.show', [$outlet->id, $transaction->id]) . '" data-update-payment-url="' . route('transaksi.updatePayment', [$outlet->id, $transaction->id]) . '"><i class="fas fa-cash-register mr-1"></i><span>Bayar</span></button>';
                     }
-                    if ($transaction->status !== 'taken') {
-                        $buttons .= '<button class="btn btn-primary btn-sm m-1 update-status-button" data-update-url="
+                    // if ($transaction->status !== 'taken') {
+                    //     $buttons .= '<button class="btn btn-primary btn-sm m-1 update-status-button" data-update-url="
 
-                        " data-status="'
-                        . $transaction->status . '
-                        "><i class="fas fa-arrow-circle-right mr-1"></i><span>Proses</span></button>';
-                    }
+                    //     " data-status="'
+                    //     . $transaction->status . '
+                    //     "><i class="fas fa-arrow-circle-right mr-1"></i><span>Proses</span></button>';
+                    // }
                     $buttons .= '<button class="btn btn-info btn-sm m-1 detail-button" data-detail-url="
 
                     "><i class="fas fa-eye mr-1"></i><span>Detail</span></button>';
                     return $buttons;
-                })->rawColumns(['actions'])->make(true);
+                })->rawColumns(['status_update','actions'])->make(true);
+        }
+
+        public function updateStatus(Request $request, Outlet $outlet, Transaksi $transaction)
+        {
+            $request->validate([
+                'status' => 'required|in:baru,proses,selesai,diambil',
+            ]);
+
+            $transaction->update([
+                'status' => $request->status,
+            ]);
+
+
+            return response()->json([
+                'message' => 'Status Succesfully Updated'
+            ], Response::HTTP_OK);
         }
 
         /**
@@ -142,11 +184,45 @@ class TransaksiController extends Controller
         $transaction->load(['details', 'outlet', 'user', 'member']);
         $transaction['tgl'] = date('d/m/Y', strtotime($transaction->tgl));
         $transaction['deadline'] = date('d/m/Y', strtotime($transaction->deadline));
-        $transaction['diskon'] = $transaction->diskon;
-        $transaction['pajak'] = $transaction->pajak;
+        $transaction['diskon'] = $transaction->getTotalDiscount();
+        $transaction['total_price'] = $transaction->getTotalPrice();
+        $transaction['pajak'] = $transaction->getTotalTax();
+        $transaction['total_payment'] = $transaction->getTotalPayment();
         return response()->json([
             'message' => 'Data Transaksi',
-            'transaksi' => $transaction
+            'transaction' => $transaction
+        ], Response::HTTP_OK);
+    }
+
+    /**
+     * Mengupdate status pembayaran transaksi.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Outlet  $outlet
+     * @param  \App\Models\Transaction  $transaction
+     * @return \Illuminate\Http\Response
+     */
+    public function updatePayment(Request $request, Outlet $outlet, Transaksi $transaction)
+    {
+        $request->validate([
+            'diskon' => 'required|min:0',
+            'jenis_diskon' => 'in:persen,nominal',
+            'pajak' => 'required|min:0',
+            'biaya_tambahan' => 'required|min:0',
+        ]);
+
+        if ($transaction->status_pembayaran === 'belum_dibayar') {
+            $transaction->update([
+                'status_pembayaran' => 'dibayar',
+                'diskon' => $request->diskon,
+                'jenis_diskon' => $request->jenis_diskon,
+                'pajak' => $request->pajak,
+                'biaya_tambahan' => $request->biaya_tambahan,
+            ]);
+        }
+
+        return response()->json([
+            'message' => 'Pembayaran berhasil',
         ], Response::HTTP_OK);
     }
 

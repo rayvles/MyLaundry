@@ -16,6 +16,8 @@ const toast = (message, type) => {
     });
 };
 
+
+
 const validationErrorHandler = (errors) => {
     clearErrors();
     for (let name in errors) {

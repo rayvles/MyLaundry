@@ -7,7 +7,7 @@
                     <h3>Data Transaksi</h3>
                     <a href="{{ 'transactions/new-transaction' }}" class="btn btn-primary">Transaksi Baru</a>
                 </div> --}}
-                <ul class="nav nav-tabs card-header-tabs">
+                {{-- <ul class="nav nav-tabs card-header-tabs">
                     <li class="nav-item active">
                         <label for="status-tab-new">
                             <span class="nav-link nav-link-status status-new active" href="#">Baru</span>
@@ -32,7 +32,7 @@
                         </label>
                         <input type="radio" hidden id="status-tab-taken" name="status_tab" value="taken">
                     </li>
-                </ul>
+                </ul> --}}
             </div>
             <div class="card-body p-0">
                 <table class="table table-striped w-100" id="transactions-table">
