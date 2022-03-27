@@ -94,7 +94,17 @@
         });
 
         $(function () {
-            $('#tblMember').DataTable();
+            $('#tblMember').DataTable({
+                "paging": true,
+                "aLengthMenu": [[1, 10, 25, 50, 100, -1], [5, 10, 25, 50, 100, "All"]],
+                            "lengthChange": true,
+                            "searching": true,
+                            "ordering": true,
+                            "info": true,
+                            "autoWidth": false,
+                            "responsive": true,
+            });
+
         })
 
         // Pemilihan Member
