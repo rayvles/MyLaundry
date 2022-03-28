@@ -47,7 +47,7 @@
                 <a href="/outlet/{{ $outlet->id }}/paket" class="nav-link">
                     <i class="nav-icon fas fa-shopping-basket"></i>
                     <p>
-                        Laundry Package
+                        Paket Laundry
                     </p>
                 </a>
             </li>
@@ -63,69 +63,40 @@
             </li>
             @endcan
             @can('manage-user')
-            <li class="nav-header">Laundry</li>
-            <li class="nav-item">
-                <a href="#" class="nav-link">
-                    <i class="nav-icon fas fa-tshirt"></i>
-                    <p>
-                        Data Laundry
-                        <i class="right fas fa-angle-left"></i>
-                    </p>
-                </a>
-                <ul class="nav nav-treeview">
-                    <li class="nav-item">
-                        <a href="{{ asset('adminlte') }}/index.html" class="nav-link">
-                            <i class="far fa-circle nav-icon"></i>
-                            <p>Processed</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ asset('adminlte') }}/index2.html" class="nav-link">
-                            <i class="far fa-circle nav-icon"></i>
-                            <p>Finish</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ asset('adminlte') }}/index3.html" class="nav-link">
-                            <i class="far fa-circle nav-icon"></i>
-                            <p>Cancel</p>
-                        </a>
-                    </li>
-                </ul>
-            </li>
-            @endcan
-            
-            
 
-            @can('manage-user')
+            @endcan
+
+
+
+            @can('register-member')
             <li class="nav-header">TRANSACTION</li>
             <li class="nav-item">
                 <a href="/outlet/{{ $outlet->id }}/transaksi" class="nav-link">
                     <i class="nav-icon fas fa-cash-register"></i>
                     <p>
-                        New Transaction
+                        Transaksi
                     </p>
                 </a>
             </li>
             @endcan
-            
+
             @can('manage-laporan')
-            <li class="nav-header">TRANSACTION</li>
+            <li class="nav-header">TRANSAKSI</li>
             <li class="nav-item">
                 <a href="/outlet/{{ $outlet->id }}/report/" class="nav-link">
                     <i class="nav-icon fas fa-file"></i>
                     <p>
-                        Report
+                        Laporan
                     </p>
                 </a>
             </li>
             @endcan
-            <li class="nav-header">ADMIN</li>
+            <li class="nav-header">Halaman Sebelumnya</li>
             <li class="nav-item">
                 <a href="/admin" class="nav-link">
                     <i class="nav-icon fas fa-arrow-left"></i>
                     <p>
-                        Admin Page
+                        Kembali
                     </p>
                 </a>
             </li>

@@ -35,18 +35,18 @@
                     <h3 class="card-title">Data user</h3>
                     <div class="card-tools">
                         <button class="btn btn btn-primary" onclick="createHandler('{{ route('users.store') }}')">
-                            <i class="far fa-plus-square mr-1"></i><span>Add User</span>
+                            <i class="far fa-plus-square mr-1"></i><span>Tambah User</span>
                         </button>
                         <a href="{{ route('users.export') }}">
                         <button class="btn btn btn-success">
                             <i class="fa fa-file-excel mr-1"></i><span>Export</span>
                         </button>
                         </a>
-                        
+
                         <button class="btn btn btn-secondary" data-toggle="modal" data-target="#exampleModal"  >
                             <i class="fa fa-file-excel mr-1"></i><span>Import</span>
                         </button>
-                        
+
                     </div>
 
                         {{-- Modal Input --}}
@@ -92,14 +92,14 @@
                         </div>
                       </div> --}}
 
-                    
+
                 </div>
                 <div class="card-body p-0">
                     <table id="users-table" class="table table-hover table-striped w-100">
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Name</th>
+                                <th>Nama</th>
                                 <th>Email</th>
                                 <th>Outlet</th>
                                 <th>Role</th>
@@ -124,28 +124,28 @@
                     @method('post')
                     @csrf
                     <div class="modal-header">
-                        <h5 class="modal-title">Register New User</h5>
+                        <h5 class="modal-title">Register User Baru</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="name">Name</label>
+                            <label for="name">Nama</label>
                             <input type="text" name="name" class="form-control" id="name" placeholder="Full Name">
                         </div>
                         <div class="form-group">
                             <label for="email">Email</label>
                             <input type="text" name="email" class="form-control" id="email" placeholder="name@domain.com">
                         </div>
-                       
+
                         <div class="row">
                             <div class="form-group col-md-6">
                                 <label for="password">Password</label>
                                 <input type="password" name="password" class="form-control" id="password">
                             </div>
                             <div class="form-group col-md-6">
-                                <label for="password-confirmation">Confirm Password</label>
+                                <label for="password-confirmation">Confirmasi Password</label>
                                 <input type="password" name="password_confirmation" class="form-control"
                                     id="password-confirmation">
                             </div>
@@ -213,9 +213,9 @@
     </script>
     <!-- Select2 -->
     <script src="{{ asset('adminlte') }}/plugins/select2/js/select2.full.min.js"></script>
-    
+
     <!-- Page Script -->
-    
+
     <script>
         let table;
         let outletOptions;
@@ -266,7 +266,7 @@
                 ]
             }
             table = $('#users-table').DataTable(tableOptions);
-            
+
         });
             // Initialize Select2 Elements
             // fetchOutletOptions();
@@ -344,7 +344,7 @@
         const deleteHandler = async (url) => {
             let result = await Swal.fire({
                 title: 'Delete User',
-                text: 'Are You Sure Want To Delete This User?',
+                text: 'Apa Anda Yakin Ingin Menghapus User Ini?',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#FF8000',
@@ -366,6 +366,6 @@
             }
         }
 
-        
+
     </script>
 @endpush

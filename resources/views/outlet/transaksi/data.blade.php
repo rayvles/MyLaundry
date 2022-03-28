@@ -39,12 +39,12 @@
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>Code Invoice</th>
-                            <th>Member Name</th>
-                            <th>Date</th>
-                            <th>estimated completed</th>
+                            <th>Kode Invoice</th>
+                            <th>Nama Member</th>
+                            <th>Tanggal</th>
+                            <th>Estimasi Selesai</th>
                             <th>Status Laundry</th>
-                            <th>Status Payment</th>
+                            <th>Status Pembayaran</th>
                             <th></th>
                         </tr>
                     </thead>

@@ -35,7 +35,7 @@
                         <button onclick="createHandler('{{ route('member.store', $outlet->id) }}')"
                             class="btn btn-primary">
                             <i class="far fa-plus-square mr-1"></i>
-                            <span>Add</span>
+                            <span>Tambah</span>
                         </button>
                     </div>
                 </div>
@@ -44,16 +44,16 @@
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>Name</th>
-                                <th>Number Phone</th>
-                                <th>Gender</th>
-                                <th>Address</th>
-                                <th>Action</th>
+                                <th>Nama</th>
+                                <th>Nomor Handphone</th>
+                                <th>Jenis Kelamin</th>
+                                <th>Alamat</th>
+                                <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
                             <!-- Data goes here -->
-                           
+
                         </tbody>
                     </table>
                 </div>
@@ -61,7 +61,7 @@
         </div>
     </div>
 
-    
+
 
   <div class="modal fade" role="dialog" id="modalForm">
     <div class="modal-dialog modal-lg" role="document">
@@ -79,18 +79,18 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="nama">Name</label>
+                        <label for="nama">Nama</label>
                         <input type="text" name="nama" class="form-control" id="nama" placeholder="Customer Name">
                     </div>
                     <div class="form-group row">
                         <div class="col-md-6">
-                            <label for="telepon">Number Phone</label>
+                            <label for="telepon">Nomor Handphone</label>
                             <input type="tel" maxlength="15" name="telepon" class="form-control" id="telepon"
                                 placeholder="+62">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="jenis_kelamin">Gender</label>
+                        <label for="jenis_kelamin">Jenis Kelamin</label>
                         <div class="d-flex align-items-center" style="gap: 15px">
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="jenis_kelamin" id="JKLakiLaki"
@@ -109,7 +109,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="harga">Address</label>
+                        <label for="harga">Alamat</label>
                         <textarea name="alamat" class="form-control" id="alamat" rows="3"
                             placeholder="Address"></textarea>
                     </div>
@@ -242,10 +242,10 @@
                     });
                 });
         }
-        
+
         const deleteHandler = function(url) {
             Swal.fire({
-                title: 'Are You Sure?',
+                title: 'Apakah Anda Yakin?',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#FF8000',

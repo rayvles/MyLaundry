@@ -15,7 +15,7 @@
                     alt="User Image">
             </div>
             <div class="info">
-                
+
                 <a href="#" class="d-block">{{ Auth::user()->name ?? '' }}</a>
             </div>
         </div>
@@ -36,7 +36,7 @@
                     <a href="/admin" class="nav-link">
                         <i class="nav-icon fas fa-user-tie"></i>
                         <p>
-                            Admin Page
+                            Halaman Kerja
                         </p>
                     </a>
                 </li>

@@ -25,7 +25,7 @@
         <!-- /.login-logo -->
         <div class="card">
             <div class="card-body login-card-body">
-                <p class="login-box-msg">Sign in Your Account</p>
+                <p class="login-box-msg">Masukan Akun Anda!</p>
                 <form action="{{ route('login') }}" method="POST">
                     @csrf
                     <div class="form-group mb-3">

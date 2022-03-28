@@ -30,8 +30,8 @@
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">Data Outlet</h3>
-                    
-                    
+
+
                     {{-- Modal Input --}}
                     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
@@ -65,17 +65,17 @@
                           </div>
                         </div>
                       </div>
-                   
+
                 @can('manage-user')
                     <div class="card-tools">
                         <a type="button" data-toggle="modal" data-target="#exampleModal"  class="btn btn-sm btn-primary"><i class="far fa-plus-square"></i>
-                            Add</a>
+                            Tambah</a>
                     </div>
                 @endcan
                 @can('manage-owner-kasir')
                 <div class="card-tools">
                     <a type="button" class="btn btn-sm btn-danger"><i class="far fa-plus-square"></i>
-                        Not having access!</a>
+                        Tidak Memiliki Akses!</a>
                 </div>
                 @endcan
                 </div>
@@ -84,11 +84,11 @@
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>Name Outlet</th>
-                                <th>Number Phone</th>
-                                <th>Address</th>
-                                <th>View</th>
-                                <th>Action</th>
+                                <th>Nama Outlet</th>
+                                <th>Nomor Handphone</th>
+                                <th>Alamat</th>
+                                <th>Lihat</th>
+                                <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -100,7 +100,7 @@
                                     <td>{{ $outlet->alamat }}</td>
                                     <td>
                                         <a href="/outlet/{{ $outlet->id }}" class="btn btn-success"><i
-                                                class="fas fa-sign-in-alt mr-1"></i> <span>View Outlet</span>
+                                                class="fas fa-sign-in-alt mr-1"></i> <span>Lihat Outlet</span>
                                         </a>
                                     </td>
                                     <td>
@@ -110,7 +110,7 @@
                                                 id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
                                                <i class="fas fa-ellipsis-v"></i>
                                             </button>
-                                            
+
                                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                                 <a href="{{ route('outlet.edit', $outlet->id) }}"
                                                     class="dropdown-item" data-toggle="modal" data-target="#editmodal{{ $loop->iteration }}"><i class="fas fa-edit"></i>
@@ -118,19 +118,19 @@
                                                     <button class="dropdown-item" id="deleteBtn"
                                                     onclick="deleteHandler({{ $outlet->id }})"><i
                                                         class="fas fa-trash"></i>
-                                                    Delete Outlet</button>
-                                                   
+                                                    Hapus Outlet</button>
+
                                             </div>
                                             @endcan
                                             @can('manage-owner-kasir')
                                             <div>
-                                                Not having access!
+                                                Tidak Memiliki Akses!
                                             </div>
                                             @endcan
                                         </div>
                                     </td>
                                 </tr>
-                                
+
                                 {{-- Modal Edit --}}
                                 <div class="modal fade" id="editmodal{{ $loop->iteration }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog" role="document">
@@ -183,7 +183,7 @@
     <script src="{{ asset('adminlte') }}/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
     <!-- SweetAlert2 -->
     <script src="{{ asset('adminlte') }}/plugins/sweetalert2/sweetalert2.min.js"></script>
-    
+
                 <script>
                     const deleteHandler = function(outletId) {
                         Swal.fire({
@@ -216,7 +216,7 @@
                             });
                         });
                     }
-            
+
                     $(function() {
                         $('#outletTable').DataTable({
                             "paging": false,

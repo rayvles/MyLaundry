@@ -12,7 +12,7 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Laundry Package - {{ $outlet->nama }}</h1>
+                <h1>Laundry Paket - {{ $outlet->nama }}</h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
@@ -34,7 +34,7 @@
                     <div class="card-tools">
                         <button onclick="createHandler('{{ route('paket.store', $outlet->id) }}')"
                             class="btn btn btn-primary">
-                            <i class="far fa-plus-square mr-1"></i><span>Make Package</span>
+                            <i class="far fa-plus-square mr-1"></i><span>Buat Paket</span>
                         </button>
                     </div>
                 </div>
@@ -43,11 +43,11 @@
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>Name Packet</th>
+                                <th>Name Paket</th>
                                 <th>Type</th>
-                                <th>Price</th>
+                                <th>Harga</th>
                                 <th>Outlet</th>
-                                <th>Action</th>
+                                <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -75,7 +75,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="namaPaket">Name</label>
+                            <label for="namaPaket">Nama</label>
                             <input type="text" name="nama_paket" class="form-control" id="namaPaket"
                                 placeholder="Name Packet">
                         </div>
@@ -90,7 +90,7 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="harga">Price</label>
+                            <label for="harga">Harga</label>
                             <input type="number" min="0" name="harga" class="form-control" id="harga" placeholder="Rp">
                         </div>
                     </div>
@@ -221,7 +221,7 @@
 
         const deleteHandler = function(url) {
             Swal.fire({
-                title: 'Are You Sure?',
+                title: 'Apakah Anda Yakin?',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#FF8000',

@@ -115,116 +115,120 @@ $(function () {
         }
     });
 
-    // $("#transactions-table").on("click", ".detail-button", async function () {
-    //     let detailUrl = $(this).data("detail-url");
-    //     try {
-    //         let res = await fetchData(detailUrl);
-    //         let transaction = res.transaction;
-    //         let rows = "";
+    $("#transactions-table").on("click", ".detail-button", async function () {
+        let detailUrl = $(this).data("detail-url");
+        try {
+            let res = await fetchData(detailUrl);
+            let transaction = res.transaction;
+            let rows = "";
 
-    //         transaction.details.forEach((item, index) => {
-    //             rows += `<tr>
-    //                         <td>${++index}</td>
-    //                         <td>${item.service_name_history}</td>
-    //                         <td>${item.price_history}</td>
-    //                         <td>${item.qty}</td>
-    //                         <td>${item.qty * item.price_history}</td>
-    //                     </tr>`;
-    //         });
+            transaction.details.forEach((item, index) => {
+                rows += `<tr>
+                            <td>${++index}</td>
+                            <td>${item.paket.nama_paket}</td>
+                            <td>${item.paket.harga}</td>
+                            <td>${item.qty}</td>
+                            <td>${item.qty * item.paket.harga}</td>
+                        </tr>`;
+            });
 
-    //         rows += `<tr>
-    //                         <td colspan="4">Total Harga</td>
-    //                         <td>${formatter.format(
-    //                             transaction.total_price
-    //                         )}</td>
-    //                     </tr>`;
+            console.log(transaction);
 
-    //         if (transaction.payment_status == "paid") {
-    //             rows += `<tr>
-    //                         <td colspan="4">Diskon</td>
-    //                         <td>${formatter.format(
-    //                             transaction.total_discount
-    //                         )}</td>
-    //                     </tr>`;
-    //             rows += `<tr>
-    //                         <td colspan="4">Pajak</td>
-    //                         <td>${formatter.format(transaction.total_tax)}</td>
-    //                     </tr>`;
-    //             rows += `<tr>
-    //                         <td colspan="4">Biaya Tambahan</td>
-    //                         <td>${formatter.format(
-    //                             transaction.additional_cost
-    //                         )}</td>
-    //                     </tr>`;
-    //             rows += `<tr>
-    //                         <th colspan="4">Total</th>
-    //                         <th>${formatter.format(
-    //                             transaction.total_payment
-    //                         )}</th>
-    //                     </tr>`;
-    //         }
+            rows += `<tr>
+                            <td colspan="4">Total Harga</td>
+                            <td>${formatter.format(
+                                transaction.total_price
+                            )}</td>
+                        </tr>`;
 
-    //         $("#transaction-info-table")
-    //             .find(".td-transaction-invoice")
-    //             .text(transaction.invoice);
+            if (transaction.status_pembayaran == "dibayar") {
+                rows += `<tr>
+                            <td colspan="4">Diskon</td>
+                            <td>${formatter.format(
+                                transaction.total_discount
+                            )}</td>
+                        </tr>`;
+                rows += `<tr>
+                            <td colspan="4">Pajak</td>
+                            <td>${formatter.format(transaction.total_tax)}</td>
+                        </tr>`;
+                rows += `<tr>
+                            <td colspan="4">Biaya Tambahan</td>
+                            <td>${formatter.format(
+                                transaction.biaya_tambahan
+                            )}</td>
+                        </tr>`;
+                rows += `<tr>
+                            <th colspan="4">Total</th>
+                            <th>${formatter.format(
+                                transaction.total_payment
+                            )}</th>
+                        </tr>`;
+            }
 
-    //         $("#transaction-info-table")
-    //             .find(".td-transaction-member-name")
-    //             .html(
-    //                 `<label for="modal-tab-member" class="mb-0 text-primary">${transaction.member.name}</label>`
-    //             );
+            $("#transaction-info-table")
+                .find(".td-transaction-invoice")
+                .text(transaction.kode_invoice);
 
-    //         $("#transaction-info-table")
-    //             .find(".td-transaction-date")
-    //             .text(transaction.date);
+            $("#transaction-info-table")
+                .find(".td-transaction-member-name")
+                .html(
+                    `<label for="modal-tab-member" class="mb-0 text-primary">${transaction.member.nama}</label>`
+                );
 
-    //         $("#transaction-info-table")
-    //             .find(".td-transaction-deadline")
-    //             .text(transaction.deadline);
+            $("#transaction-info-table")
+                .find(".td-transaction-date")
+                .text(transaction.tgl);
 
-    //         let paymentStatusType =
-    //             transaction.payment_status == "paid" ? "success" : "secondary";
-    //         let paymentStatusText =
-    //             transaction.payment_status == "paid"
-    //                 ? "Dibayar"
-    //                 : "Belum dibayar";
+            $("#transaction-info-table")
+                .find(".td-transaction-deadline")
+                .text(transaction.deadline);
 
-    //         $("#transaction-info-table").find(
-    //             ".td-transaction-payment-status"
-    //         ).html(`<span class="font-weight-bold text-${paymentStatusType}">
-    //                             ${paymentStatusText}
-    //                         </span>`);
+            let paymentStatusType =
+                transaction.status_pembayaran == "dibayar" ? "success" : "secondary";
+            let paymentStatusText =
+                transaction.status_pembayaran == "dibayar"
+                    ? "Dibayar"
+                    : "Belum dibayar";
 
-    //         $("#transaction-member-info")
-    //             .find(".td-member-name")
-    //             .text(transaction.member.name);
+            $("#transaction-info-table").find(
+                ".td-transaction-payment-status"
+            ).html(`<span class="font-weight-bold text-${paymentStatusType}">
+                                ${paymentStatusText}
+                            </span>`);
 
-    //         $("#transaction-member-info")
-    //             .find(".td-member-phone")
-    //             .text(transaction.member.phone);
+            $("#transaction-member-info")
+                .find(".td-member-name")
+                .text(transaction.member.nama);
 
-    //         $("#transaction-member-info")
-    //             .find(".td-member-address")
-    //             .text(transaction.member.address);
+            $("#transaction-member-info")
+                .find(".td-member-phone")
+                .text(transaction.member.telepon);
 
-    //         $("#transaction-items-table tbody").html(rows);
+            $("#transaction-member-info")
+                .find(".td-member-address")
+                .text(transaction.member.alamat);
 
-    //         $("#transaction-detail-modal").find(
-    //             "#button-container"
-    //         ).html(`<a href="/o/${outletId}/transactions/${transaction.id}/invoice" class="btn btn-success w-100 mt-2 mb-0 print-invoice-button">
-    //                             <i class="fas fa-print mr-1"></i>
-    //                             <span>Cetak Faktur</span>
-    //                         </a>`);
+            $("#transaction-items-table tbody").html(rows);
 
-    //         $('[name="modal_tab"][value="items"]')
-    //             .attr("checked", true)
-    //             .trigger("change");
-    //         $("#transaction-detail-modal").modal("show");
-    //     } catch (err) {
-    //         toast("error", "Terjadi kesalahan");
-    //         $("#transaction-detail-modal").modal("hide");
-    //     }
-    // });
+            $("#transaction-detail-modal").find(
+                "#button-container"
+            ).html(`<a href="/outlet/${id_outlet}/transaksi/${transaction.id}/invoice" class="btn btn-success w-100 mt-2 mb-0 print-invoice-button">
+                                <i class="fas fa-print mr-1"></i>
+                                <span>Cetak Faktur</span>
+                            </a>`);
+
+            $('[name="modal_tab"][value="items"]')
+                .attr("checked", true)
+                .trigger("change")
+
+                ;
+            $("#transaction-detail-modal").modal("show");
+        } catch (err) {
+            toast("Terjadi kesalahan", "error");
+            $("#transaction-detail-modal").modal("hide");
+        }
+    });
 
     $("#transactions-table").on(
         "click",
@@ -248,10 +252,12 @@ $(function () {
                         </tr>`;
                 });
 
-                if (lastPaymentDetail !== detailUrl) {
-                    $("#update-payment-form").trigger("reset");
-                    lastPaymentDetail = detailUrl;
-                }
+                // if (lastPaymentDetail !== detailUrl) {
+                //     $("#update-payment-form").trigger("reset");
+                //     lastPaymentDetail = detailUrl;
+                // }
+
+
 
                 $("#update-payment-form").attr("action", updateUrl);
 
@@ -302,23 +308,23 @@ $(function () {
         }
     );
 
-    // $('[name="modal_tab"]').on("change", function () {
-    //     if ($(this).val() == "member") {
-    //         $(".nav-link.tab-member").addClass("active");
-    //         $(".nav-link.tab-items").removeClass("active");
-    //         $("#transaction-member-info").removeClass("d-none");
-    //         $("#transaction-items-info").removeClass("d-block");
-    //         $("#transaction-member-info").addClass("d-block");
-    //         $("#transaction-items-info").addClass("d-none");
-    //     } else {
-    //         $(".nav-link.tab-member").removeClass("active");
-    //         $(".nav-link.tab-items").addClass("active");
-    //         $("#transaction-member-info").addClass("d-none");
-    //         $("#transaction-member-info").removeClass("d-block");
-    //         $("#transaction-items-info").addClass("d-block");
-    //         $("#transaction-items-info").removeClass("d-none");
-    //     }
-    // });
+    $('[name="modal_tab"]').on("change", function () {
+        if ($(this).val() == "member") {
+            $(".nav-link.tab-member").addClass("active");
+            $(".nav-link.tab-items").removeClass("active");
+            $("#transaction-member-info").removeClass("d-none");
+            $("#transaction-items-info").removeClass("d-block");
+            $("#transaction-member-info").addClass("d-block");
+            $("#transaction-items-info").addClass("d-none");
+        } else {
+            $(".nav-link.tab-member").removeClass("active");
+            $(".nav-link.tab-items").addClass("active");
+            $("#transaction-member-info").addClass("d-none");
+            $("#transaction-member-info").removeClass("d-block");
+            $("#transaction-items-info").addClass("d-block");
+            $("#transaction-items-info").removeClass("d-none");
+        }
+    });
 
     // $('[name="status_tab"]').on("change", function () {
     //     let status = $(this).val();
@@ -403,26 +409,34 @@ $(function () {
         }
     });
 
-    $('[name="discount"]').on("change keydown", calculateTotalPayment);
-    $('[name="discount_type"]').on("change", calculateTotalPayment);
-    $('[name="tax"]').on("change keydown", calculateTotalPayment);
-    $('[name="additional_cost"]').on("change keydown", calculateTotalPayment);
+    $('[name="diskon"]').on("change keydown", calculateTotalPayment);
+    $('[name="jenis_diskon"]').on("change", calculateTotalPayment);
+    $('[name="pajak"]').on("change keydown", calculateTotalPayment);
+    $('[name="biaya_tambahan"]').on("change keydown", calculateTotalPayment);
 });
 
 const calculateTotalPayment = () => {
     setTimeout(() => {
         let totalPrice = Number($(".int-total-price").val()) || 0;
-        let tax = Number($('[name="tax"]').val()) || 0;
-        let discount = Number($('[name="discount"]').val()) || 0;
-        let additionalCost = Number($('[name="additional_cost"]').val()) || 0;
-        let discountType = $('[name="discount_type"]').val();
+        let tax = Number($('#update-payment-form [name="pajak"]').val()) || 0;
+        let discount = Number($('#update-payment-form [name="diskon"]').val()) || 0;
+        let additionalCost = Number($('#update-payment-form [name="biaya_tambahan"]').val()) || 0;
+        let discountType = $('#update-payment-form [name="jenis_diskon"]').val();
         let totalTax = totalPrice * (tax / 100);
         let totalDiscount =
-            discountType === "percent"
+            discountType === "persen"
                 ? totalPrice * (discount / 100)
                 : discount;
         let totalPayment =
             totalPrice - totalDiscount + totalTax + additionalCost;
-        $(".o-total-payment").val(formatter.format(totalPayment));
+            console.log(totalPrice);
+            console.log(totalTax);
+            console.log(discount);
+            console.log(totalPayment);
+        $("#update-payment-form")
+        .find(".o-total-payment")
+        .val(formatter.format(totalPayment));
     });
+
+    console.log("test");
 };

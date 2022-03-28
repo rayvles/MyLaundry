@@ -1,3 +1,5 @@
+
+
 <div class="modal fade" id="update-payment-modal" tabindex="-1" aria-labelledby="update-payment-modal-label"
     aria-hidden="true">
     <div class="modal-dialog modal-lg">
@@ -18,7 +20,7 @@
                             </tr>
                             <tr>
                                 <th>Nama Pelanggan</th>
-                                <td class="td-transaction-member-nama"></td>
+                                <td class="td-transaction-member-name"></td>
                             </tr>
                             <tr>
                                 <th>Tgl Diterima</th>
@@ -33,7 +35,7 @@
                                 <td class="td-transaction-payment-status"></td>
                             </tr>
                         </table>
-                        <table class="table mb-3" id="payment-items-table">
+                        <table class="table mb-3" id="">
                             <thead>
                                 <tr>
                                     <th>#</th>
@@ -43,7 +45,6 @@
                                     <th>Subtotal</th>
                                 </tr>
                             </thead>
-                            <tbody>
                                 <!-- Data goes here -->
                             </tbody>
                         </table>
@@ -68,7 +69,7 @@
                                     <div class="input-group">
                                         <input type="number" name="diskon" class="form-control">
                                         <select name="jenis_diskon" class="form-control" style="max-width: 25%">
-                                            <option value="percent">Persen (%)</option>
+                                            <option value="persen">Persen (%)</option>
                                             <option value="nominal">Nominal (Rp)</option>
                                         </select>
                                     </div>

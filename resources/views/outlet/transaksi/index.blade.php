@@ -13,13 +13,13 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Transaction</h1>
+                <h1>Transaksi</h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="/">Outlet</a></li>
                     <li class="breadcrumb-item"><a href="/outlet/{{ $outlet->id }}">{{ $outlet->id }}</a></li>
-                    <li class="breadcrumb-item active">Transaction</li>
+                    <li class="breadcrumb-item active">Transaksi</li>
                 </ol>
             </div>
         </div>
@@ -39,7 +39,7 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link active " id="nav-form" data-toggle="collapse" href="#formLaundry" role="button" aria-expanded="false"
-                    aria-controls="collapseExample"><i class="text-secondary" ><i class="fas fa-plus nav-icon"></i>&nbsp;&nbsp;New Laundry</i></a>
+                    aria-controls="collapseExample"><i class="text-secondary" ><i class="fas fa-plus nav-icon"></i>&nbsp;&nbsp;Laundry Baru</i></a>
                 </li>
 
               </ul>
@@ -58,6 +58,8 @@
                 @include('outlet.transaksi.data')
                 <input type="hidden" class="idMember" name="id_member" id="id_member" >
             </form>
+            @include('outlet.transaksi.transaction_detail_modal')
+            @include('outlet.transaksi.update_payment_modal')
             </div>
     </div>
 </div>

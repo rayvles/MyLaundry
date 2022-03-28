@@ -75,6 +75,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/simulasikedua', [SimulasiController::class, 'indexkedua'])->name('admin.simulasikedua');
         Route::get('/simulasiketiga', [SimulasiController::class, 'indexketiga'])->name('admin.simulasiketiga');
         Route::get('/simulasikeempat', [SimulasiController::class, 'indexkeempat'])->name('admin.simulasikeempat');
+        Route::get('/ujikom', [SimulasiController::class, 'ujikom'])->name('admin.ujikom');
 
         // Barang Inventaris
         Route::resource('/baranginventaris', BaranginventarisController::class);
@@ -94,7 +95,10 @@ Route::middleware('auth')->group(function () {
         Route::apiResource('/member', MemberController::class);
 
         // Transaksi
-        Route::put('/transaksi/{transaksi}/payment', [TransactionController::class, 'updatePayment'])->name('transaksi.updatePayment');
+        Route::get('/transaksi/{transaksi}/whatsapp', [TransaksiController::class, 'sendWhatsapp'])->name('transaksi.sendWhatsapp');
+        Route::get('/transaksi/{transaksi}/invoice/pdf', [TransaksiController::class, 'invoicePDF'])->name('transaksi.invoicePDF');
+        Route::get('/transaksi/{transaksi}/invoice', [TransaksiController::class, 'invoice'])->name('transaksi.invoice');
+        Route::put('/transaksi/{transaksi}/payment', [TransaksiController::class, 'updatePayment'])->name('transaksi.updatePayment');
         Route::put('/transaksi/{transaksi}/status', [TransaksiController::class, 'updateStatus'])->name('transaksi.updateStatus');
         Route::get('/transaksi/datatable', [TransaksiController::class, 'datatable'])->name('transaksi.datatable');
         Route::apiResource('/transaksi', TransaksiController::class);

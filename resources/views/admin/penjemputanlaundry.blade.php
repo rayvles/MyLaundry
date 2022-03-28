@@ -48,8 +48,8 @@
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">Data Penjemputan Laundry</h3>
-                    
-                    
+
+
                     {{-- Modal Input --}}
                     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
@@ -66,7 +66,7 @@
                                         <h3 class="card-title">Input Penjemputan Laundry</h3>
                                     </div>
                                 <form action="{{ route('penjemputanlaundry.store') }}" method="POST">
-                                    
+
                                     @csrf
                                     <!-- /.card-body -->
                                     <div class="form-group mr-2 ml-2">
@@ -77,13 +77,13 @@
                                         @endforeach
                                         </select>
                                     </div>
-                                   
+
                                     <div class="form-group mr-2 ml-2">
                                         <label for="nama">Nama Petugas </label>
                                         <input type="text" value="" name="petugas_penjemput" class="form-control" id="nama" placeholder="" required="required">
-                                        
+
                                     </div>
-                                    
+
                                     <div class="form-group mr-2 ml-2">
                                     <label for="nama">Status Petugas </label>
                                     <select name="status" id="jenis" class="form-control">
@@ -92,7 +92,7 @@
                                         <option value="penjemputan">Penjemputan</option>
                                         <option value="selesai">Selesai</option>
                                     </select>
-                                </div> 
+                                </div>
                                     <div class="card-footer">
                                         <button type="submit" class="btn btn-primary">Save</button>
                                     </div>
@@ -102,7 +102,7 @@
                           </div>
                         </div>
                       </div>
-                   
+
                 @can('manage-user')
                     <div class="card-tools">
                         <a type="button" data-toggle="modal" data-target="#exampleModal"  class="btn btn-sm btn-primary"><i class="far fa-plus-square"></i>
@@ -117,11 +117,11 @@
                             <span>Export</span>
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item" 
+                            <a class="dropdown-item"
                             href="{{ route('penjemputanlaundry.export.excel') }}"
                             >XLSX</a>
                             <a class="dropdown-item"
-                            href="{{ route('penjemputanlaundry.export.pdf')}}" 
+                            href="{{ route('penjemputanlaundry.export.pdf')}}"
                                 >PDF</a>
                         </div>
                     </div>
@@ -152,7 +152,7 @@
                                     <div class="form-group ml-2 mr-2">
                                         <label for="nama">Excel</label>
                                         <input type="file" value="" name="file_import" class=" form-control" id="file" required="required">
-                                       
+
                                     </div>
                                     <div class="card-footer">
                                         <button type="submit" class="btn btn-primary">Save</button>
@@ -165,10 +165,10 @@
                       </div>
             </div>
 
-               
-            
+
+
                 </div>
-                
+
                 <div class="card-body">
                     <table id="penjemputanTable" class="table table-hover table-striped">
                         <thead>
@@ -199,7 +199,7 @@
                                             <option value="penjemputan">Penjemputan</option>
                                             <option value="selesai">Selesai</option>
                                         </select>
-                                        
+
                                     </td>
                                     <td>
                                         @can('manage-user')
@@ -208,7 +208,7 @@
                                                 id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
                                                <i class="fas fa-ellipsis-v"></i>
                                             </button>
-                                            
+
                                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                                 <a href=""
                                                     class="dropdown-item" data-toggle="modal" data-target="#editmodal{{ $loop->iteration }}"><i class="fas fa-edit"></i>
@@ -217,7 +217,7 @@
                                                     onclick="deleteHandler({{ $penjemputanlaundry->id }})"><i
                                                         class="fas fa-trash"></i>
                                                     Delete Outlet</button>
-                                                   
+
                                             </div>
                                             @endcan
                                             @can('manage-owner-kasir')
@@ -228,8 +228,8 @@
                                         </div>
                                     </td>
                                 </tr>
-                                
-                                
+
+
                                 <div class="modal fade" id="editmodal{{ $loop->iteration }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog" role="document">
                                       <div class="modal-content">
@@ -258,7 +258,7 @@
                                                         <div class="form-group">
                                                             <label for="nama">Nama Petugas</label>
                                                             <input type="text" value="{{ $penjemputanlaundry->petugas_penjemput }}" name="petugas_penjemput" class="form-control" id="nama" placeholder="" required="required">
-                                                            
+
                                                         </div>
 
                                                         <div class="form-group">
@@ -273,7 +273,7 @@
                                                             </select>
                                                         </div>
                                                     </div>
-                                                    
+
                                                     <div class="card-footer">
                                                         <button type="submit" class="btn btn-primary">Save</button>
                                                     </div>
@@ -293,7 +293,7 @@
     </div>
 @endsection
 
-  
+
 
 
 @push('script')
@@ -308,7 +308,7 @@
     <script>
        const deleteHandler = function(penjemputanlaundryId) {
                         Swal.fire({
-                            title: 'Are you Sure?',
+                            title: 'Apakah Anda Yakin?',
                             icon: 'warning',
                             showCancelButton: true,
                             confirmButtonColor: '#FF8000',
@@ -358,9 +358,9 @@
                 }
             });
 
-            
 
-            
+
+
 
     </script>
 @endpush

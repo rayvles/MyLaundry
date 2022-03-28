@@ -74,7 +74,7 @@
                 <a href="/admin/users" class="nav-link">
                     <i class="nav-icon fas fa-users"></i>
                     <p>
-                        User
+                        Register User
                     </p>
                 </a>
             </li>
@@ -82,7 +82,7 @@
                 <a href="/admin/baranginventaris" class="nav-link">
                     <i class="nav-icon fas fa-store"></i>
                     <p>
-                        Inventory Items
+                        Item Inventaris
                     </p>
                 </a>
             </li>
@@ -120,10 +120,18 @@
                 </a>
             </li>
             <li class="nav-item">
+                <a href="/admin/ujikom" class="nav-link">
+                    <i class="nav-icon fas fa-users"></i>
+                    <p>
+                        Programan Dasar Ujikom
+                    </p>
+                </a>
+            </li>
+            <li class="nav-item">
                 <a href="/home" class="nav-link">
                     <i class="nav-icon fas fa-arrow-left"></i>
                     <p>
-                        Employee Page
+                        Kembali
                     </p>
                 </a>
             </li>

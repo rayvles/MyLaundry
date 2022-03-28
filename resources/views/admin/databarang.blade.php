@@ -334,7 +334,7 @@
     <script>
        const deleteHandler = function(barangId) {
                         Swal.fire({
-                            title: 'Are you Sure?',
+                            title: 'Apakah Anda Yakin?',
                             icon: 'warning',
                             showCancelButton: true,
                             confirmButtonColor: '#FF8000',

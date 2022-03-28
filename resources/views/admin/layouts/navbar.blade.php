@@ -15,14 +15,14 @@
       <li class="nav-item dropdown">
           <a class="nav-link" data-toggle="dropdown" href="#">
               <img src="https://picsum.photos/200/200" class="img-circle" alt="User Image" style="width: 30px">
-              
+
               <span class="ml-1">{{ Auth::user()->name ?? '-' }}</span>
           </a>
           <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
               <a href="#" class="dropdown-item">
                   <i class="fas fa-user mr-2"></i> Edit Profile
               </a>
-              
+
               <button href="#" class="dropdown-item" onclick="logoutHandler()">
                   <i class="fas fa-sign-out-alt mr-2"></i> Logout
               </button>

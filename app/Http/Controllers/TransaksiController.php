@@ -50,6 +50,7 @@ class TransaksiController extends Controller
             $request['status_pembayaran']= $request->status_pembayaran;
             $request['id_user']=auth()->user()->id;
             $request['deadline']= $request->deadline;
+            $request['jenis_diskon']= $request->jenis_diskon;
             $request['tgl_bayar']= $request->tgl_bayar;
 
             // dd($request);
@@ -81,32 +82,7 @@ class TransaksiController extends Controller
      */
         public function datatable(Request $request, Outlet $outlet)
         {
-            $status = null;
-            if ($request->has('status')) {
-                switch ($request->status) {
-                    case 'baru':
-                        $status = 'baru';
-                        break;
-                    case 'proses':
-                        $status = 'proses';
-                        break;
-                    case 'selesai':
-                        $status = 'selesai';
-                        break;
-                    case 'diambil':
-                        $status = 'diambil';
-                        break;
-                    default:
-                        $status = null;
-                }
-            }
-
-            $transactions = Transaksi::with(['user', 'member', 'details'])->where('id_outlet', $outlet->id)
-            ->when($status, function ($query) use ($status) {
-                return $query->where('status', $status)
-                ;
-            })
-            ->orderBy('id', 'desc')->get();
+            $transactions = Transaksi::with(['user', 'member', 'details'])->where('id_outlet', $outlet->id)->orderBy('id', 'desc')->get();
 
             return DataTables::of($transactions)
                 ->addIndexColumn()
@@ -150,19 +126,19 @@ class TransaksiController extends Controller
                     //     "><i class="fas fa-arrow-circle-right mr-1"></i><span>Proses</span></button>';
                     // }
                     $buttons .= '<button class="btn btn-info btn-sm m-1 detail-button" data-detail-url="
-
+                    ' . route('transaksi.show', [$outlet->id, $transaction->id]) . '
                     "><i class="fas fa-eye mr-1"></i><span>Detail</span></button>';
                     return $buttons;
                 })->rawColumns(['status_update','actions'])->make(true);
         }
 
-        public function updateStatus(Request $request, Outlet $outlet, Transaksi $transaction)
+        public function updateStatus(Request $request, Outlet $outlet, Transaksi $transaksi)
         {
             $request->validate([
                 'status' => 'required|in:baru,proses,selesai,diambil',
             ]);
 
-            $transaction->update([
+            $transaksi->update([
                 'status' => $request->status,
             ]);
 
@@ -179,18 +155,18 @@ class TransaksiController extends Controller
      * @param  \App\Models\Transaksi  $transaksi
      * @return \Illuminate\Http\Response
      */
-        public function show(Outlet $outlet, Transaksi $transaction)
+        public function show(Outlet $outlet, Transaksi $transaksi)
     {
-        $transaction->load(['details', 'outlet', 'user', 'member']);
-        $transaction['tgl'] = date('d/m/Y', strtotime($transaction->tgl));
-        $transaction['deadline'] = date('d/m/Y', strtotime($transaction->deadline));
-        $transaction['diskon'] = $transaction->getTotalDiscount();
-        $transaction['total_price'] = $transaction->getTotalPrice();
-        $transaction['pajak'] = $transaction->getTotalTax();
-        $transaction['total_payment'] = $transaction->getTotalPayment();
+        $transaksi->load(['details', 'outlet', 'user', 'member']);
+        $transaksi['tgl'] = date('d/m/Y', strtotime($transaksi->tgl));
+        $transaksi['deadline'] = date('d/m/Y', strtotime($transaksi->deadline));
+        $transaksi['total_discount'] = $transaksi->getTotalDiscount();
+        $transaksi['total_price'] = $transaksi->getTotalPrice();
+        $transaksi['total_tax'] = $transaksi->getTotalTax();
+        $transaksi['total_payment'] = $transaksi->getTotalPayment();
         return response()->json([
             'message' => 'Data Transaksi',
-            'transaction' => $transaction
+            'transaction' => $transaksi
         ], Response::HTTP_OK);
     }
 
@@ -202,7 +178,7 @@ class TransaksiController extends Controller
      * @param  \App\Models\Transaction  $transaction
      * @return \Illuminate\Http\Response
      */
-    public function updatePayment(Request $request, Outlet $outlet, Transaksi $transaction)
+    public function updatePayment(Request $request, Outlet $outlet, Transaksi $transaksi)
     {
         $request->validate([
             'diskon' => 'required|min:0',
@@ -211,8 +187,8 @@ class TransaksiController extends Controller
             'biaya_tambahan' => 'required|min:0',
         ]);
 
-        if ($transaction->status_pembayaran === 'belum_dibayar') {
-            $transaction->update([
+        if ($transaksi->status_pembayaran === 'belum_dibayar') {
+            $transaksi->update([
                 'status_pembayaran' => 'dibayar',
                 'diskon' => $request->diskon,
                 'jenis_diskon' => $request->jenis_diskon,
@@ -224,6 +200,87 @@ class TransaksiController extends Controller
         return response()->json([
             'message' => 'Pembayaran berhasil',
         ], Response::HTTP_OK);
+    }
+      /**
+     * Menampilkan halaman faktur transaksi.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Outlet  $outlet
+     * @param  \App\Models\Transaction  $transaction
+     * @return \Illuminate\Http\Response
+     */
+    public function invoice(Request $request, Outlet $outlet, Transaksi $transaksi)
+    {
+        $transaksi->load(['details', 'outlet', 'user', 'member']);
+        $transaksi['total_discount'] = $transaksi->getTotalDiscount();
+        $transaksi['total_price'] = $transaksi->getTotalPrice();
+        $transaksi['total_tax'] = $transaksi->getTotalTax();
+        $transaksi['total_payment'] = $transaksi->getTotalPayment();
+
+        if ($request->has('print') && $request->print == true) {
+            return view('outlet.transaksi.invoice_print', [
+                'transaction' => $transaksi,
+            ]);
+        } else {
+            return view('outlet.transaksi.invoice', [
+                'title' => 'Invoice',
+                'outlet' => $outlet,
+                'transaction' => $transaksi
+            ]);
+        }
+    }
+
+    /**
+     * Menampilkan faktur transaksi berupa file pdf.
+     *
+     * @param  \App\Models\Outlet  $outlet
+     * @param  \App\Models\Transaction  $transaction
+     * @return \Illuminate\Http\Response
+     */
+    public function invoicePDF(Outlet $outlet, Transaksi $transaksi)
+    {
+        $pdf = Pdf::loadView('outlet.transaksi.invoice_pdf', [
+            'transaction' => $transaksi
+        ]);
+        $pdf->setPaper('A4', 'landscape');
+        return $pdf->stream();
+    }
+
+    /**
+     * Mengirim faktur transaksi lewat WhatsApp.
+     *
+     * @param  \App\Models\Outlet  $outlet
+     * @param  \App\Models\Transaction  $transaction
+     * @return \Illuminate\Http\Response
+     */
+    public function sendWhatsapp(Outlet $outlet, Transaksi $transaksi)
+    {
+        $transaksi->load('details', 'details.paket');
+
+        $text = 'Yth. Pelanggan MyLaundry,
+        Kami informasikan bahwa cucian anda yang kami terima pada tanggal *' . date('d-m-Y', strtotime($transaksi->tgl)) . '*';
+
+        switch ($transaksi->status) {
+            case 'baru' || 'process':
+                $text .= ' sedang dalam proses pencucian.';
+                break;
+            case 'selesai':
+                $text .= ' *siap untuk diambil*.';
+                break;
+            default:
+                $text .= ' sudah diambil.';
+                break;
+        }
+
+        $text .= ' Dengan rincian layanan sebagai berikut :';
+
+        foreach ($transaksi->details as $detail) {
+            $text .= $detail->qty . 'x ' . $detail->paket->nama_paket;
+        }
+
+        $redirectTo = 'https://wa.me/' . $transaksi->member->telepon;
+        // dd($redirectTo);
+        return redirect()->to($redirectTo)->with('text', $text);
     }
 
      /**

@@ -43,7 +43,7 @@ class Transaksi extends Model
             $kode_invoice = date("Ymd") . sprintf("%'.05d", $lastNumber);
             return $kode_invoice;
         }
-    
+
     /**
      * Membuat Function Relasi Ke Detail Transaksi dengan tujuan untuk mengisi id_transaksi dari id transaksi.
      *
@@ -68,7 +68,7 @@ class Transaksi extends Model
      */
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'id_user');
     }
 
     /**
@@ -77,7 +77,7 @@ class Transaksi extends Model
      */
     public function outlet()
     {
-        return $this->belongsTo(Outlet::class);
+        return $this->belongsTo(Outlet::class, 'id_outlet');
     }
 
     /**
