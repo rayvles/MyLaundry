@@ -14,6 +14,7 @@
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ asset('adminlte') }}/dist/css/adminlte.min.css">
     <!-- SweetAlert2 -->
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link rel="stylesheet" href="{{ asset('adminlte') }}/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
     <!-- Additional meta tags -->
     @stack('head')
@@ -106,7 +107,7 @@
                 $('#logoutForm').submit();
             });
         }
-        
+
         const validationErrorHandler = function(errors) {
             clearErrors();
             for (const key in errors) {

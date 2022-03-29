@@ -21,14 +21,11 @@ class BarangImport implements WithValidation, ToModel,  WithHeadingRow
 
         $status_barang = '';
         switch ($row['status_barang']) {
-            case 'diajukan_beli':
-                $status_barang = 'diajukan_beli';
+            case 'selesai':
+                $status_barang = 'selesai';
                 break;
-            case 'habis':
-                $status_barang = 'habis';
-                break;
-            case 'tersedia':
-                $status_barang = 'tersedia';
+            case 'belum_selesai':
+                $status_barang = 'belum_selesai';
                 break;
         }
 
@@ -36,10 +33,9 @@ class BarangImport implements WithValidation, ToModel,  WithHeadingRow
 
         return new Barang([
             'nama_barang' => $row['nama_barang'],
-            'qty' => $row['qty'],
-            'harga' => $row['harga'],
-            'waktu_beli' => \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['waktu_beli']),
-            'supplier' => $row['supplier'],
+            'waktu_pakai' => \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['waktu_pakai']),
+            'waktu_beres_status' => \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['waktu_beres_status']),
+            'nama_pemakai' => $row['nama_pemakai'],
             'status_barang' => $status_barang,
         ]);
 
@@ -53,7 +49,7 @@ class BarangImport implements WithValidation, ToModel,  WithHeadingRow
     public function rules(): array
     {
         return [
-            'status_barang' => Rule::in(['diajukan_beli', 'habis', 'tersedia']),
+            'status_barang' => Rule::in(['selesai', 'belum_selesai']),
         ];
     }
 }

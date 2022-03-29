@@ -50,6 +50,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/house', [AdminController::class, 'index'])->name('admin.house');
 
         // Outlet
+        Route::post('/outlet/import/excel', [OutletController::class, 'importExcel'])->name('outlet.import.excel');
+        Route::get('/outlet/export/excel', [OutletController::class, 'exportExcel'])->name('outlet.export.excel');
         Route::resource('/outlet', OutletController::class)->except(['show']);
 
         // Users
@@ -89,8 +91,10 @@ Route::middleware('auth')->group(function () {
         Route::get('/', [OutletController::class, 'home'])->name('outlet.home');
 
         // Paket
+        Route::get('/paket/export/excel', [PaketController::class, 'exportExcel'])->name('paket.export.excel');
         Route::get('/paket/data', [PaketController::class, 'data'])->name('paket.data');
         Route::apiResource('/paket', PaketController::class);
+        Route::get('/member/export/excel', [MemberController::class, 'exportExcel'])->name('member.export.excel');
         Route::get('/member/data', [MemberController::class, 'data'])->name('member.data');
         Route::apiResource('/member', MemberController::class);
 

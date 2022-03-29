@@ -43,9 +43,9 @@
                         </button>
                         </a>
 
-                        <button class="btn btn btn-secondary" data-toggle="modal" data-target="#exampleModal"  >
+                        {{-- <button class="btn btn btn-secondary" data-toggle="modal" data-target="#exampleModal"  >
                             <i class="fa fa-file-excel mr-1"></i><span>Import</span>
-                        </button>
+                        </button> --}}
 
                     </div>
 

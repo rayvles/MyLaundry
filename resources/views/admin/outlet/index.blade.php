@@ -71,6 +71,60 @@
                         <a type="button" data-toggle="modal" data-target="#exampleModal"  class="btn btn-sm btn-primary"><i class="far fa-plus-square"></i>
                             Tambah</a>
                     </div>
+                    <div class="card-tools mr-2">
+                        <div class="dropdown ">
+                            <button class="btn btn-sm btn-success dropdown-toggle" type="button" id="dropdownMenuButton"
+                                data-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-upload mr-1"></i>
+                                <span>Export</span>
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item"
+                                href="{{ route('outlet.export.excel') }}"
+                                >XLSX</a>
+                                {{-- <a class="dropdown-item"
+                                href="{{ route('penjemputanlaundry.export.pdf')}}"
+                                    >PDF</a> --}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-tools mr-2">
+                    <button type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#import-modal">
+                        <i class="fas fa-download mr-2"></i><span>Import</span>
+                    </button>
+                    </div>
+                    {{-- Modal Input --}}
+                        <div class="modal fade" id="import-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h5 class="modal-title-" id="exampleModalLabel">Import Excel</h5>
+                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                  </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="card card-primary">
+                                        <div class="card-header">
+                                            <h3 class="card-title">Import</h3>
+                                        </div>
+                                    <form action="{{ route('outlet.import.excel') }}" method="POST" enctype="multipart/form-data">
+                                        @csrf
+                                        <!-- /.card-body -->
+                                        <div class="form-group ml-2 mr-2">
+                                            <label for="nama">Excel</label>
+                                            <input type="file" value="" name="file_import" class=" form-control" id="file" required="required">
+
+                                        </div>
+                                        <div class="card-footer">
+                                            <button type="submit" class="btn btn-primary">Save</button>
+                                        </div>
+                                    </form>
+                                    </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
                 @endcan
                 @can('manage-owner-kasir')
                 <div class="card-tools">

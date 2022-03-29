@@ -61,25 +61,20 @@
                                         <input type="text" value="" name="nama_barang" class="form-control" id="nama" placeholder="" required="required">
 
                                     </div>
+
                                     <div class="form-group mr-2 ml-2">
-                                        <label for="nama">Qty</label>
-                                        <input type="number" value="" name="qty" class="form-control" id="nama" placeholder="" required="required">
+                                        <label for="nama">Waktu pakai</label>
+                                        <input type="datetime-local" value="" name="waktu_pakai" class="form-control" id="nama" placeholder="" required="required">
 
                                     </div>
                                     <div class="form-group mr-2 ml-2">
-                                        <label for="nama">Harga</label>
-                                        <input type="number" value="" name="harga" class="form-control" id="nama" placeholder="" required="required">
-
-                                    </div>
-
-                                    <div class="form-group mr-2 ml-2">
-                                        <label for="nama">Waktu Beli</label>
-                                        <input type="datetime-local" value="" name="waktu_beli" class="form-control" id="nama" placeholder="" required="required">
+                                        <label for="nama">Waktu Beres</label>
+                                        <input type="datetime-local" value="" name="waktu_beres_status" class="form-control" id="nama" placeholder="" required="required">
 
                                     </div>
                                     <div class="form-group mr-2 ml-2">
-                                        <label for="nama">Supplier</label>
-                                        <input type="text" value="" name="supplier" class="form-control" id="nama" placeholder="" required="required">
+                                        <label for="nama">Nama Pemakai</label>
+                                        <input type="text" value="" name="nama_pemakai" class="form-control" id="nama" placeholder="" required="required">
 
                                     </div>
 
@@ -87,9 +82,8 @@
                                     <label for="nama">Status Barang </label>
                                     <select name="status_barang" id="jenis" class="form-control">
                                         <option selected disabled>Select Type</option>
-                                        <option value="diajukan_beli">Diajukan Beli</option>
-                                        <option value="habis">Habis</option>
-                                        <option value="tersedia">Tersedia</option>
+                                        <option value="selesai">Selesai</option>
+                                        <option value="belum_selesai">Belum Selesai</option>
                                     </select>
                                 </div>
                                     <div class="card-footer">
@@ -174,12 +168,10 @@
                             <tr>
                                 <th>No</th>
                                 <th>Name barang</th>
-                                <th>Qty</th>
-                                <th>Harga</th>
-                                <th>Waktu Beli</th>
-                                <th>Supplier</th>
+                                <th>Waktu pakai</th>
+                                <th>waktu Beres</th>
+                                <th>Nama Pemakai</th>
                                 <th>Status Barang</th>
-                                <th>Waktu Updated Status</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -188,23 +180,20 @@
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $barang->nama_barang }}</td>
-                                    <td>{{ $barang->qty }}</td>
-                                    <td>{{ $barang->harga }}</td>
-                                    <td>{{ $barang->waktu_beli }}</td>
-                                    <td>{{ $barang->supplier }}</td>
+                                    <td>{{ $barang->waktu_pakai }}</td>
+                                    <td>{{ $barang->waktu_beres_status }}</td>
+                                    <td>{{ $barang->nama_pemakai }}</td>
                                     <td>
                                         <select
                                         data-update-url="{{ route('barang.updateStatus', $barang->id) }}"
                                              name="status_barang" id="status_barang" class="pilih-status form-control ">
                                             <option >{{ $barang->status_barang }}</option>
                                             <option disabled>---- Pilih Status ----</option>
-                                            <option value="diajukan_beli">Diajukan beli</option>
-                                            <option value="habis">Habis</option>
-                                            <option value="tersedia">Tersedia</option>
+                                            <option value="selesai">Selesai</option>
+                                            <option value="belum_selesai">Belum Selesai</option>
                                         </select>
 
                                     </td>
-                                    <td>{{ $barang->waktu_updated_status }}</td>
 
                                     <td>
                                         @can('manage-user')
@@ -247,7 +236,7 @@
                                         <div class="modal-body">
                                             <div class="card">
                                                 <div class="card-header">
-                                                    <h3 class="card-title">Barang Update</h3>
+                                                    <h3 class="card-title">Pemakaian Barang Update</h3>
                                                 </div>
                                                 <form action="{{ route('barang.update', $barang->id) }}" method="POST">
                                                     @csrf
@@ -259,24 +248,15 @@
                                                             <input type="text" value="{{ $barang->nama_barang }}" name="nama_barang" class="form-control" id="nama" placeholder="" required="required">
 
                                                         </div>
+
                                                         <div class="form-group">
-                                                            <label for="nama">Qty</label>
-                                                            <input type="number" value="{{ $barang->qty }}" name="qty" class="form-control" id="nama" placeholder="" required="required">
+                                                            <label for="nama">Waktu Beres</label>
+                                                            <input type="datetime-local" value="{{old('waktu_beres_status') ?? date('Y-m-d\TH:i:s', strtotime($barang->waktu_beres_status))}}" name="waktu_beres_status" class="form-control" id="nama" placeholder="" required="required" readonly>
 
                                                         </div>
                                                         <div class="form-group">
-                                                            <label for="nama">Harga Barang</label>
-                                                            <input type="number" value="{{ $barang->harga }}" name="harga" class="form-control" id="nama" placeholder="" required="required">
-
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="nama">Waktu Beli</label>
-                                                            <input type="datetime-local" value="{{old('waktu_beli') ?? date('Y-m-d\TH:i:s', strtotime($barang->waktu_beli))}}" name="waktu_beli" class="form-control" id="nama" placeholder="" required="required">
-
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="nama">Supplier</label>
-                                                            <input type="text" value="{{ $barang->supplier }}" name="supplier" class="form-control" id="nama" placeholder="" required="required">
+                                                            <label for="nama">Nama Pemakai</label>
+                                                            <input type="text" value="{{ $barang->nama_pemakai }}" name="nama_pemakai" class="form-control" id="nama" placeholder="" required="required">
 
                                                         </div>
 
@@ -286,18 +266,10 @@
                                                             name="status_barang" id="status_barang" class="form-control ">
                                                               <option>{{ $barang->status_barang }}</option>
                                                               <option disabled>---- Pilih Status ----</option>
-                                                              <option value="diajukan_beli">Diajukan beli</option>
-                                                              <option value="habis">Habis</option>
-                                                              <option value="tersedia">Tersedia</option>
+                                                              <option value="selesai">Selesai</option>
+                                                              <option value="belum_selesai">Belum Selesai</option>
                                                           </select>
                                                         </div>
-                                                        <div class="form-group">
-                                                            <label for="nama">Waktu Updated status</label>
-                                                            <input type="datetime-local" value="{{old('waktu_updated_status') ?? date('Y-m-d\TH:i:s', strtotime($barang->waktu_updated_status))}}" name="waktu_updated_status" class="form-control" id="nama" placeholder="" required="required">
-
-                                                        </div>
-
-
                                                     </div>
 
                                                     <div class="card-footer">
@@ -397,9 +369,6 @@
                         icon: 'success',
                         title: res.message
                      });
-            // table.ajax.reload();
-            let row = $(this).closest('tr');
-            row.find('td:eq(7)').html(res.waktu_updated_status);
         } catch (err) {
             Toast.fire({
                         icon: 'error',

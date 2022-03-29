@@ -69,7 +69,7 @@
 
 
             @can('register-member')
-            <li class="nav-header">TRANSACTION</li>
+            <li class="nav-header">TRANSAKSI</li>
             <li class="nav-item">
                 <a href="/outlet/{{ $outlet->id }}/transaksi" class="nav-link">
                     <i class="nav-icon fas fa-cash-register"></i>

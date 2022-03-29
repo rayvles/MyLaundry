@@ -19,4 +19,9 @@ class Paket extends Model
      *
      */
     protected $fillable = ['nama_paket', 'jenis', 'harga'];
+
+    public function outlet()
+    {
+        return $this->belongsTo(Outlet::class, 'id_outlet');
+    }
 }

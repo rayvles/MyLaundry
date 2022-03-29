@@ -38,6 +38,24 @@
                             <span>Tambah</span>
                         </button>
                     </div>
+
+                    <div class="card-tools mr-2">
+                    <div class="dropdown ">
+                        <button class="btn btn-sm btn-success dropdown-toggle" type="button" id="dropdownMenuButton"
+                            data-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-upload mr-1"></i>
+                            <span>Export</span>
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item"
+                            href="{{ route('member.export.excel', $outlet->id ) }}"
+                            >XLSX</a>
+                            {{-- <a class="dropdown-item"
+                            href="{{ route('penjemputanlaundry.export.pdf')}}"
+                                >PDF</a> --}}
+                        </div>
+                    </div>
+                </div>
                 </div>
                 <div class="card-body">
                     <table id="tableMember" class="table table-hover table-striped">

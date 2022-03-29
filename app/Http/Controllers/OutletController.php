@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\OutletExport;
+use App\Imports\OutletImport;
 use App\Models\Outlet;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
 
 class OutletController extends Controller
 {
@@ -36,7 +39,7 @@ class OutletController extends Controller
 
     }
 
-    
+
 
     /**
      * Membuat Function Untuk Menambahkan Data Outlet
@@ -89,7 +92,7 @@ class OutletController extends Controller
      * @param  \App\Models\Outlet  $outlet
      * @return \Illuminate\Http\Response
      */
-   
+
     public function destroy(Outlet $outlet)
     {
         if ($outlet->delete()) {
@@ -102,5 +105,21 @@ class OutletController extends Controller
         return response()->json([
             'message' => 'Errors occurred'
         ], Response::HTTP_INTERNAL_SERVER_ERROR);
+    }
+
+    public function exportExcel()
+    {
+        return (new OutletExport)->download('Data-Outlet-' . date('d-m-Y') . '.xlsx');
+    }
+
+    public function importExcel(Request $request)
+    {
+        $request->validate([
+            'file_import' => 'required|file|mimes:xlsx'
+        ]);
+
+        Excel::import(new OutletImport, $request->file('file_import'));
+
+        return redirect()->route('barang.index');
     }
 }

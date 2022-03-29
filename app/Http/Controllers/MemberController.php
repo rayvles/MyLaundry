@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\MemberExport;
 use App\Models\Member;
 use App\Models\Outlet;
 use Illuminate\Http\Request;
@@ -16,12 +17,13 @@ class MemberController extends Controller
      *
      * @param  \App\Models\Outlet  $outlet
      */
-    public function index(Outlet $outlet)
+    public function index(Outlet $outlet, Member $member)
     {
         Gate::authorize('register-member');
         return view('outlet.member', [
             'title' => 'Member',
             'outlet' => $outlet,
+            'members' => $member
         ]);
     }
 
@@ -153,5 +155,10 @@ class MemberController extends Controller
         return response()->json([
             'message' => 'Error'
         ], Response::HTTP_INTERNAL_SERVER_ERROR);
+    }
+
+    public function exportExcel()
+    {
+        return (new MemberExport)->download('Data-Member-' . date('d-m-Y') . '.xlsx');
     }
 }

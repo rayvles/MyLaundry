@@ -16,12 +16,11 @@ class CreateTbBarang extends Migration
         Schema::create('tb_barang', function (Blueprint $table) {
             $table->id();
             $table->string('nama_barang', 120);
-            $table->integer('qty');
-            $table->double('harga');
-            $table->dateTime('waktu_beli');
-            $table->string('supplier', 120);
-            $table->enum('status_barang', ['diajukan_beli', 'habis', 'tersedia']);
-            $table->timestamp('waktu_updated_status')->nullable()->useCurrent()->useCurrentOnUpdate()
+            $table->dateTime('waktu_pakai');
+            $table->timestamp('waktu_beres_status')->useCurrent()->useCurrentOnUpdate();
+            $table->string('nama_pemakai', 120);
+            $table->enum('status_barang', ['selesai', 'belum_selesai']);
+
             // ->nullable()->default(now())
             ;
             $table->timestamps();

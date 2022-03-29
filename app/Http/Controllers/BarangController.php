@@ -29,20 +29,19 @@ class BarangController extends Controller
     {
         $request->validate([
             'nama_barang' => 'required|',
-            'qty' => 'required|',
-            'harga' => 'required|',
-            'waktu_beli' => 'required|',
-            'supplier' => 'required|',
+            'waktu_pakai' => 'required|',
+            'waktu_beres_status' => 'required|',
+            'nama_pemakai' => 'required|',
             'status_barang' => 'required|',
         ]);
 
         Barang::create([
             'nama_barang' => $request->nama_barang,
-            'qty' => $request->qty,
-            'harga' => $request->harga,
-            'waktu_beli' => $request->waktu_beli,
-            'supplier' => $request->supplier,
+            'waktu_pakai' => $request->waktu_pakai,
+            'waktu_beres_status' => $request->waktu_beres_status,
+            'nama_pemakai' => $request->nama_pemakai,
             'status_barang' => $request->status_barang,
+
         ]);
 
 
@@ -54,25 +53,19 @@ class BarangController extends Controller
     {
 
         $request->validate([
-            'nama_barang' => 'required',
-            'qty' => 'required',
-            'harga' => 'required',
-            'waktu_beli' => 'required',
-            'supplier' => 'required',
-            'status_barang' => 'required',
-            'waktu_updated_status' => 'required',
+            'nama_barang' => 'required|',
+            'waktu_beres_status' => 'required|',
+            'nama_pemakai' => 'required|',
+            'status_barang' => 'required|',
 
         ]);
 
 
         $barang->update([
             'nama_barang' => $request->nama_barang,
-            'qty' => $request->qty,
-            'harga' => $request->harga,
-            'waktu_beli' => $request->waktu_beli,
-            'supplier' => $request->supplier,
+            'waktu_beres_status' => $request->waktu_beres_status,
+            'nama_pemakai' => $request->nama_pemakai,
             'status_barang' => $request->status_barang,
-            'waktu_updated_status' => $request->waktu_updated_status,
         ]);
         // dd($request, $barang);
         return redirect()->route('barang.index');
@@ -91,31 +84,16 @@ class BarangController extends Controller
             'status_barang' => 'required',
         ]);
 
-        // $barang->update([
-        //     'status_barang' => $request->status_barang,
-        // ]);
-
-        // if ($barang->update()) {
-        //     return response()->json([
-        //         'success' => true,
-        //         'message' => 'Status Barang successfully Changed!'
-        //     ], Response::HTTP_OK);
-        // };
-
-        $payload = [
+        $barang->update([
             'status_barang' => $request->status_barang,
-        ];
+        ]);
 
-        if ($barang->status_barang !== $request->status_barang) {
-            $payload['waktu_updated_status'] = now();
-        }
-
-        $barang->update($payload);
-
-        return response()->json([
-            'message' => 'Status Barang successfully Changed!',
-            'waktu_updated_status' =>  date('Y-m-d H:i:s', strtotime($barang->waktu_updated_status)),
-        ], Response::HTTP_OK);
+        if ($barang->update()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Status Barang successfully Changed!'
+            ], Response::HTTP_OK);
+        };
 
         return response()->json([
             'message' => 'Errors occurred'

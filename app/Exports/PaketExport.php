@@ -2,74 +2,52 @@
 
 namespace App\Exports;
 
-use App\Models\Barang;
-use Maatwebsite\Excel\Concerns\FromCollection;
+use App\Models\Member;
+use App\Models\Paket;
 use Maatwebsite\Excel\Concerns\Exportable;
+use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Events\AfterSheet;
 
-class BarangExport implements FromCollection, WithMapping, WithHeadings, WithEvents
+class PaketExport implements FromQuery, WithMapping, WithHeadings, WithEvents
 {
-    use Exportable;
+     use Exportable;
+
     private $rowNumber = 0;
 
-    /**
-    * Membuat Function Mengambil Semua data Barang
-    *
-    *
-    */
-    public function collection()
+    public function whereOutlet(int $id_outlet)
     {
-        return Barang::all();
+        $this->id_outlet = $id_outlet;
+        return $this;
     }
 
-    /**
-    * Membuat Function Penambahan Heading pada Saat Export Excel
-    *
-    *
-    */
+    public function query()
+    {
+        return Paket::query()->with(['outlet'])->where('id_outlet', $this->id_outlet);
+    }
+
     public function headings(): array
     {
-        return ["No", "Nama Barang", "Waktu Pakai", "Waktu Beres","Nama Pemakai", "Status Barang", ];
+        return ["No", "Outlet", "Nama Paket", "Jenis", "Harga", "Tgl Ditambahkan"];
     }
 
-    /**
-    * Membuat Function Export pada saat data dimasukan kedalam excel
-    *
-    * @param $barang
-    *
-    */
-    public function map($barang): array
+    public function map($paket): array
     {
-        $status_barang = '';
-        switch ($barang->status_barang) {
-            case 'selesai':
-                $status_barang = 'Selesai';
-                break;
-            case 'belum_selesai':
-                $status_barang = 'Belum Selesai';
-                break;
-            default:
-                $status_barang = '-';
-        }
-
         return [
             ++$this->rowNumber,
-            $barang->nama_barang,
-            $barang->waktu_pakai,
-            $barang->waktu_beres_status,
-            $barang->nama_pemakai,
-            $status_barang,
+            $paket->outlet->nama,
+            $paket->nama_paket,
+            $paket->jenis,
+            $paket->harga,
+            $paket->created_at,
         ];
     }
 
-     /**
-    * Membuat Function Untuk Merapihkan table Pada saat Export
-    *
-    *
-    */
+    /**
+     * @return array
+     */
     public function registerEvents(): array
     {
         return [
@@ -82,15 +60,13 @@ class BarangExport implements FromCollection, WithMapping, WithHeadings, WithEve
                 $event->sheet->getColumnDimension('F')->setAutoSize(true);
 
 
-
                 $event->sheet->insertNewRowBefore(1, 2);
-                $event->sheet->mergeCells('A1:F1');
+                $event->sheet->mergeCells('A1:G1');
                 $event->sheet->mergeCells('A2:B2');
-                $event->sheet->mergeCells('C2:D2');
-                $event->sheet->setCellValue('A1', 'Data Barang');
+                $event->sheet->setCellValue('A1', 'Data Layanan Laundry');
                 $event->sheet->setCellValue('A2', 'Tgl : ' . date('d/m/Y'));
                 $event->sheet->getStyle('A1')->getFont()->setBold(true);
-                $event->sheet->getStyle('A3:F3')->getFont()->setBold(true);
+                $event->sheet->getStyle('A3:G3')->getFont()->setBold(true);
                 $event->sheet->getStyle('A1')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
 
                 $event->sheet->getStyle('A3:F' . $event->sheet->getHighestRow())->applyFromArray([

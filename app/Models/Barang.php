@@ -12,10 +12,9 @@ class Barang extends Model
 
     protected $fillable = [
         'nama_barang',
-        'qty', 'harga',
-        'waktu_beli',
-        'supplier',
-        'status_barang',
-        'waktu_updated_status'];
+        'waktu_pakai',
+        'waktu_beres_status',
+        'nama_pemakai',
+        'status_barang'];
 
 }

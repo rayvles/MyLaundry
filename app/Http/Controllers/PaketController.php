@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\PaketExport;
 use App\Models\Outlet;
 use App\Models\Paket;
 use Illuminate\Http\Request;
@@ -121,7 +122,7 @@ class PaketController extends Controller
         ], Response::HTTP_OK);
     }
 
-    
+
     /**
      * Membuat Function Untuk Meng Delete Data Paket
      *
@@ -144,6 +145,9 @@ class PaketController extends Controller
         ], Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 
-
+    public function exportExcel(Outlet $outlet)
+    {
+        return (new PaketExport)->whereOutlet($outlet->id)->download('Paket-' . date('d-m-Y') . '.xlsx');
+    }
 
 }

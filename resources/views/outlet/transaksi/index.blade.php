@@ -171,7 +171,7 @@
                 data += `<td><button type="button" class="btnRemovePaket btn btn-danger"><span class="fas fa-times-circle"></span></button></td>`;
                 data += '</tr>';
 
-                if(tbody == 'There is No Data Yet') $('#tblTransaksi tbody tr').remove();
+                if(tbody == 'Tidak Ada Data') $('#tblTransaksi tbody tr').remove();
 
                 $('#tblTransaksi tbody').append(data);
 
